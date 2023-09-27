@@ -1,21 +1,15 @@
 import logo from './logo.svg';
 import styles from './App.module.css';
-import axios from 'axios'
 import { createSignal, createEffect } from 'solid-js';
 
 function App() {
+  //for fetches that happen multiple times, use createResource
   const [data, setData] = createSignal(null)
 
   createEffect(async() => {
-    let req;
-    try{
-      req = await axios.get(`http://localhost:4000/api`)
-      console.log("req:",req)
-      setData(req.data)
-    }
-    catch(e){
-      req = e
-    }
+      let req = await fetch(`http://localhost:4000/api`)
+      let data = await req.json()
+      setData(data)
   })
 
   return (
