@@ -1,6 +1,9 @@
-import logo from './logo.svg';
 import styles from './App.module.css';
 import { createSignal, createEffect } from 'solid-js';
+import Homepage from './pages/Homepage';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import {Router, Route, Routes, A} from '@solidjs/router'
 
 function App() {
   //for fetches that happen multiple times, use createResource
@@ -13,23 +16,19 @@ function App() {
   })
 
   return (
+    <Router>
     <div class={styles.App}>
       <p>{data()}</p>
       <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Better call Saulid
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
+        <A class={styles.link} href="/">Home</A>
       </header>
+      <Routes>
+        <Route path="/signup" component={Signup} />
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Homepage} />
+      </Routes>
     </div>
+    </Router>
   );
 }
 

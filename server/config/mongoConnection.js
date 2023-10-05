@@ -5,7 +5,7 @@ import {MongoClient} from 'mongodb';
 
 const settings = {
   "mongoConfig": {
-    "serverUrl": "mongodb://localhost:27017/",
+    "serverUrl": "mongodb://127.0.0.1:27017/",    //CHANGE THIS TO THE REAL URL LATER
     "database": "CS555"
   }
 }
