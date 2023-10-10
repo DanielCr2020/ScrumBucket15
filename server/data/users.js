@@ -1,6 +1,8 @@
 import {ObjectId} from 'mongodb';
 import mongoCollections from '../config/mongoCollections.js';
 import validation from '../../validation.js';
+import bcrypt from 'bcryptjs'
+const saltRounds=14;
 
 const users = mongoCollections.users;
 
@@ -10,13 +12,16 @@ async function createUser(displayName,username,password){
     password=validation.checkPassword(password);
 
     const userCollection = await users();
-    const userExists = await userCollection.findOne({username:username.toLowerCase()})
+    let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
     if(userExists) throw [400,`A user named ${username} already exists`]
+    userExists = await userCollection.findOne({displayName:displayName.toLowerCase()})        //display name
+    if(userExists) throw [400,`A user with display name ${displayName} already exists`]
 
+    const hashed_pw = await bcrypt.hash(password,saltRounds)
     let newUser = {
         _id: new ObjectId(),
         username:username.toLowerCase(),
-        password:password,
+        password:hashed_pw,
         displayName:displayName,
         stuff:[]     //array of ObjectIDs
     }

@@ -27,7 +27,7 @@ function Signup(){
     return (
         <div>
             <p>Sign up</p>
-            <form onSubmit={submitForm}>
+            <form onSubmit={submitForm} id="signup-form">
                 <label for="username">Username: </label>
                 <input id="username" onChange={handleChange}>Username</input> <br />
                 <label for="password">Password: </label>

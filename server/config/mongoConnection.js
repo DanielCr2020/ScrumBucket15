@@ -1,11 +1,11 @@
 import {MongoClient} from 'mongodb';
-// import dotenv from 'dotenv';
-// dotenv.config({path:'.env'});
-// const uri = process.env.DB_URL
+import dotenv from 'dotenv';
+dotenv.config({path:'.env'});
+const uri = process.env.DB_URL
 
 const settings = {
   "mongoConfig": {
-    "serverUrl": "mongodb://127.0.0.1:27017/",    //CHANGE THIS TO THE REAL URL LATER
+    "serverUrl": uri,   
     "database": "CS555"
   }
 }
