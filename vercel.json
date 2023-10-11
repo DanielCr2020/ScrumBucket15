@@ -12,12 +12,6 @@
       "destination":"/"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.js"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
