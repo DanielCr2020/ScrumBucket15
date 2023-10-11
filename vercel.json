@@ -6,10 +6,10 @@
       "use": "@vercel/node"
     }
   ],
-  "redirects": [
+  "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/"
+      "destination": "index.html"
     }
   ],
   "headers": [
