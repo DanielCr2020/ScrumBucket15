@@ -9,7 +9,7 @@ import connection from './config/mongoConnection.js'
 async function main() {
     const db = await connection.dbConnection();
 }
-app.use(cors())
+app.use(cors({origin:"*"}))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

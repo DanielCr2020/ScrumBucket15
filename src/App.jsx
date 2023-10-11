@@ -10,7 +10,7 @@ function App() {
   const [data, setData] = createSignal(null)
 
   createEffect(async() => {
-      let req = await fetch(`http://localhost:4000/api`)
+      let req = await fetch(`https://cs555-backend.vercel.app/api`)
       let data = await req.json()
       setData(data)
   })

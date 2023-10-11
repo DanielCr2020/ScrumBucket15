@@ -4,11 +4,12 @@ import { createSignal, createEffect } from 'solid-js';
 function Signup(){
 
     const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
+    const [error, setError] = createSignal(null)
 
     async function submitForm(e){
         e.preventDefault()
         console.log(signupData())
-        let res = await fetch(`http://localhost:4000/api/users/signup`,
+        let res = await fetch(`https://cs555-backend.vercel.app/api/users/signup`,
         {
             method:"POST",
             body:JSON.stringify(signupData()),
@@ -16,7 +17,10 @@ function Signup(){
         })
         res = await res.json();
         if(res.error){
-            alert(res.error)
+            setError(res.error)
+        }
+        else{
+            setError(null)
         }
     }
 
@@ -27,6 +31,10 @@ function Signup(){
     return (
         <div>
             <p>Sign up</p>
+            <Show when={error()!=null}>
+                <p class={styles.error}>{error()}</p>
+            </Show>
+            <p class="show-error"></p>
             <form onSubmit={submitForm} id="signup-form">
                 <label for="username">Username: </label>
                 <input id="username" onChange={handleChange}>Username</input> <br />

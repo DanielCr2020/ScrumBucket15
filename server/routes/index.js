@@ -4,7 +4,7 @@ import userRoutes from './userRoutes.js'
 import cors from 'cors'
 
 const constructorMethod = (app) => {
-    app.use(cors())
+    app.use(cors({origin:"*"}))
     app.use('/api', baseRoutes);
     app.use('/api/users', userRoutes);
     // app.use('*',(req,res) => {
