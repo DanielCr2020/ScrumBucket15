@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router()
 import users from '../data/users.js'
 
-import validation from '../../validation.js'
+import validation from '../validation.js'
 
 router
     .route('/')

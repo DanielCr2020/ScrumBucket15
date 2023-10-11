@@ -1,7 +1,7 @@
 import express, { urlencoded } from 'express';
 const  app=express();
 import cors from 'cors';
-import validation from '../validation.js'
+// import validation from './validation.js'
 import configRoutes from './routes/index.js'
 import connection from './config/mongoConnection.js'
 

@@ -1,6 +1,6 @@
 import {ObjectId} from 'mongodb';
 import mongoCollections from '../config/mongoCollections.js';
-import validation from '../../validation.js';
+import validation from '../validation.js';
 import bcrypt from 'bcryptjs'
 const saltRounds=14;
 
