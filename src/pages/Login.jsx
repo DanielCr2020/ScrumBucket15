@@ -7,7 +7,7 @@ function Login(){
 
     async function submitForm(e){
         e.preventDefault()
-        console.log(loginData())
+        
         let res = await fetch(`https://cs555-backend.vercel.app/api/users/login`,
         {
             method:"POST",

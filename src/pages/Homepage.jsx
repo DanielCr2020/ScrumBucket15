@@ -6,7 +6,7 @@ function Homepage(){
 
     return (
         <div>
-            <p>This is the homepage</p>
+            <h1>Welcome to skill sharing site!</h1>
             <A class={styles.link} href="/signup">Click here to register</A> <br />
             <A class={styles.link} href="/login">Click here to log in</A>
         </div>

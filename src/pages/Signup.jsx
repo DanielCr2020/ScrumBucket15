@@ -4,11 +4,12 @@ import { createSignal, createEffect } from 'solid-js';
 function Signup(){
 
     const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
+    const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
     const [error, setError] = createSignal(null)
 
     async function submitForm(e){
         e.preventDefault()
-        console.log(signupData())
+        setCreatingUser(true)
         let res = await fetch(`https://cs555-backend.vercel.app/api/users/signup`,
         {
             method:"POST",
@@ -19,9 +20,12 @@ function Signup(){
         if(res.error){
             setError(res.error)
         }
-        else{
+        else{       //user was created
             setError(null)
+            alert("Account created successfully!")
+            document.getElementById('signup-form').reset()
         }
+        setCreatingUser(false)
     }
 
     function handleChange(e){
@@ -34,7 +38,6 @@ function Signup(){
             <Show when={error()!=null}>
                 <p class={styles.error}>{error()}</p>
             </Show>
-            <p class="show-error"></p>
             <form onSubmit={submitForm} id="signup-form">
                 <label for="username">Username: </label>
                 <input id="username" onChange={handleChange}>Username</input> <br />
@@ -43,7 +46,9 @@ function Signup(){
                 <label for="displayName">Display Name: </label>
                 <input id="displayName" onChange={handleChange}>Display Name</input>
                 <br />
-                <button class={styles.link} type="submit">Sign up</button>
+                <Show when={creatingUser()==false}>
+                    <button class={styles.button} type="submit">Sign up</button>
+                </Show>
             </form>
         </div>
     )
