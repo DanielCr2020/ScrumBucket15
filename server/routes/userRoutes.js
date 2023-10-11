@@ -12,6 +12,9 @@ router
 
 router
     .route('/signup')
+    .get((req,res) => {
+        res.status(200).send("get /api/users/signup")
+    })
     .post(async(req,res) => {       //      /api/users/signup
         let username,password,displayName;
         try{
@@ -38,6 +41,9 @@ router
 
 router
     .route('/login')
+    .get((req,res) => {
+        res.status(200).send("get /api/users/login")
+    })
     .post(async(req,res) => {       //      /api/users/login
         let username,password;
         try{
