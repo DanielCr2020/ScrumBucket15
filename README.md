@@ -1,10 +1,14 @@
-## Usage
+# Usage
+
+Run `npm install` in both the top level directory, as well as the `server` directory.
+
+The whole app is visible at [https://scrumbucket15.vercel.app/](https://scrumbucket15.vercel.app/)
+
+I deployed it to vercel :)
 
 ```bash
 $ npm install # or pnpm install or yarn install
 ```
-
-### Learn more on the [Solid Website](https://solidjs.com)
 
 ## Available Scripts
 
@@ -12,11 +16,15 @@ In the project directory, you can run:
 
 ### `npm run dev` or `npm start`
 
-to start just the frontend.
+to start just the frontend. Though you will need to also start the server for the app to work properly
 
 To start just the backend, you can run:
 
 ### `node server/app.js`
+
+or
+
+### `npm run start-server`
 
 in a different terminal window from the frontend.
 

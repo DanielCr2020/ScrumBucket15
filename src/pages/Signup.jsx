@@ -1,16 +1,27 @@
 import styles from '../App.module.css'
 import { createSignal, createEffect } from 'solid-js';
+import clientValidation from '../clientValidation.js'
 
 function Signup(){
 
     const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
     const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
     const [error, setError] = createSignal(null)
+    const dynamicURL = window.location.hostname=='localhost' ? 'localhost:4000' : 'scrumbucket15.vercel.app'
 
     async function submitForm(e){
         e.preventDefault()
+        try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
+            clientValidation.checkUsername(signupData().username)
+            clientValidation.checkPassword(signupData().password)
+            clientValidation.checkPassword(signupData().displayName)
+        }
+        catch(e){
+            setError(e)
+            return
+        }  
         setCreatingUser(true)
-        let res = await fetch(`https://cs555-backend.vercel.app/api/users/signup`,
+        let res = await fetch(`http://${dynamicURL}/api/users/signup`,
         {
             method:"POST",
             body:JSON.stringify(signupData()),

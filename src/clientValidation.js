@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb"
+// import { ObjectId } from "mongodb"
 import xss from "xss"
 
 function checkUsername(username){
@@ -28,15 +28,8 @@ function checkDisplayName(displayName){
     return displayName
 }
 
-function checkId(id){
-    if(!id) throw "No ObjectId given"
-    if(!ObjectId.isValid(id)) throw `${id} is not a valid ObjectId`
-    return id
-}
-
 export default {
     checkUsername,
     checkPassword,
     checkDisplayName,
-    checkId
 }
