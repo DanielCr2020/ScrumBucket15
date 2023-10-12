@@ -34,6 +34,12 @@ function checkId(id){
     return id
 }
 
+// function checkUser(username,password){      //when a user logs in
+//     username=checkUsername(username)
+//     password=checkPassword(password)
+
+// }
+
 export default {
     checkUsername,
     checkPassword,

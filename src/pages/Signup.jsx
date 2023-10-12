@@ -14,7 +14,7 @@ function Signup(){
         try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
             clientValidation.checkUsername(signupData().username)
             clientValidation.checkPassword(signupData().password)
-            clientValidation.checkPassword(signupData().displayName)
+            clientValidation.checkDisplayName(signupData().displayName)
         }
         catch(e){
             setError(e)
