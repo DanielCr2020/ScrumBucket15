@@ -45,14 +45,23 @@ router
         res.status(200).send("get /api/users/login")
     })
     .post(async(req,res) => {       //      /api/users/login
-        let username,password;
+        let username,password,check;
+        // console.log(req.body)
         try{
             username=validation.checkUsername(req.body.username)
             password=validation.checkPassword(req.body.password)
+            check=await users.checkUser(username,password)
         }
         catch(e){
             res.status(400).json({error:e})
             return
+        }
+        if(!check.authenticatedUser){
+            res.status(500).json({error:"uhhh, this isn't supposed to happen"})
+            return
+        }
+        if(check.authenticatedUser===true){
+            req.session.user={username:username, userId:check.userId}
         }
         res.status(200).json({"/api/users/login":req.body})
     })

@@ -2,7 +2,7 @@ import {ObjectId} from 'mongodb';
 import mongoCollections from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import bcrypt from 'bcryptjs'
-const saltRounds=14;
+const saltRounds=12;
 
 const users = mongoCollections.users;
 
@@ -32,6 +32,19 @@ async function createUser(displayName,username,password){
     return newUser    
 }
 
+async function checkUser(username,password){
+    username=validation.checkUsername(username)
+    password=validation.checkPassword(password)
+    const userCollection=await users();
+    const user=await userCollection.findOne({username:username.toLowerCase()})
+    if(!user) throw "Either the username or password is invalid"
+    let user_hashed_password=user.password
+    let comparison=await bcrypt.compare(password,user_hashed_password)
+    if(comparison) return {authenticatedUser: true, userId:user._id}
+    throw "Either the username or password is invalid"      //password invalid
+}
+
 export default {
-    createUser
+    createUser,
+    checkUser
 }

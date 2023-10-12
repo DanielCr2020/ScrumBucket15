@@ -7,7 +7,7 @@ function Signup(){
     const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
     const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
     const [error, setError] = createSignal(null)
-    const dynamicURL = window.location.hostname=='localhost' ? 'localhost:4000' : 'scrumbucket15.vercel.app'
+    const dynamicURL = window.location.hostname=='localhost' ? ['','localhost:4000'] : ['s','scrumbucket15.vercel.app'] //adding https
 
     async function submitForm(e){
         e.preventDefault()
@@ -21,7 +21,7 @@ function Signup(){
             return
         }  
         setCreatingUser(true)
-        let res = await fetch(`http://${dynamicURL}/api/users/signup`,
+        let res = await fetch(`http${dynamicURL[0]}://${dynamicURL[1]}/api/users/signup`,
         {
             method:"POST",
             body:JSON.stringify(signupData()),

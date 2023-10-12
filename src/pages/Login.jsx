@@ -5,9 +5,10 @@ import clientValidation from '../clientValidation.js'
 function Login(){
 
     const [loginData, setLoginData] = createSignal({username:"",password:""})
+    const [loggingIn, setLoggingIn] = createSignal(false)     //used for hiding the login button until the user is successfully logged in
     const [error, setError] = createSignal(null)
     
-    const dynamicURL = window.location.hostname=='localhost' ? 'localhost:4000' : 'scrumbucket15.vercel.app'
+    const dynamicURL = window.location.hostname=='localhost' ? ['','localhost:4000'] : ['s','scrumbucket15.vercel.app'] //adding https
     
     async function submitForm(e){
         e.preventDefault()
@@ -19,7 +20,8 @@ function Login(){
             setError(e)
             return
         }  
-        let res = await fetch(`http://${dynamicURL}/api/users/login`,
+        setLoggingIn(true)
+        let res = await fetch(`http${dynamicURL[0]}://${dynamicURL[1]}/api/users/login`,
         {
             method:"POST",
             body:JSON.stringify(loginData()),
@@ -31,8 +33,10 @@ function Login(){
         }
         else{       //clears out setError so that it does not persist on future attempts
             setError(null)
+            alert("login placeholder")
             document.getElementById('login-form').reset()
         }
+        setLoggingIn(false)
     }
 
     function handleChange(e){
@@ -51,7 +55,9 @@ function Login(){
                 <label for="password">Password: </label>
                 <input id="password" onChange={handleChange} type="password">Password</input> <br />
                 <br />
-                <button class={styles.button} type="submit">Log in</button>
+                <Show when={loggingIn()==false}>
+                    <button class={styles.button} type="submit">Log in</button>
+                </Show>
             </form>
         </div>
     )
