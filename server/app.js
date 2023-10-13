@@ -45,3 +45,5 @@ app.listen(4000, () => {
 })
 
 main()
+
+export default app
