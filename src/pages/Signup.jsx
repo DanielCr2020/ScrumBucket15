@@ -25,7 +25,7 @@ function Signup(){
         {
             method:"POST",
             body:JSON.stringify(signupData()),
-            headers: {"Content-Type": "text/plain"}
+            headers: {"Content-Type": "application/json"}
         })
         res = await res.json();
         if(res.error){
