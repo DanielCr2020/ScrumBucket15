@@ -23,8 +23,8 @@ router
             displayName=validation.checkDisplayName(req.body.displayName)
         }
         catch(e){
-            res.status(400).json({error:e})
             console.log(e)
+            res.status(400).json({error:e})
             return
         }
         let newUser;
@@ -33,10 +33,10 @@ router
         }
         catch(e){
             console.log(e)
-            res.status(e[0]).json({error:e[1]})
+            res.status(e[0]).json({error:e[1]})     //[0] is the status code, [1] is the message
             return
         }
-        res.status(200).json({"/api/users/signup":newUser})
+        res.sendStatus(200)
     })
 
 router
@@ -46,24 +46,27 @@ router
     })
     .post(async(req,res) => {       //      /api/users/login
         let username,password,check;
-        // console.log(req.body)
+        console.log(req.body)
         try{
             username=validation.checkUsername(req.body.username)
             password=validation.checkPassword(req.body.password)
             check=await users.checkUser(username,password)
         }
         catch(e){
+            console.log(e)
             res.status(400).json({error:e})
             return
         }
         if(!check.authenticatedUser){
+            console.log(e)
             res.status(500).json({error:"uhhh, this isn't supposed to happen"})
             return
         }
         if(check.authenticatedUser===true){
             req.session.user={username:username, userId:check.userId}
         }
-        res.status(200).json({"/api/users/login":req.body})
+        res.sendStatus(200)
+        return
     })
 
 export default router
