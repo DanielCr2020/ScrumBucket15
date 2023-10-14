@@ -1,10 +1,7 @@
 import baseRoutes from './baseRoutes.js'
 import userRoutes from './userRoutes.js'
 
-import cors from 'cors'
-
 const constructorMethod = (app) => {
-    app.use(cors())
     app.use('/',baseRoutes);
     app.use('/api/users', userRoutes);
     app.use('*',(req,res) => {

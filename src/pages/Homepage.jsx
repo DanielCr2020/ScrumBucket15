@@ -6,9 +6,8 @@ function Homepage(){
 
     return (
         <div>
-            <h1>Welcome to skill sharing site!</h1>
-            <A class={styles.link} href="/signup">Click here to register</A> <br />
-            <A class={styles.link} href="/login">Click here to log in</A>
+            <h1>Yup, you're logged in alright!</h1>
+            <A class={styles.link} href="/logout">Click here to log out</A>
         </div>
     )
 }
