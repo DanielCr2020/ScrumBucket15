@@ -12,7 +12,7 @@ import {Router, Route, Routes, A} from '@solidjs/router'
 function App() {
 
   //this will automatically send backend requests to the correct url, whether it be localhost or the vercel site
-  const dynamicURL = `http${window.location.hostname=='localhost' ? '://localhost:4000' : 's://s555-backend.vercel.app'}`
+  const dynamicURL = `http${window.location.hostname=='localhost' ? '://localhost:4000' : 's://cs555-backend.vercel.app'}`
   const [loggedIn,setLoggedIn] = createSignal()
 
   async function fetchLogin(){
