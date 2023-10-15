@@ -24,7 +24,12 @@ app.use(            //authentication middleware
         secret: "There's nothing important here",
         resave: false,
         saveUninitialized: true,
-        cookie: {maxAge: 1800000}
+        cookie: {
+            httpOnly:true,
+            secure:true,
+            maxAge: 1800000,
+            sameSite:'none'
+        }
     })
 )
 //All backend routes start with /api
