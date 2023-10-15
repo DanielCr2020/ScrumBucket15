@@ -9,7 +9,10 @@ import session from 'express-session'
 async function main() {
     const db = await connection.dbConnection();
 }
-app.use(cors())
+app.use(cors({
+    origin:true,
+    credentials:true,
+}))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -24,6 +27,29 @@ app.use(            //authentication middleware
         cookie: {maxAge: 1800000}
     })
 )
+//All backend routes start with /api
+
+app.use('/api/users/profile',async(req,res,next) => {
+    // console.log("middleware:",req.originalUrl, req.session)
+    if(!req.session.user){
+        return
+    }
+    else{
+        next()
+    }
+})
+
+app.use( async (req,res,next) => {          //logging middleware, runs on every route
+    //log method it is, URL, and if the user is authenticated
+    let start=(new Date().toUTCString()+" "+req.method+" "+req.originalUrl)
+    if(req.session.user){
+        console.log(start+" (Authenticated User)")
+    }
+    else {
+        console.log(start+" (Non authenticated user)")
+    }
+    next()
+})
 
 configRoutes(app);
 

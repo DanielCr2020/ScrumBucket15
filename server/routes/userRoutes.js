@@ -40,13 +40,19 @@ router
     })
 
 router
-    .route('/login')
-    .get((req,res) => {
-        res.status(200).json("get /api/users/login")
+    .route('/login')            //  /api/users/login get
+    .get((req,res) => {     //used for checking if the user is logged in
+        if(req.session.user){
+            res.status(200).json({loggedIn:true})
+        }
+        else{
+            res.status(200).json({loggedIn:false})
+        }
+        // res.status(200).json("get /api/users/login")
     })
     .post(async(req,res) => {       //      /api/users/login
         let username,password,check;
-        console.log(req.body)
+        console.log(req.originalUrl,"req body:",req.body)
         try{
             username=validation.checkUsername(req.body.username)
             password=validation.checkPassword(req.body.password)
@@ -62,11 +68,32 @@ router
             res.status(500).json({error:"uhhh, this isn't supposed to happen"})
             return
         }
-        if(check.authenticatedUser===true){
-            req.session.user={username:username, userId:check.userId}
+        if(check.authenticatedUser){
+            req.session.user={username:username, userId:check.userId.toString()}
         }
-        res.status(200).json(req.session.user)
+        // console.log("route:",req.session)
+        // res.redirect('/api/users/profile')
+        res.status(200).json(req.session)
         return
+    })
+
+router
+    .route('/profile')
+    .get((req,res) => {
+        console.log("GET /profile:",req.originalUrl)
+        res.status(200).json({profile:"Stuff here"})
+        return
+    })
+
+router
+    .route('/logout')
+    .get(async(req,res) => {
+        if(!req.session.user){
+            console.log("No session here")
+            return res.redirect('/')
+        } 
+        req.session.destroy();
+        return res.status(200).json("You've been logged out")
     })
 
 export default router

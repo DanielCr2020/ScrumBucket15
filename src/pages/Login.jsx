@@ -1,15 +1,15 @@
 import styles from '../App.module.css'
 import { createSignal, createEffect } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
 import clientValidation from '../clientValidation.js'
 
-function Login(){
-
+function Login(props){
     const [loginData, setLoginData] = createSignal({username:"",password:""})
     const [loggingIn, setLoggingIn] = createSignal(false)     //used for hiding the login button until the user is successfully logged in
     const [error, setError] = createSignal(null)
-    
-    const dynamicURL = window.location.hostname=='localhost' ? ['','localhost:4000'] : ['s','cs555-backend.vercel.app'] //adding https
-    
+
+    const navigate=useNavigate()
+        
     async function submitForm(e){
         e.preventDefault()
         try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
@@ -21,9 +21,10 @@ function Login(){
             return
         }  
         setLoggingIn(true)
-        let res = await fetch(`http${dynamicURL[0]}://${dynamicURL[1]}/api/users/login`,
+        let res = await fetch(`${props.url}/api/users/login`,
         {
             method:"POST",
+            credentials:'include',
             body:JSON.stringify(loginData()),
             headers: {"Content-Type": "application/json"}
         })
@@ -33,7 +34,7 @@ function Login(){
         }
         else{       //clears out setError so that it does not persist on future attempts
             setError(null)
-            alert("login placeholder")
+            navigate('/home')
             document.getElementById('login-form').reset()
         }
         setLoggingIn(false)

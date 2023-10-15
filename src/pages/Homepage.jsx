@@ -7,6 +7,7 @@ function Homepage(){
     return (
         <div>
             <h1>Yup, you're logged in alright!</h1>
+            <A class={styles.link} href="/profile">Go to your profile</A> <br /> <br />
             <A class={styles.link} href="/logout">Click here to log out</A>
         </div>
     )
