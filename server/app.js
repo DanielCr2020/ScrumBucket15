@@ -23,6 +23,7 @@ app.use(            //authentication middleware
         name:'AuthCookie',
         secret: "There's nothing important here",
         resave: false,
+        proxy: true,
         saveUninitialized: true,
         cookie: {
             httpOnly:true,
