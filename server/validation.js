@@ -34,9 +34,31 @@ function checkId(id){
     return id
 }
 
+
+function checkEventName(eventName) {
+
+}
+
+function checkEventDate(eventDate) {
+
+}
+
+function checkStartTime(startTime) {
+
+}
+
+function checkEndTime(endTime) {
+
+}
+
+
 export default {
     checkUsername,
     checkPassword,
     checkDisplayName,
-    checkId
+    checkId,
+    checkEventName,
+    checkEventDate,
+    checkStartTime,
+    checkEndTime
 }
