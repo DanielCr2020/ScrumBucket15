@@ -8,6 +8,10 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
     displayName_teacher = validation.checkDisplayName(displayName_teacher)
     displayName_student = validation.checkDisplayName(displayName_student)
 
+    eventName = validation.checkEventName(eventName)
+    eventDate = validation.checkEventDate(eventDate)
+    startTime = validation.checkStartTime(startTime)
+    endTime = validation.checkEndTime(endTime)
     description = validation.checkDescription(description);
     description = description.trim();
 
@@ -18,6 +22,7 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
     let newEvent = {
         _id: new ObjectId(),
         displayName_teacher: displayName_teacher,
+        skill: skill,
         eventName: eventName,
         eventDate: eventDate,
         startTime: startTime,
@@ -37,6 +42,15 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
     return newEvent
 }
 
+async function filterEventBySkill(skillArray){
+    skill = validation.checkSkillArray(skillArray);
+    const eventCollection = await events();
+    let filteredEvents = await eventCollection.find({skill:{$in:skillArray}})
+    if(!filteredEvents){throw 404, `No events found for ${skillArray}`}
+    return filteredEvents;
+}
+
 export default {
-    createEvent
+    createEvent,
+    filterEventBySkill
 }
