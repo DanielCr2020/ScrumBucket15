@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb"
+import FileType from 'file-type';
 import xss from "xss"
 
 function checkUsername(username){
@@ -46,7 +47,6 @@ function checkId(id){
     if(!ObjectId.isValid(id)) throw `${id} is not a valid ObjectId`
     return id
 }
-
 
 function checkEventName(eventName) {
 
@@ -132,6 +132,29 @@ function checkStartEndTime(startTime, endTime) {
     if(((endTimeCheck-startTimeCheck)/60000) < 10){throw 'endTime must be at least 10 minutes past startTime'}
 }
 
+function checkDescription(description) {
+    if(!description) throw "No description provided"
+    if(typeof description !== 'string')  throw "Description must be a string"
+    description = xss(description.trim())
+    if(description.length < 20 || description.length > 2000) throw "The description length must be between 20 and 2000 characters long."
+
+    return displayName
+}
+
+async function checkPicture(picture) {
+    if (!picture) throw "No picture provided"
+    try {
+        const fileType = await FileType.fromBuffer(picture);
+
+        if (fileType) { return picture; }
+        else { throw "Invalid file type" }
+
+    } catch (error) {
+        throw 'Error detecting file type:';
+    }
+}
+
+
 export default {
     checkUsername,
     checkPassword,
@@ -141,5 +164,9 @@ export default {
     checkId,
     checkEventName,
     checkEventDate,
-    checkStartEndTime
+    checkStartEndTime,
+    checkDescription,
+    checkPicture,
+    checkStartTime,
+    checkEndTime
 }

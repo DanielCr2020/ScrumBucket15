@@ -23,7 +23,8 @@ async function createUser(displayName,username,password){
         username:username.toLowerCase(),
         password:hashed_pw,
         displayName:displayName,
-        stuff:[]     //array of ObjectIDs
+        description: "Default description here.",
+        isMentor : true /* For now, we will leave this to be true */
     }
 
     const insertUser = await userCollection.insertOne(newUser)
@@ -44,7 +45,22 @@ async function checkUser(username,password){
     throw "Either the username or password is invalid"      //password invalid
 }
 
+async function getUserById(id) {
+    id = validation.checkId(id);
+
+    const userCollection = await users();
+    let user = await userCollection.findOne({_id: new ObjectId(id)});
+
+    if (user === null) { throw "User not found in database!"; }
+    user._id = user._id.toString();
+
+    /* Returns all attributes of user id */
+    return [user._id, user.username, user.password, user.displayName, user.description, user.isMentor];
+}
+
+
 export default {
     createUser,
-    checkUser
+    checkUser,
+    getUserById
 }
