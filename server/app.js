@@ -23,26 +23,30 @@ app.use(            //authentication middleware
         name:'AuthCookie',
         secret: "There's nothing important here",
         resave: false,
-        proxy: true,
         saveUninitialized: true,
         cookie: {
-            httpOnly:true,
-            secure:true,
+            // httpOnly:true,
+            // secure:true,
             maxAge: 1800000,
-            sameSite:'none'
+            // sameSite:'none'
         }
     })
 )
 //All backend routes start with /api
 
 app.use('/api/users/profile',async(req,res,next) => {
-    // console.log("middleware:",req.originalUrl, req.session)
+    console.log("middleware:",req.originalUrl, req.session)
     if(!req.session.user){
         return
     }
     else{
         next()
     }
+})
+
+app.use('/api/users/login',async(req,res,next) => {
+    console.log("login middleware:",req.originalUrl, req.session)
+    next()
 })
 
 app.use( async (req,res,next) => {          //logging middleware, runs on every route

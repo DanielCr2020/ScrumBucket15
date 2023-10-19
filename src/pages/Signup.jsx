@@ -2,7 +2,7 @@ import styles from '../App.module.css'
 import { createSignal, createEffect } from 'solid-js';
 import clientValidation from '../clientValidation.js'
 
-function Signup(){
+function Signup(props){
 
     const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
     const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
@@ -23,6 +23,7 @@ function Signup(){
         let res = await fetch(`${props.url}/api/users/signup`,
         {
             method:"POST",
+            credentials:'include',
             body:JSON.stringify(signupData()),
             headers: {"Content-Type": "application/json"}
         })
