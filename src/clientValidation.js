@@ -28,6 +28,8 @@ function checkDisplayName(displayName){
     return displayName
 }
 
-module.exports =    {checkUsername: checkUsername,
-    checkPassword: checkPassword,
-    checkDisplayName: checkDisplayName}
+export default {
+    checkUsername,
+    checkPassword,
+    checkDisplayName
+}
