@@ -26,17 +26,27 @@ function App() {
     <Router>
     <div class={styles.App}>
       <header class={styles.header}>
-        <A class={styles.link} href="/">Home</A>
+        <button class={styles.header_button}>
+          <A class={styles.link} href="/">Home</A>
+        </button>
         <Show when={loggedIn()==true}>
-          <A class={styles.link} href="/profile">Profile</A>
-          <A class={styles.link} href="/logout">Log out</A>
+          <button class={styles.header_button}>
+            <A class={styles.link} href="/profile">Profile</A>
+          </button>
+          <button class={styles.header_button}>
+            <A class={styles.link} href="/logout">Log out</A>
+          </button>
         </Show>
         <Show when={loggedIn()==false}>
-          <A class={styles.link} href="/signup">Sign up</A>
-          <A class={styles.link} href="/login">Log in</A>
+          <button class={styles.header_button}>
+            <A class={styles.link} href="/signup">Sign up</A>
+          </button>
+          <button class={styles.header_button}>
+            <A class={styles.link} href="/login">Log in</A>
+          </button>
         </Show>
-
       </header>
+      
       <Routes>
         <Route path="/signup" element={<Signup url={dynamicURL}/>} />
         <Route path="/login" element={<Login url={dynamicURL}/> } />

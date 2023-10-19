@@ -19,6 +19,19 @@ function checkPassword(password){
     return password
 }
 
+function checkSkill(skill){
+    if(!skill){throw 'No skill provided'}
+    if(typeof skill !== 'string'){throw 'skill must be a string'}
+    skill = xss(skill.trim());
+    if(skill.length < 5){throw 'skill must be at least 5 characters long'}
+}
+function checkSkillArray(skillArray){
+    if(!skillArray){throw 'No skillArray provided'}
+    if(!Array.isArray(skillArray)){throw 'skillArray must be an array'}
+    skillArray.forEach((skill)=>{
+        checkSkill(skill);
+    })
+}
 function checkDisplayName(displayName){
     if(!displayName) throw "No displayName provided"
     if(typeof displayName!=='string') throw "displayName must be a string"
@@ -36,6 +49,7 @@ function checkId(id){
 
 
 function checkEventName(eventName) {
+
     if (!eventName) throw "No eventName given"
     if (typeof eventName != 'string') throw "eventName must be a string"
     
@@ -98,14 +112,34 @@ function checkEndTime(endTime) {
     return endTime
 }
 
+function checkEventDate(eventDate) {
+    if(!eventDate){throw 'No eventDate provided'}
+    const currDate = new Date();
+    const inputDate = new Date(eventDate);
+    if(inputDate <= currDate){throw 'eventDate must take place in the future'}
+}
+
+function checkStartEndTime(startTime, endTime) {
+    if(!startTime){throw 'No startTime provided'}
+    if(!endTime){throw 'No endTime provided'}
+    const timeCheck = /^(0?[1-9]|1[0-2]):[0-5][0-9](AM|PM)$/
+    if(!timeCheck.test(startTime)){throw 'startTime must be in a valid 12-hour AM/PM format'}
+    if(!timeCheck.test(endTime)){throw 'endTime must be in a valid 12-hour AM/PM format'}
+
+    const startTimeCheck = new Date('01/01/2000 ${startTime}');
+    const endTimeCheck = new Date('01/01/2000 ${endTime}');
+    if(startTimeCheck >= endTimeCheck){throw 'startTime cannot be later than the endtime'}
+    if(((endTimeCheck-startTimeCheck)/60000) < 10){throw 'endTime must be at least 10 minutes past startTime'}
+}
 
 export default {
     checkUsername,
     checkPassword,
+    checkSkill,
+    checkSkillArray,
     checkDisplayName,
     checkId,
     checkEventName,
     checkEventDate,
-    checkStartTime,
-    checkEndTime
+    checkStartEndTime
 }
