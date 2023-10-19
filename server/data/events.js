@@ -8,7 +8,10 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
     displayName_teacher = validation.checkDisplayName(displayName_teacher)
     displayName_student = validation.checkDisplayName(displayName_student)
 
-
+    eventName = validation.checkEventName(eventName)
+    eventDate = validation.checkEventDate(eventDate)
+    startTime = validation.checkStartTime(startTime)
+    endTime = validation.checkEndTime(endTime)
 
     let newEvent = {
         _id: new ObjectId(),
