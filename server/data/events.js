@@ -4,14 +4,14 @@ import validation from '../validation.js';
 
 const events = mongoCollections.events;
 
-async function createEvent(displayName_teacher, skill, eventName, eventDate, startTime, endTime, displayName_student){
-    displayName_teacher = validation.checkDisplayName(displayName_teacher);
-    displayName_student = validation.checkDisplayName(displayName_student);
-    skill = validation.checkSkill(skill);
-    eventName = validation.checkEventName(eventName);
-    validation.checkEventDate(eventDate);
-    validation.checkStartEndTime(startTime, endTime);
+async function createEvent(displayName_teacher, eventName, eventDate, startTime, endTime, displayName_student){
+    displayName_teacher = validation.checkDisplayName(displayName_teacher)
+    displayName_student = validation.checkDisplayName(displayName_student)
 
+    eventName = validation.checkEventName(eventName)
+    eventDate = validation.checkEventDate(eventDate)
+    startTime = validation.checkStartTime(startTime)
+    endTime = validation.checkEndTime(endTime)
 
     let newEvent = {
         _id: new ObjectId(),
