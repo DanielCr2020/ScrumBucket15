@@ -31,5 +31,5 @@ function checkDisplayName(displayName){
 export default {
     checkUsername,
     checkPassword,
-    checkDisplayName,
+    checkDisplayName
 }
