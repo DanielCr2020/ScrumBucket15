@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import FileType from 'file-type';
+import {fileTypeFromFile} from 'file-type';
 import xss from "xss"
 
 function checkUsername(username){
@@ -112,13 +112,6 @@ function checkEndTime(endTime) {
     return endTime
 }
 
-function checkEventDate(eventDate) {
-    if(!eventDate){throw 'No eventDate provided'}
-    const currDate = new Date();
-    const inputDate = new Date(eventDate);
-    if(inputDate <= currDate){throw 'eventDate must take place in the future'}
-}
-
 function checkStartEndTime(startTime, endTime) {
     if(!startTime){throw 'No startTime provided'}
     if(!endTime){throw 'No endTime provided'}
@@ -144,7 +137,7 @@ function checkDescription(description) {
 async function checkPicture(picture) {
     if (!picture) throw "No picture provided"
     try {
-        const fileType = await FileType.fromBuffer(picture);
+        const fileType = await fileTypeFromFile.fromBuffer(picture);
 
         if (fileType) { return picture; }
         else { throw "Invalid file type" }
