@@ -4,11 +4,11 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "concurrently \"vite\" \"node server/app.js\"",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "start-all": "concurrently \"vite\" \"node server/app.js\"",
+    "start-client": "vite",
     "start-server": "node server/app.js",
     "test": "jest"
   },
