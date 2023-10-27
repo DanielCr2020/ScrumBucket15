@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import { createSignal, createEffect, onMount } from 'solid-js';
+import { createSignal, createContext, useContext } from 'solid-js';
 import Basepage from './pages/Basepage';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Router>
-    <div class={styles.App}>
+    <div class={styles.App}>    {/* Header bar (Home, profile, login, signup, etc*/}
       <header class={styles.header}>
         <button class={styles.header_button}>
           <A class={styles.link} href="/">Home</A>

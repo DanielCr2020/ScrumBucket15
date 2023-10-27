@@ -78,10 +78,22 @@ router
     })
 
 router
-    .route('/profile')
-    .get((req,res) => {
-        console.log("GET /profile:",req.originalUrl)
-        res.status(200).json({profile:"Stuff here"})
+    .route('/profile')          
+    .get(async(req,res) => {            //          /api/users/profile 
+        console.log("GET /profile:",req.session)
+        let user, userId=req.session.user.userId;
+        if(!userId){
+            res.status(400).json("No userId provided")
+            return
+        }
+        try{
+            user = await users.getUserById(userId) 
+        }
+        catch(e){
+            console.log(e)
+        }
+        delete user.password        //we don't send the password back for obvious reasons
+        res.status(200).json(user)
         return
     })
 
