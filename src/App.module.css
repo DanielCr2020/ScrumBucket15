@@ -1,6 +1,20 @@
 :root {
-  background-color: rgb(51, 77, 103);
-  font-size: 24px;
+  background-color: #ffffff;
+}
+
+/* PAGE COLORS */
+.backgroundImage {
+  background-image:  url("images/blueshape.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: calc(100vh - 72px);
+}
+
+.profileStyle {
+  background-color:  rgb(238, 248, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: calc(100vh - 72px);
 }
 
 .App {
@@ -8,7 +22,7 @@
 }
 
 .header {
-  background-color: #282c34;
+  background-color: #0d5890;
   min-height: 5vh;
   display: flex;
   flex-direction: row;
@@ -32,12 +46,24 @@
 /* GENERAL TEXT */
 
 h1 {
-  font-size: 50px;
-  color:aqua
+  font-weight: 900;
+  font-size: 64px;
+  color: #021718;
+/*   font-size: 50px;
+  color:aqua */
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 35px;
+  color:rgb(0, 0, 0)
+
 }
 
 h3 {
-  color:rgb(14, 175, 255)
+  font-weight: 600;
+  font-size: 28px;
+  color:rgb(0, 0, 0)
 }
 
 .error {
@@ -54,7 +80,7 @@ h3 {
 }
 
 p, label {
-  color:white;
+  color:rgb(0, 0, 0);
   font-size: 20px;
 }
 
@@ -95,7 +121,7 @@ button:active {
 /* BIO BORDER */
 .bioBorder {
   display: inline-block;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid rgb(0, 2, 101);
   padding: 10px;
   margin: 10px 0;
 }

@@ -5,12 +5,10 @@ import {Router, Route, Routes, A} from "@solidjs/router"
 function Basepage(){
 
     return (
-        <div>
+        <div class={styles.backgroundImage}>
             <h1>Welcome to the Skill Sharing Site!</h1>
-            <h3>Connect with your local community by learning skills taught by those around you.</h3>
-            <A class={styles.basepage_link} href="/home">Go to your homepage</A> <br /> <br />
-            <A class={styles.basepage_link} href="/signup">Click here to register</A> <br /> <br />
-            <A class={styles.basepage_link} href="/login">Click here to log in</A>
+            <h2>Connect with your local community by learning skills taught by those around you.</h2>
+            <A class={styles.basepage_link} href="/home">Go to your Homepage</A> <br /> <br />
         </div>
     )
 }
