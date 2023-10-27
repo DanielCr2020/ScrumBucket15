@@ -34,15 +34,15 @@ function App() {
             <A class={styles.link} href="/profile">Profile</A>
           </button>
           <button class={styles.header_button}>
-            <A class={styles.link} href="/logout">Log out</A>
+            <A class={styles.link} href="/logout">Log Out</A>
           </button>
         </Show>
         <Show when={loggedIn()==false}>
           <button class={styles.header_button}>
-            <A class={styles.link} href="/signup">Sign up</A>
+            <A class={styles.link} href="/signup">Sign Up</A>
           </button>
           <button class={styles.header_button}>
-            <A class={styles.link} href="/login">Log in</A>
+            <A class={styles.link} href="/login">Log In</A>
           </button>
         </Show>
       </header>
