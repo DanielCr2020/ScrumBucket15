@@ -147,11 +147,22 @@ input {
 /* PROFILE STYLING */
 
 .username {
-  color: aqua;
+  color: #0d5890;
+}
+
+.userProfileInfoDiv {
+  display: flex;
+  flex-direction: row;
 }
 
 .skillInterestDiv {
-  align-self: left;
+  /* align-self: left; */
+  width: 45%;
+}
+
+.skillTeachDiv {
+  /* align-self: right; */
+  width: 45%;
 }
 
 .profileListDiv {
@@ -161,6 +172,7 @@ input {
 }
 
 .profileList {
-  color: #e5a5ff;
+  color: #000000;
   text-align: left;
+  font-size: 25px;
 }

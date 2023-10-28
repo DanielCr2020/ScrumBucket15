@@ -24,15 +24,28 @@ function Profile(props){
             <Show when={profileInfo()} fallback={<h1>Getting profile info</h1>}>
                 {/* <h1>{JSON.stringify(profileInfo())}</h1> */}
                 <h1 class={styles.username}>My Username</h1>
-                <div class={styles.skillInterestDiv}>
-                    <h3>My Skill Interests:</h3>
-                    <div class={styles.profileListDiv}>
-                        <list class={styles.profileList}>
-                            <li>Knitting</li>
-                            <li>Pottery</li>
-                            <li>Public Speaking</li>
-                            <li>Resume Review</li>
-                        </list>
+                <div class={styles.userProfileInfoDiv}>
+                    <div class={styles.skillInterestDiv}>
+                        <h3>My Skill Interests:</h3>
+                        <div class={styles.profileListDiv}>
+                            <list class={styles.profileList}>
+                                <li>Knitting</li>
+                                <li>Pottery</li>
+                                <li>Public Speaking</li>
+                                <li>Resume Review</li>
+                            </list>
+                        </div>
+                    </div>
+                    <div class={styles.skillTeachDiv}>
+                        <h3>My Courses Taught:</h3>
+                        <div class={styles.profileListDiv}>
+                            <list class={styles.profileList}>
+                                <li>Pre calculus</li>
+                                <li>Watercolor</li>
+                                <li>Poetry</li>
+                                {/* <li></li> */}
+                            </list>
+                        </div>
                     </div>
                 </div>
             </Show>
