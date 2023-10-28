@@ -18,11 +18,23 @@ function Profile(props){
     })
 
     
-
+    // Currently using placeholder user info until backend info is added.
     return (
         <div>
             <Show when={profileInfo()} fallback={<h1>Getting profile info</h1>}>
-                <h1>{JSON.stringify(profileInfo())}</h1>
+                {/* <h1>{JSON.stringify(profileInfo())}</h1> */}
+                <h1 class={styles.username}>My Username</h1>
+                <div class={styles.skillInterestDiv}>
+                    <h3>My Skill Interests:</h3>
+                    <div class={styles.profileListDiv}>
+                        <list class={styles.profileList}>
+                            <li>Knitting</li>
+                            <li>Pottery</li>
+                            <li>Public Speaking</li>
+                            <li>Resume Review</li>
+                        </list>
+                    </div>
+                </div>
             </Show>
         </div>
     )

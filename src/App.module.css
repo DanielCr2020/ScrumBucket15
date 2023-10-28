@@ -1,3 +1,5 @@
+/* APP STYLING */
+
 :root {
   background-color: rgb(51, 77, 103);
   font-size: 24px;
@@ -104,4 +106,27 @@ input {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+/* PROFILE STYLING */
+
+.username {
+  color: aqua;
+}
+
+.skillInterestDiv {
+  align-self: left;
+}
+
+.profileListDiv {
+  /* align-self: center; */
+  margin: auto;
+  width: 40%;
+}
+
+.profileList {
+  color: #e5a5ff;
+  text-align: left;
 }
