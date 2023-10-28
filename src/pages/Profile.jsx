@@ -22,8 +22,8 @@ function Profile(props){
     return (
         <div>
             <Show when={profileInfo()} fallback={<h1>Getting profile info</h1>}>
-                {/* <h1>{JSON.stringify(profileInfo())}</h1> */}
-                <h1 class={styles.username}>My Username</h1>
+                <h1 class={styles.username}>Welcome {profileInfo()["displayName"]}!</h1>
+                {/* <h1 class={styles.username}>{JSON.stringify(profileInfo())}</h1> */}
                 <div class={styles.userProfileInfoDiv}>
                     <div class={styles.skillInterestDiv}>
                         <h3>My Skill Interests:</h3>
