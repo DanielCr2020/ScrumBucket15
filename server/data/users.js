@@ -24,7 +24,8 @@ async function createUser(displayName,username,password){
         password:hashed_pw,
         displayName:displayName,
         description: "Default description here.",
-        isMentor : true /* For now, we will leave this to be true */
+        isMentor : true, /* For now, we will leave this to be true */
+        skills: {}
     }
 
     const insertUser = await userCollection.insertOne(newUser)
@@ -56,9 +57,26 @@ async function getUserById(id) {
     return user;
 }
 
+async function updateSkillLevel(id, skill, proficiency) {
+    let user = getUserById(id);
+
+    skill = validation.checkSkill(skill);
+    proficiency = validation.checkProficiency(proficiency);
+
+    const userCollection = await users();
+
+    user.skills[skill] = proficiency;
+
+    let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
+
+    if (updatedUser.lastErrorObject.n === 0) { throw 'Could not update user skill level successfully'; }
+
+    return updatedUser.value;
+}
 
 export default {
     createUser,
     checkUser,
-    getUserById
+    getUserById,
+    updateSkillLevel
 }

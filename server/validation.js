@@ -29,19 +29,22 @@ function checkDisplayName(displayName){
     return displayName
 }
 
-function checkSkill(skill){
-    if(!skill){throw 'No skill provided'}
-    if(typeof skill !== 'string'){throw 'skill must be a string'}
-    skill = xss(skill.trim());
-    if(skill.length < 5){throw 'skill must be at least 5 characters long'}
-}
-function checkSkillArray(skillArray){
-    if(!skillArray){throw 'No skillArray provided'}
-    if(!Array.isArray(skillArray)){throw 'skillArray must be an array'}
-    skillArray.forEach((skill)=>{
-        checkSkill(skill);
-    })
-}
+/* We incorporated checkSkill such that it is a JS object
+and not a string for efficiency purposes! */
+
+// function checkSkill(skill){
+//     if(!skill){throw 'No skill provided'}
+//     if(typeof skill !== 'string'){throw 'skill must be a string'}
+//     skill = xss(skill.trim());
+//     if(skill.length < 5){throw 'skill must be at least 5 characters long'}
+// }
+// function checkSkillArray(skillArray){
+//     if(!skillArray){throw 'No skillArray provided'}
+//     if(!Array.isArray(skillArray)){throw 'skillArray must be an array'}
+//     skillArray.forEach((skill)=>{
+//         checkSkill(skill);
+//     })
+// }
 
 
 function checkId(id){
@@ -149,12 +152,38 @@ async function checkPicture(picture) {
     }
 }
 
+function checkSkill(skill) {
+    if (!skill) { throw 'No skill provided.'; }
+    if (typeof skill !== 'string') { throw 'Skill is not a string'; }
+
+    skill = xss(skill.trim());
+
+    if (skill.length < 2 || skill.length > 30) { throw 'Skill must be between 2 and 30 characters inclusive.' }
+
+    if (!/[A-Za-z]+/.test(skill)) { throw 'Skill must have at least one alphabetic character' }
+
+    return skill;
+}
+
+function checkProficiency(proficiency) {
+    if (!proficiency) { throw 'No proficiency provided.'; }
+    if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
+
+    proficiency = xss(proficiency.trim());
+
+    let profArray = ['No Experience', 'Beginner', 'Amateur', 'Intermediate', 'Expert', 'Master']
+
+    if (!profArray.includes(proficiency)) { throw 'Proficiency must be a valid dropdown option'; }
+
+    return proficiency;
+}
+
 
 export default {
     checkUsername,
     checkPassword,
-    checkSkill,
-    checkSkillArray,
+    // checkSkill,
+    // checkSkillArray,
     checkDisplayName,
     checkId,
     checkEventName,
@@ -163,5 +192,7 @@ export default {
     checkDescription,
     checkPicture,
     checkStartTime,
-    checkEndTime
+    checkEndTime,
+    checkSkill,
+    checkProficiency
 }
