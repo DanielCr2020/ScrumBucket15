@@ -48,8 +48,8 @@ and not a string for efficiency purposes! */
 
 
 function checkId(id){
-    if(!id) throw "No ObjectId given"
-    if(!ObjectId.isValid(id)) throw `${id} is not a valid ObjectId`
+    if(!id) throw [400,"No ObjectId given"]
+    if(!ObjectId.isValid(id)) throw [400, `${id} is not a valid ObjectId`]
     return id
 }
 

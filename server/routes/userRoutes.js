@@ -81,19 +81,44 @@ router
     .route('/profile')          
     .get(async(req,res) => {            //          /api/users/profile 
         console.log("GET /profile:",req.session)
-        let user, userId=req.session.user.userId;
-        if(!userId){
-            res.status(400).json("No userId provided")
-            return
-        }
+        let user, userId=req.session.user?.userId;
         try{
+            userId = validation.checkId(userId)
             user = await users.getUserById(userId) 
         }
         catch(e){
             console.log(e)
+            res.status(e[0]).json({error:e[1]})
+            return
         }
         delete user.password        //we don't send the password back for obvious reasons
         res.status(200).json(user)
+        return
+    })
+
+router
+    .route('/profile/updateSkills')
+    .patch(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
+        let updatedUser, newSkill, newProficiency, userId;
+        //newSkill may be an existing skill they are updating the proficiency of, or a new one
+        try{
+            userId = validation.checkId(req.session?.user?.userId)
+            newSkill = validation.checkSkill(req.body.newSkill)
+            newProficiency = validation.checkProficiency(req.body.newProficiency)
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json({error:e})
+            return
+        }
+        try{
+            updatedUser = await users.updateSkillLevel(userId,newSkill,newProficiency)
+        }
+        catch(e){
+            console.log(e)      //404 is for user not found, 500 is for internal server error
+            res.status(e[0]).json({error:e[1]})
+        }
+        res.status(200).json(updatedUser)
         return
     })
 

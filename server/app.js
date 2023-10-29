@@ -37,6 +37,7 @@ app.use(            //authentication middleware
 app.use('/api/users/profile',async(req,res,next) => {
     console.log("middleware:",req.originalUrl, req.session)
     if(!req.session.user){
+        next()          //todo: fix
         return
     }
     else{

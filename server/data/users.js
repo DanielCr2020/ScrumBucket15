@@ -52,26 +52,25 @@ async function getUserById(id) {
     const userCollection = await users();
     let user = await userCollection.findOne({_id: new ObjectId(id)});
 
-    if (user == null) { throw "User not found in database!"; }
+    if (user == null) { throw [404, "User not found in database!"]; }
 
     return user;
 }
 
 async function updateSkillLevel(id, skill, proficiency) {
-    let user = getUserById(id);
+    let user = await getUserById(id);
 
     skill = validation.checkSkill(skill);
     proficiency = validation.checkProficiency(proficiency);
 
     const userCollection = await users();
-
     user.skills[skill] = proficiency;
 
     let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
 
-    if (updatedUser.lastErrorObject.n === 0) { throw 'Could not update user skill level successfully'; }
+    if (updatedUser.lastErrorObject?.n === 0) { throw [500,'Could not update user skill level successfully']; }
 
-    return updatedUser.value;
+    return updatedUser;
 }
 
 export default {
