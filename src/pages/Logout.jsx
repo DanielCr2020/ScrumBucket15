@@ -7,7 +7,7 @@ function Logout(props){
 
     window.location.href='/'
     return (
-        <h1>You've been logged out</h1>
+        <h1>You've been successfully logged out.</h1>
     )
 }
 

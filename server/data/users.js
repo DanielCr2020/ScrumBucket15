@@ -51,11 +51,9 @@ async function getUserById(id) {
     const userCollection = await users();
     let user = await userCollection.findOne({_id: new ObjectId(id)});
 
-    if (user === null) { throw "User not found in database!"; }
-    user._id = user._id.toString();
+    if (user == null) { throw "User not found in database!"; }
 
-    /* Returns all attributes of user id */
-    return [user._id, user.username, user.password, user.displayName, user.description, user.isMentor];
+    return user;
 }
 
 

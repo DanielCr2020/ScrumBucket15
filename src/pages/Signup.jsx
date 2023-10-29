@@ -44,8 +44,8 @@ function Signup(props){
     }
 
     return (
-        <div>
-            <p>Sign up</p>
+        <div class={styles.backgroundImage}>
+            <h2>Sign Up</h2>
             <Show when={error()!=null}>
                 <p class={styles.error}>{error()}</p>
             </Show>
@@ -58,7 +58,7 @@ function Signup(props){
                 <input id="displayName" onChange={handleChange}>Display Name</input>
                 <br />
                 <Show when={creatingUser()==false}>
-                    <button class={styles.button} type="submit">Sign up</button>
+                    <button class={styles.button} type="submit">Sign Up</button>
                 </Show>
             </form>
         </div>

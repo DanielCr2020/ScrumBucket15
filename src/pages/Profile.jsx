@@ -18,11 +18,15 @@ function Profile(props){
     })
 
     
-
     return (
-        <div>
-            <Show when={profileInfo()} fallback={<h1>Getting profile info</h1>}>
-                <h1>{JSON.stringify(profileInfo())}</h1>
+        <div class={styles.profileStyle}>
+            <Show when={profileInfo()} fallback={<h1>loading profile page...</h1>}>
+                <h1>Welcome {profileInfo().displayName} !</h1>
+                <h3>Username: {profileInfo().username}</h3>
+                <div class={styles.bioBorder}>
+                    <h2>About {profileInfo().displayName}:</h2>
+                    <p>{profileInfo().description}</p>
+                </div>
             </Show>
         </div>
     )

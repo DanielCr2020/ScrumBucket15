@@ -20,6 +20,15 @@ function checkPassword(password){
     return password
 }
 
+function checkDisplayName(displayName){
+    if(!displayName) throw "No displayName provided"
+    if(typeof displayName!=='string') throw "displayName must be a string"
+    displayName=xss(displayName.trim())
+    if(displayName.length<3) throw "displayName must be at least 3 characters long"
+
+    return displayName
+}
+
 function checkSkill(skill){
     if(!skill){throw 'No skill provided'}
     if(typeof skill !== 'string'){throw 'skill must be a string'}
@@ -33,14 +42,7 @@ function checkSkillArray(skillArray){
         checkSkill(skill);
     })
 }
-function checkDisplayName(displayName){
-    if(!displayName) throw "No displayName provided"
-    if(typeof displayName!=='string') throw "displayName must be a string"
-    displayName=xss(displayName.trim())
-    if(displayName.length<3) throw "displayName must be at least 3 characters long"
 
-    return displayName
-}
 
 function checkId(id){
     if(!id) throw "No ObjectId given"

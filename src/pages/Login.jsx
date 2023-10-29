@@ -45,8 +45,8 @@ function Login(props){
     }
 
     return (
-        <div>
-            <p>Log in</p>
+        <div class={styles.backgroundImage}>
+            <h2>Log In</h2>
             <Show when={error()!=null}>
                 <p class={styles.error}>{error()}</p>
             </Show>
@@ -57,7 +57,7 @@ function Login(props){
                 <input id="password" onChange={handleChange} type="password">Password</input> <br />
                 <br />
                 <Show when={loggingIn()==false}>
-                    <button class={styles.button} type="submit">Log in</button>
+                    <button class={styles.button} type="submit">Log In</button>
                 </Show>
             </form>
         </div>
