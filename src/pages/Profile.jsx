@@ -36,17 +36,18 @@ function Profile(props){
                             </list>
                         </div>
                     </div>
-                    <div class={styles.skillTeachDiv}>
-                        <h3>My Courses Taught:</h3>
-                        <div class={styles.profileListDiv}>
-                            <list class={styles.profileList}>
-                                <li>Pre calculus</li>
-                                <li>Watercolor</li>
-                                <li>Poetry</li>
-                                {/* <li></li> */}
-                            </list>
+                    <Show when={profileInfo()["isMentor"]==true}>
+                        <div class={styles.skillTeachDiv}>
+                            <h3>My Courses Taught:</h3>
+                            <div class={styles.profileListDiv}>
+                                <list class={styles.profileList}>
+                                    <li>Pre calculus</li>
+                                    <li>Watercolor</li>
+                                    <li>Poetry</li>
+                                </list>
+                            </div>
                         </div>
-                    </div>
+                    </Show>
                 </div>
             </Show>
         </div>

@@ -176,3 +176,19 @@ input {
   text-align: left;
   font-size: 25px;
 }
+
+
+/* COURSEPAGE STYLES */
+
+.courseTitle {
+  color: #0d5890;
+}
+
+.courseRegistrationButton {
+  padding: 10px;
+}
+
+.courseRegistrationButton:hover {
+  background-color:rgb(58, 58, 58);
+  transition: 0.25s;
+}
