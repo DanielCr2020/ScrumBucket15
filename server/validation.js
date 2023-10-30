@@ -136,7 +136,7 @@ function checkDescription(description) {
     description = xss(description.trim())
     if(description.length < 20 || description.length > 2000) throw "The description length must be between 20 and 2000 characters long."
 
-    return displayName
+    return description;
 }
 
 async function checkPicture(picture) {

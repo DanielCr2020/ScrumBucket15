@@ -42,6 +42,30 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
     return newEvent
 }
 
+async function getEventById(id) {
+    id = validation.checkId(id);
+
+    const eventCollection = await events();
+    let event = await eventCollection.findOne({_id: new ObjectId(id)});
+
+    if (event == null) { throw [404, "Event not found in database!"]; }
+
+    return event;
+}
+
+async function reviseDescription(id, newDescription) {
+    let event = validation.getEventById(id);
+    newDescription = validation.checkDescription(id);
+
+    const eventCollection = await events();
+    event.description = newDescription;
+    let updatedEvent = await eventCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: event}, {returnDocument: 'after'});
+    if (updatedEvent.lastErrorObject?.n === 0) { { throw [500, 'Could not update event description successfully']; } }
+
+    return updatedEvent;
+}
+
+
 async function filterEventBySkill(skillArray){
     skill = validation.checkSkillArray(skillArray);
     const eventCollection = await events();
@@ -52,5 +76,7 @@ async function filterEventBySkill(skillArray){
 
 export default {
     createEvent,
-    filterEventBySkill
+    getEventById,
+    reviseDescription,
+    filterEventBySkill,
 }
