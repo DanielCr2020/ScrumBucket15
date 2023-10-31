@@ -6,10 +6,11 @@ const saltRounds=12;
 
 const users = mongoCollections.users;
 
-async function createUser(displayName,username,password){
+async function createUser(displayName,emailAddress, username,password){
     username=validation.checkUsername(username);
     displayName=validation.checkDisplayName(displayName);
     password=validation.checkPassword(password);
+    emailAddress = validation.checkEmail(emailAddress);
 
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
@@ -22,6 +23,7 @@ async function createUser(displayName,username,password){
         _id: new ObjectId(),
         username:username.toLowerCase(),
         password:hashed_pw,
+        emailAddress: emailAddress,
         displayName:displayName,
         description: "Default description here.",
         isMentor : true, /* For now, we will leave this to be true */
