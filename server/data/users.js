@@ -14,7 +14,8 @@ async function createUser(displayName,username,password){
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
     if(userExists) throw [400,`A user named ${username} already exists`]
-    userExists = await userCollection.findOne({displayName:displayName.toLowerCase()})        //display name
+    const displayNameRegex = new RegExp(displayName,'i')
+    userExists = await userCollection.findOne({displayName:displayNameRegex})        //display name
     if(userExists) throw [400,`A user with display name ${displayName} already exists`]
 
     const hashed_pw = await bcrypt.hash(password,saltRounds)
@@ -24,8 +25,10 @@ async function createUser(displayName,username,password){
         password:hashed_pw,
         displayName:displayName,
         description: "Default description here.",
-        isMentor : true, /* For now, we will leave this to be true */
-        skills: {}
+        isMentor : false, //placeholder
+        skills: {},
+        hostedEvents: [],       //Contains an array of ObjectIDs of events they have hosted
+        attendedEvents: []      //Contains an array of ObjectIDs of events they have been to
     }
 
     const insertUser = await userCollection.insertOne(newUser)
