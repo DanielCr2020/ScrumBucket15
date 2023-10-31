@@ -29,6 +29,20 @@ function checkDisplayName(displayName){
     return displayName
 }
 
+function checkIsMentor(mentor){
+    if(typeof mentor != "boolean") throw "isMentor is not supplied"
+    return mentor
+}
+
+function checkBio(bio){
+    if(!bio) throw "no bio provided"
+    if(typeof bio !== 'string') throw "bio must be a string"
+    bio = xss(bio.trim())
+    if(bio.length < 3) throw "bio must be at least three characters long"
+
+    return bio
+}
+
 /* We incorporated checkSkill such that it is a JS object
 and not a string for efficiency purposes! */
 
@@ -194,5 +208,7 @@ export default {
     checkStartTime,
     checkEndTime,
     checkSkill,
-    checkProficiency
+    checkProficiency,
+    checkIsMentor,
+    checkBio
 }

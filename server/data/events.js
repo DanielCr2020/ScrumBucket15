@@ -74,9 +74,33 @@ async function filterEventBySkill(skillArray){
     return filteredEvents;
 }
 
+async function editEvent(id, eventName, eventDate, startTime, endTime, displayName_student, description, picture){
+    const eventCollection = await events()
+    let tempEvent = {
+        eventName: eventName,
+        eventDate: eventDate,
+        startTime: startTime,
+        endTime: endTime,
+        displayName_student: displayName_student,
+        description: description,
+        picture: picture
+    }
+    let updatedEvent = await eventCollection.findOneAndReplace(
+        {_id: new ObjectId(id)},
+        tempEvent,
+        {returnDocument: 'after'}
+        )
+    if (!updatedEvent)
+        throw 'Error: update failed'
+
+    return updatedEvent
+
+}
+
 export default {
     createEvent,
     getEventById,
     reviseDescription,
     filterEventBySkill,
+    editEvent
 }
