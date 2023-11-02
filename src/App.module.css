@@ -177,6 +177,22 @@ input {
   font-size: 25px;
 }
 
+.contactDiv {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 60%;
+}
+
+.contactText {
+  margin: auto;
+}
+
+.skillHeader {
+  font-size: 35px;
+  color: #0d5890;
+}
+
 
 /* COURSEPAGE STYLES */
 
