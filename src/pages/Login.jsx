@@ -34,8 +34,8 @@ function Login(props){
         }
         else{       //clears out setError so that it does not persist on future attempts
             setError(null)
-            navigate('/home')
             document.getElementById('login-form').reset()
+            window.location.href=('/home')
         }
         setLoggingIn(false)
     }
