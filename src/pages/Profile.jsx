@@ -18,14 +18,36 @@ function Profile(props){
     })
 
     
+    // Currently using placeholder user info until backend info is added.
     return (
-        <div class={styles.profileStyle}>
-            <Show when={profileInfo()} fallback={<h1>loading profile page...</h1>}>
-                <h1>Welcome {profileInfo().displayName} !</h1>
-                <h3>Username: {profileInfo().username}</h3>
-                <div class={styles.bioBorder}>
-                    <h2>About {profileInfo().displayName}:</h2>
-                    <p>{profileInfo().description}</p>
+        <div>
+            <Show when={profileInfo()} fallback={<h1>Getting profile info</h1>}>
+                <h1 class={styles.username}>Welcome {profileInfo()["displayName"]}!</h1>
+                {/* <h1 class={styles.username}>{JSON.stringify(profileInfo())}</h1> */}
+                <div class={styles.userProfileInfoDiv}>
+                    <div class={styles.skillInterestDiv}>
+                        <h3>My Skill Interests:</h3>
+                        <div class={styles.profileListDiv}>
+                            <list class={styles.profileList}>
+                                <li>Knitting</li>
+                                <li>Pottery</li>
+                                <li>Public Speaking</li>
+                                <li>Resume Review</li>
+                            </list>
+                        </div>
+                    </div>
+                    <Show when={profileInfo()["isMentor"]==true}>
+                        <div class={styles.skillTeachDiv}>
+                            <h3>My Courses Taught:</h3>
+                            <div class={styles.profileListDiv}>
+                                <list class={styles.profileList}>
+                                    <li>Pre calculus</li>
+                                    <li>Watercolor</li>
+                                    <li>Poetry</li>
+                                </list>
+                            </div>
+                        </div>
+                    </Show>
                 </div>
             </Show>
         </div>
