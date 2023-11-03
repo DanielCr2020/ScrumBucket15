@@ -98,7 +98,7 @@ router
 
 router
     .route('/profile/updateSkills')
-    .patch(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
+    .post(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
         let updatedUser, newSkill, newProficiency, userId;
         //newSkill may be an existing skill they are updating the proficiency of, or a new one
         try{

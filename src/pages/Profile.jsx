@@ -1,6 +1,7 @@
 import styles from '../App.module.css'
 import { createSignal, createEffect, onMount } from 'solid-js';
-import {useNavigate} from "@solidjs/router"
+import {useNavigate, A} from "@solidjs/router";
+import NewSkill from "./NewSkill";
 
 function Profile(props){
     const navigate=useNavigate()
@@ -17,7 +18,12 @@ function Profile(props){
         getProfileInfo().then(info => {setProfileInfo(info)})
     })
 
-    
+    const [newSkill, setNewSkill] = createSignal(false);
+
+    async function handleClick(e) {
+        setNewSkill(true);
+    }
+
     // Currently using placeholder user info until backend info is added.
     return (
         <div>
@@ -31,7 +37,7 @@ function Profile(props){
                 </div>
                 <div class={styles.userProfileInfoDiv}>
                     <div class={styles.skillInterestDiv}>
-                        <h3 class={styles.skillHeader}>My Skill Interests:</h3>
+                        <h3 class={styles.skillHeader}>My Known Skills:</h3>
                         <div class={styles.profileListDiv}>
                             <list class={styles.profileList}>
                                 {/* patch request to api/users/profile/updateSkills */}
@@ -42,13 +48,21 @@ function Profile(props){
                                 <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
                                     <li>No skills, add one!</li>
                                 </Show>
-                                <li>Click to add a skill!</li>
+                                <Show when={!newSkill()}>
+                                    <button onClick={[handleClick]}>Click to add a skill!</button>
+                                </Show>
+                                <Show when={newSkill()}>
+                                    <NewSkill 
+                                        element={props.element} 
+                                        setNewSkill={setNewSkill} 
+                                        updatedUser={JSON.stringify(profileInfo()["displayName"])}/>
+                                </Show>
                             </list>
                         </div>
                     </div>
                     <Show when={profileInfo()["isMentor"]==true}>
                         <div class={styles.skillTeachDiv}>
-                            <h3 class={styles.skillHeader}>My Known Skills:</h3>
+                            <h3 class={styles.skillHeader}>My Skill Interests:</h3>
                             <div class={styles.profileListDiv}>
                                 <list class={styles.profileList}>
                                     <li>Pre calculus</li>

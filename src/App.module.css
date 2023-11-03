@@ -193,6 +193,10 @@ input {
   color: #0d5890;
 }
 
+.newSkillLink {
+  list-style: none;
+}
+
 
 /* COURSEPAGE STYLES */
 

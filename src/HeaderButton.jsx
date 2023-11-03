@@ -1,6 +1,5 @@
 import styles from './App.module.css';
-import { createSignal, createContext, useContext } from 'solid-js';
-import {Router, Route, Routes, A} from '@solidjs/router';
+import {A} from '@solidjs/router';
 
 function HeaderButton(props) {
   return (
