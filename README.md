@@ -47,7 +47,7 @@ To build the project for production, run:
 
 ### `npm run build`
 
-This builds the app for production to the `dist` folder.
+This builds the frontend for production to the `dist` folder.
 It correctly bundles Solid in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.
