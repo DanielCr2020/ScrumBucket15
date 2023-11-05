@@ -15,7 +15,16 @@ router
     .get((req,res) => {
         res.status(200).json("get /api/users/signup")
     })
+
     .post(async(req,res) => {       //      /api/users/signup
+    /*
+        request body:
+        {
+            username:"username",
+            password:"password" (will be hashed),
+            displayName:"Display Name"
+        }
+    */
         let username,password,displayName;
         try{
             username=validation.checkUsername(req.body.username)
@@ -48,19 +57,31 @@ router
         else{
             res.status(200).json({loggedIn:false})
         }
-        // res.status(200).json("get /api/users/login")
     })
-    .post(async(req,res) => {       //      /api/users/login
+    .post(async(req,res) => {       //      /api/users/login        submit form to log in
         let username,password,check;
-        console.log(req.originalUrl,"req body:",req.body)
-        try{
+        /*
+            request body:
+            {
+                username:"username",
+                password:"password"
+            }
+        */
+        try{        //validate input, throw bad request if invalid
             username=validation.checkUsername(req.body.username)
             password=validation.checkPassword(req.body.password)
-            check=await users.checkUser(username,password)
         }
         catch(e){
             console.log(e)
             res.status(400).json({error:e})
+            return
+        }
+        try{
+            check=await users.checkUser(username,password)
+        }
+        catch(e){       //input valid, but user does not exist
+            console.log(e)
+            res.status(404).json(e)
             return
         }
         if(!check.authenticatedUser){
@@ -71,8 +92,6 @@ router
         if(check.authenticatedUser){
             req.session.user={username:username, userId:check.userId.toString()}
         }
-        // console.log("route:",req.session)
-        // res.redirect('/api/users/profile')
         res.status(200).json(req.session)
         return
     })
@@ -94,6 +113,30 @@ router
         delete user.password        //we don't send the password back for obvious reasons
         res.status(200).json(user)
         return
+    })
+    .delete(async(req,res) => {     //      /api/users/profile delete method
+        /*
+            Deletes a user by id
+            request body:
+            {id: userId}
+        */
+       let id = req?.body?.id;
+       try{
+           id=validation.checkId(id)
+       }
+       catch(e){
+           console.log(e)
+           return res.status(e[0]).json(e[1])
+       }
+       let deletedUser;
+       try{
+           deletedUser = await users.deleteAccount(id)
+           return res.status(200).json(deletedUser)
+       }
+       catch(e){
+           console.log(e)
+           return res.status(e[0]).json(e[1])
+       }
     })
 
 router

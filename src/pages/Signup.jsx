@@ -50,9 +50,9 @@ function Signup(props){
             if(loginResponse.error){
                 setError("Login error: "+loginResponse.error)
             }
-            else{
+            else{       //no error
                 setError(null)
-                navigate('/home')
+                window.location.href=('/home')
             }
         }
         setCreatingUser(false)

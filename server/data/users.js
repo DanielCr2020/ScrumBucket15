@@ -76,9 +76,20 @@ async function updateSkillLevel(id, skill, proficiency) {
     return updatedUser;
 }
 
+async function deleteAccount(id){       //probably only used for unit testing
+    id=validation.checkId(id)
+    const userCollection = await users();
+    let deletedUser = await userCollection.deleteOne({_id: new ObjectId(id)})
+    if(!deletedUser || deletedUser?.deletedCount<1){
+        throw [500, "Could not delete that user"]
+    }
+    return deletedUser
+}
+
 export default {
     createUser,
     checkUser,
     getUserById,
-    updateSkillLevel
+    updateSkillLevel,
+    deleteAccount
 }

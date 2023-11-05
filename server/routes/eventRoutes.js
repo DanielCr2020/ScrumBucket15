@@ -19,5 +19,29 @@ router
         }
     })
 
+router
+    .route('/createEvent')
+    .post(async(req,res) => {       //      /api/events/createEvent
+        //placeholder
+        try{
+            let event = await events.createEvent(
+                req.body.displayName_teacher,
+                req.body.eventName,
+                req.body.eventDate,
+                req.body.startTime,
+                req.body.endTime,
+                req.body.skill,
+                req.body.displayName_student,
+                req.body.description,
+                true    //picture
+            )
+            return res.status(200).json(event)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(400).json(e)
+        }
+    })
+
 
 export default router

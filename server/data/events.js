@@ -4,7 +4,7 @@ import validation from '../validation.js';
 
 const events = mongoCollections.events;
 
-async function createEvent(displayName_teacher, eventName, eventDate, startTime, endTime, displayName_student, description, picture, maxAttendees){
+async function createEvent(displayName_teacher, eventName, eventDate, startTime, endTime, skill, displayName_student, description, picture, maxAttendees){
     displayName_teacher = validation.checkDisplayName(displayName_teacher)
     displayName_student = validation.checkDisplayName(displayName_student)
 
@@ -16,7 +16,7 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
 
     picture = await validation.checkPicture(picture); /* async method */
     if (picture === null) { throw "Error processing picture"; }
-    picture = new Binary(picture); /* Convert to BSON format! */
+    // picture = new Binary(picture); /* Convert to BSON format! */
 
     let newEvent = {
         _id: new ObjectId(),
@@ -35,7 +35,7 @@ async function createEvent(displayName_teacher, eventName, eventDate, startTime,
 
     const eventCollection = await events()
     const insertEvent = await eventCollection.insertOne(newEvent)
-    if(!insertEvent.acknowledged || !insertInfo.insertedId)
+    if(!insertEvent.acknowledged || !insertEvent.insertedId)
         throw [500,"Could not insert event into collection"]
 
     return newEvent
@@ -53,8 +53,8 @@ async function getEventById(id) {
 }
 
 async function reviseDescription(id, newDescription) {
-    let event = validation.getEventById(id);
-    newDescription = validation.checkDescription(id);
+    let event = getEventById(id);
+    newDescription = validation.checkDescription(newDescription);
 
     const eventCollection = await events();
     event.description = newDescription;
