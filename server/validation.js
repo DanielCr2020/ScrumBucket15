@@ -70,7 +70,7 @@ function checkEventDate(eventDate) {
     if (typeof eventDate != 'string') throw "eventDate must be a string"
     
     eventDate = xss(eventDate.trim())
-    isValidDate = Date.parse(eventDate)
+    let isValidDate = Date.parse(eventDate)
 
     if (isNaN(isValidDate))
         throw "invalid eventDate"
@@ -141,6 +141,7 @@ function checkDescription(description) {
 
 async function checkPicture(picture) {
     if (!picture) throw "No picture provided"
+    return picture;
     try {
         const fileType = await fileTypeFromFile.fromBuffer(picture);
 
