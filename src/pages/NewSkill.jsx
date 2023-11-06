@@ -1,6 +1,6 @@
 import styles from '../App.module.css'
 import { createSignal, createEffect } from 'solid-js';
-import skillValidation from "../skillvalidation";
+import clientValidation from "../clientValidation";
 
 function NewSkill(props){
 
@@ -12,8 +12,8 @@ function NewSkill(props){
     async function submitForm(e){
         e.preventDefault()
         try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
-            skillValidation.checkSkillname(skillData().newSkill)
-            skillValidation.checkSkilllevel(skillData().newProficiency)
+            clientValidation.checkSkillname(skillData().newSkill)
+            clientValidation.checkSkilllevel(skillData().newProficiency)
         }
         catch(e){
             setError(e)
