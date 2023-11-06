@@ -48,8 +48,9 @@ function Profile(props){
                                 <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
                                     <li>No skills, add one!</li>
                                 </Show>
+                                <br></br>
                                 <Show when={!newSkill()}>
-                                    <button onClick={[handleClick]}>Click to add a skill!</button>
+                                    <button class={styles.newSkillButton} onClick={[handleClick]}>Click to add a skill!</button>
                                 </Show>
                                 <Show when={newSkill()}>
                                     <NewSkill 

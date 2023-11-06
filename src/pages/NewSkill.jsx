@@ -1,6 +1,6 @@
 import styles from '../App.module.css'
 import { createSignal, createEffect } from 'solid-js';
-import skillValidation from '../skillvalidation.js'
+import skillValidation from "../skillvalidation";
 
 function NewSkill(props){
 
