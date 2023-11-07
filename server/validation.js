@@ -33,8 +33,11 @@ function checkEmail(emailAddress){
     if(!emailAddress) throw 'No emailAddress provided'
     if(typeof emailAddress !== 'string') throw 'emailAddress must be a string'
     emailAddress=xss(emailAddress.trim())
-    const emailCheck = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-    if(!emailCheck.test(emailAddress)){throw 'emailAddress is not a valid email'}
+    const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
+    let emailmatch = emailAddress.match(emailCheck)
+    if (emailmatch == null)
+        throw "invalid email"
+    console.log(emailAddress)
     return emailAddress;
 }
 
@@ -205,5 +208,6 @@ export default {
     checkStartTime,
     checkEndTime,
     checkSkill,
-    checkProficiency
+    checkProficiency,
+    checkEmail
 }

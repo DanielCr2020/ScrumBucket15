@@ -28,8 +28,18 @@ function checkDisplayName(displayName){
     return displayName
 }
 
+function checkEmail(email) {
+    if(!email) throw "No email provided"
+    if (typeof email !== 'string') throw "email must be a string"
+    email = xss(email.trim())
+    if (email.length < 3) throw "email must be at least 3 characters long"
+
+    return email
+}
+
 export default {
     checkUsername,
     checkPassword,
-    checkDisplayName
+    checkDisplayName,
+    checkEmail
 }

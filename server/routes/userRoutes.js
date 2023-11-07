@@ -25,9 +25,10 @@ router
             displayName:"Display Name"
         }
     */
-        let username,password,displayName;
+        let username, email,password,displayName;
         try{
             username=validation.checkUsername(req.body.username)
+            email=validation.checkEmail(req.body.email)
             password=validation.checkPassword(req.body.password)
             displayName=validation.checkDisplayName(req.body.displayName)
         }
@@ -38,7 +39,7 @@ router
         }
         let newUser;
         try{
-            newUser = await users.createUser(displayName,username,password)
+            newUser = await users.createUser(displayName, email,username,password)
         }
         catch(e){
             console.log(e)
