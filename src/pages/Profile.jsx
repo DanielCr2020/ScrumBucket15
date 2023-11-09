@@ -54,6 +54,7 @@ function Profile(props){
                                 </Show>
                                 <Show when={newSkill()}>
                                     <NewSkill 
+                                        url={props.url}
                                         element={props.element} 
                                         setNewSkill={setNewSkill} 
                                         updatedUser={JSON.stringify(profileInfo()["displayName"])}/>
