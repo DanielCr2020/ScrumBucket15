@@ -28,16 +28,17 @@ router
         try{
             let username=validation.checkUsername(req.body.username)
             let password=validation.checkPassword(req.body.password)
+            let email=validation.checkEmail(req.body.email)
             let displayName=validation.checkDisplayName(req.body.displayName)
             let newUser = await users.createUser(displayName,username,password)
             res.status(200).json(newUser)
+            return
         }
         catch(e){
             console.log(e)
             res.status(e[0]).json({error:e[1]}) //e[0] is the status code, e[1] is the error message
             return
         }
-
     })
 
 router

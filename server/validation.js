@@ -29,6 +29,19 @@ function checkDisplayName(displayName){
     return displayName
 }
 
+function checkEmail(emailAddress){
+    if(!emailAddress) throw 'No emailAddress provided'
+    if(typeof emailAddress !== 'string') throw 'emailAddress must be a string'
+    emailAddress=xss(emailAddress.trim())
+    const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
+    let emailmatch = emailAddress.match(emailCheck)
+    if (emailmatch == null)
+        throw "invalid email"
+    console.log(emailAddress)
+    return emailAddress;
+}
+
+
 /* We incorporated checkSkill such that it is a JS object
 and not a string for efficiency purposes! */
 
@@ -195,5 +208,6 @@ export default {
     checkStartTime,
     checkEndTime,
     checkSkill,
-    checkProficiency
+    checkProficiency,
+    checkEmail
 }
