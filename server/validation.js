@@ -30,14 +30,14 @@ function checkDisplayName(displayName){
 }
 
 function checkEmail(emailAddress){
-    if(!emailAddress) throw 'No emailAddress provided'
-    if(typeof emailAddress !== 'string') throw 'emailAddress must be a string'
+    if(!emailAddress) throw [400,'No emailAddress provided']
+    if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
     emailAddress=xss(emailAddress.trim())
     const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
     let emailmatch = emailAddress.match(emailCheck)
     if (emailmatch == null)
-        throw "invalid email"
-    console.log(emailAddress)
+        throw [400,"invalid email"]
+    // console.log(emailAddress)
     return emailAddress;
 }
 

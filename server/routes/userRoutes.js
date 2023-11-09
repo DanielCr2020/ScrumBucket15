@@ -30,7 +30,7 @@ router
             let password=validation.checkPassword(req.body.password)
             let email=validation.checkEmail(req.body.email)
             let displayName=validation.checkDisplayName(req.body.displayName)
-            let newUser = await users.createUser(displayName,username,password)
+            let newUser = await users.createUser(displayName,email,username,password)
             res.status(200).json(newUser)
             return
         }
