@@ -72,6 +72,3 @@ test('Deleting a user', async() => {
     deleteRes = await deleteRes.json()
     expect(deleteRes).toEqual({"acknowledged":true,"deletedCount":1})
 })
-
-
-

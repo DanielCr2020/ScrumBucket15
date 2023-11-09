@@ -3,28 +3,28 @@ import {fileTypeFromFile} from 'file-type';
 import xss from "xss"
 
 function checkUsername(username){
-    if(!username) throw "No username provided"
-    if(typeof username!=='string') throw "Username must be a string"
+    if(!username) throw [400, "No username provided"]
+    if(typeof username!=='string') throw [400, "Username must be a string"]
     username=xss(username.trim())
-    if(username.length<3) throw "Username must be at least 3 characters long"
+    if(username.length<3) throw [400, "Username must be at least 3 characters long"]
 
     return username
 }
 
 function checkPassword(password){
-    if(!password) throw "No password provided"
-    if(typeof password!=='string') throw "Password must be a string"
+    if(!password) throw [400, "No password provided"]
+    if(typeof password!=='string') throw [400, "Password must be a string"]
     password=xss(password.trim())
-    if(password.length<3) throw "Password must be at least 3 characters long"
+    if(password.length<3) throw [400, "Password must be at least 3 characters long"]
 
     return password
 }
 
 function checkDisplayName(displayName){
-    if(!displayName) throw "No displayName provided"
-    if(typeof displayName!=='string') throw "displayName must be a string"
+    if(!displayName) throw [400, "No displayName provided"]
+    if(typeof displayName!=='string') throw [400, "displayName must be a string"]
     displayName=xss(displayName.trim())
-    if(displayName.length<3) throw "displayName must be at least 3 characters long"
+    if(displayName.length<3) throw [400, "displayName must be at least 3 characters long"]
 
     return displayName
 }

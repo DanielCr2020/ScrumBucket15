@@ -25,27 +25,19 @@ router
             displayName:"Display Name"
         }
     */
-        let username,password,displayName;
         try{
-            username=validation.checkUsername(req.body.username)
-            password=validation.checkPassword(req.body.password)
-            displayName=validation.checkDisplayName(req.body.displayName)
+            let username=validation.checkUsername(req.body.username)
+            let password=validation.checkPassword(req.body.password)
+            let displayName=validation.checkDisplayName(req.body.displayName)
+            let newUser = await users.createUser(displayName,username,password)
+            res.status(200).json(newUser)
         }
         catch(e){
             console.log(e)
-            res.status(400).json({error:e})
+            res.status(e[0]).json({error:e[1]}) //e[0] is the status code, e[1] is the error message
             return
         }
-        let newUser;
-        try{
-            newUser = await users.createUser(displayName,username,password)
-        }
-        catch(e){
-            console.log(e)
-            res.status(e[0]).json({error:e[1]})     //[0] is the status code, [1] is the message
-            return
-        }
-        res.status(200).json(newUser)
+
     })
 
 router
@@ -98,7 +90,7 @@ router
 
 router
     .route('/profile')          
-    .get(async(req,res) => {            //          /api/users/profile 
+    .get(async(req,res) => {            //          /api/users/profile  get a user's own profile
         console.log("GET /profile:",req.session)
         let user, userId=req.session.user?.userId;
         try{
@@ -137,6 +129,24 @@ router
            console.log(e)
            return res.status(e[0]).json(e[1])
        }
+    })
+
+router
+    .route('/profile/:id')
+    .get(async(req,res) => {            //      /api/users/profile/:id      get any profile by id
+        let user, userId=req.params.id
+        try{
+            userId = validation.checkId(userId)
+            user = await users.getUserById(userId) 
+        }
+        catch(e){
+            console.log(e)
+            res.status(e[0]).json({error:e[1]})
+            return
+        }
+        delete user.password        //we don't send the password back for obvious reasons
+        res.status(200).json(user)
+        return
     })
 
 router
