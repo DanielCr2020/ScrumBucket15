@@ -7,7 +7,7 @@ const constructorMethod = (app) => {
     app.use('/api/events', eventRoutes)
     app.use('/',baseRoutes);
     app.use('*',(req,res) => {
-        res.status(404).json({error: "Not Found!"})
+        res.status(404).json({error: `${req.originalUrl} Not Found!`})
     })
 }
 

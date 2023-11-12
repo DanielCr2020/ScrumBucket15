@@ -12,10 +12,12 @@ function Profile(props){
         return await info.json()
     }
     const [profileInfo, setProfileInfo] = createSignal()
+    const [skills, setSkills] = createSignal()
 
     onMount(() => {
-        console.log("profile")
+        // console.log("profile")
         getProfileInfo().then(info => {setProfileInfo(info)})
+        
     })
 
     const [newSkill, setNewSkill] = createSignal(false);
@@ -41,9 +43,11 @@ function Profile(props){
                         <div class={styles.profileListDiv}>
                             <list class={styles.profileList}>
                                 {/* patch request to api/users/profile/updateSkills */}
-                                {/* <p>{JSON.stringify(profileInfo()["skills"])}</p> */}
-                                <For each={profileInfo()["skills"]}>
-                                    {(item) => <li>{JSON.stringify(item)}</li>}
+                                <div>{(profileInfo()["skills"])}</div>
+                                <For each={(profileInfo()["skills"])}>
+                                    {/* {console.log("skills:",profileInfo()['skills'])} */}
+                                    {(index,item) => console.log(index)}
+                                    {(item) => <div>{stringify(item)}</div>}
                                 </For>
                                 <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
                                     <li>No skills, add one!</li>

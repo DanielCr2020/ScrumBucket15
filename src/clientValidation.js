@@ -32,7 +32,8 @@ function checkSkillname(skillname){
     if(!skillname) throw "No skill name provided"
     if(typeof skillname!=='string') throw "Skill name must be a string"
     skillname=xss(skillname.trim())
-    if(skillname.length<3) throw "Skill name must be at least 3 characters long"
+    if(skillname.length<3 || skillname.length>30) throw "Skill name must be at least 3 characters long and no more than 30"
+    if (!/[A-Za-z]+/.test(skillname)) { throw 'Skill must have at least one alphabetic character' }
 
     return skillname
 }
@@ -45,6 +46,7 @@ function checkSkilllevel(skilllevel){
     if(skilllevel<1 || skilllevel>10) throw "Skill level must be a number ranging from 1-10"
     
     return skilllevel
+}
 
 function checkEmail(email) {
     if(!email) throw "No email provided"
