@@ -5,7 +5,7 @@ import { useNavigate } from '@solidjs/router';
 
 function Signup(props){
 
-    const [signupData, setSignupData] = createSignal({username:"",password:"",displayName:""})
+    const [signupData, setSignupData] = createSignal({username:"", email:"",password:"",displayName:""})
     const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
     const [error, setError] = createSignal(null)
 
@@ -15,6 +15,7 @@ function Signup(props){
         e.preventDefault()
         try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
             clientValidation.checkUsername(signupData().username)
+            clientValidation.checkEmail(signupData().email)
             clientValidation.checkPassword(signupData().password)
             clientValidation.checkDisplayName(signupData().displayName)
         }
@@ -71,6 +72,8 @@ function Signup(props){
             <form onSubmit={submitForm} id="signup-form">
                 <label for="username">Username: </label>
                 <input id="username" onChange={handleChange}>Username</input> <br />
+                <label for="email">Email: </label>
+                <input id="email" onChange={handleChange}>Email</input> <br />
                 <label for="password">Password: </label>
                 <input id="password" onChange={handleChange} type="password">Password</input> <br />
                 <label for="displayName">Display Name: </label>
