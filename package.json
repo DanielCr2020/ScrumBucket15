@@ -11,7 +11,7 @@
     "start-client": "vite",
     "start-server": "node server/app.js",
     "test": "jest",
-    "test-frontend": "jest tests/clinetValidation.test.js"
+    "test-frontend": "jest tests/clientValidation.test.js"
   },
   "license": "MIT",
   "devDependencies": {
