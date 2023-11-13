@@ -172,7 +172,7 @@ function checkSkill(skill) {
 
     skill = xss(skill.trim());
 
-    if (skill.length < 2 || skill.length > 30) { throw 'Skill must be between 2 and 30 characters inclusive.' }
+    if (skill.length < 3 || skill.length > 30) { throw 'Skill must be between 2 and 30 characters inclusive.' }
 
     if (!/[A-Za-z]+/.test(skill)) { throw 'Skill must have at least one alphabetic character' }
 
@@ -181,14 +181,12 @@ function checkSkill(skill) {
 
 function checkProficiency(proficiency) {
     if (!proficiency) { throw 'No proficiency provided.'; }
-    if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
+    // if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
 
-    proficiency = xss(proficiency.trim());
-
-    let profArray = ['No Experience', 'Beginner', 'Amateur', 'Intermediate', 'Expert', 'Master']
-
-    if (!profArray.includes(proficiency)) { throw 'Proficiency must be a valid dropdown option'; }
-
+    // proficiency = xss(proficiency.trim());
+    proficiency = Number.parseInt(proficiency)
+    
+    if(proficiency<1 || proficiency>10) throw "Proficiency must be a number between 1 and 10"
     return proficiency;
 }
 

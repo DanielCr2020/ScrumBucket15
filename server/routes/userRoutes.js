@@ -92,7 +92,7 @@ router
 router
     .route('/profile')          
     .get(async(req,res) => {            //          /api/users/profile  get a user's own profile
-        console.log("GET /profile:",req.session)
+        // console.log("GET /profile:",req.session)
         let user, userId=req.session.user?.userId;
         try{
             userId = validation.checkId(userId)
@@ -152,7 +152,7 @@ router
 
 router
     .route('/profile/updateSkills')
-    .post(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
+    .patch(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
         let updatedUser, newSkill, newProficiency, userId;
         //newSkill may be an existing skill they are updating the proficiency of, or a new one
         try{
