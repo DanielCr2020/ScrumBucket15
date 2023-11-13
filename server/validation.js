@@ -167,26 +167,26 @@ async function checkPicture(picture) {
 }
 
 function checkSkill(skill) {
-    if (!skill) { throw 'No skill provided.'; }
-    if (typeof skill !== 'string') { throw 'Skill is not a string'; }
+    if (!skill) { throw [400,'No skill provided.']; }
+    if (typeof skill !== 'string') { throw [400,'Skill is not a string']; }
 
     skill = xss(skill.trim());
 
-    if (skill.length < 3 || skill.length > 30) { throw 'Skill must be between 2 and 30 characters inclusive.' }
+    if (skill.length < 3 || skill.length > 30) { throw [400,'Skill must be between 3 and 30 characters inclusive.'] }
 
-    if (!/[A-Za-z]+/.test(skill)) { throw 'Skill must have at least one alphabetic character' }
+    if (!/[A-Za-z]+/.test(skill)) { throw [400,'Skill must have at least one alphabetic character'] }
 
     return skill;
 }
 
 function checkProficiency(proficiency) {
-    if (!proficiency) { throw 'No proficiency provided.'; }
+    if (!proficiency) { throw [400,'No proficiency provided.']; }
     // if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
 
     // proficiency = xss(proficiency.trim());
     proficiency = Number.parseInt(proficiency)
     
-    if(proficiency<1 || proficiency>10) throw "Proficiency must be a number between 1 and 10"
+    if(proficiency<1 || proficiency>10) throw [400,"Proficiency must be a number between 1 and 10"]
     return proficiency;
 }
 

@@ -37,7 +37,7 @@ function NewSkill(props){
         }
         else{       //skill was created
             setError(null)
-            alert("Skill created successfully!")
+            // alert("Skill created successfully!")
             document.getElementById('new-skill-form').reset()
         }
         setCreatingSkill(false)

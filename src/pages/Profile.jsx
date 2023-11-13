@@ -51,7 +51,7 @@ function Profile(props){
                                 </Show>
                                 <br></br>
                                 <Show when={!newSkill()}>
-                                    <button class={styles.newSkillButton} onClick={[handleClick]}>Click to add a skill!</button>
+                                    <button class={styles.newSkillButton} onClick={[handleClick]}>Click to add or update a skill!</button>
                                 </Show>
                                 <Show when={newSkill()}>
                                     <NewSkill 

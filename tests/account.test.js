@@ -24,7 +24,7 @@ test('createUser returns a new user object (valid input)', async() => {
         displayName:"Unit Test",
         emailAddress:"test@test.com",
         description:"Default description here.",
-        skills:{}
+        skills:[]
     })
   })
 
@@ -58,7 +58,7 @@ test("Getting a user by id", async() => {
         "displayName":"Unit Test",
         "description":"Default description here.",
         "emailAddress":"test@test.com",
-        "skills":{},
+        "skills":[],
     })
 })
 test('Deleting a user', async() => {
