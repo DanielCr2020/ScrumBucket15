@@ -43,11 +43,8 @@ function Profile(props){
                         <div class={styles.profileListDiv}>
                             <list class={styles.profileList}>
                                 {/* patch request to api/users/profile/updateSkills */}
-                                <div>{(profileInfo()["skills"])}</div>
-                                <For each={(profileInfo()["skills"])}>
-                                    {/* {console.log("skills:",profileInfo()['skills'])} */}
-                                    {(index,item) => console.log(index)}
-                                    {(item) => <div>{stringify(item)}</div>}
+                                <For each={profileInfo()["skills"]}>
+                                    {(item) => <div>{JSON.stringify(item)}</div>}
                                 </For>
                                 <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
                                     <li>No skills, add one!</li>
