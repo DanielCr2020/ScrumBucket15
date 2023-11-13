@@ -47,3 +47,32 @@ test('checkDisplayName throws an error when displayName is not a string', () => 
 test('checkDisplayName throws an error when displayName is too short', () => {
   expect(() => clientValidation.checkDisplayName('JD')).toThrow('displayName must be at least 3 characters long');
 });
+
+// Skill Validation
+test('checkSkillname returns the skill name when valid', () => {
+  expect(clientValidation.checkSkillname('Knitting')).toBe('Knitting');
+});
+
+test('checkSkillname throws an error when no skill name is provided', () => {
+  expect(() => clientValidation.checkSkillname()).toThrow('No skill name provided');
+});
+
+test('checkSkillname throws an error when skill name is not a string', () => {
+  expect(() => clientValidation.checkSkillname(123)).toThrow('Skill name must be a string');
+});
+
+test('checkSkillname throws an error when skill name is too short', () => {
+  expect(() => clientValidation.checkSkillname('KN')).toThrow('Skill name must be at least 3 characters long');
+});
+
+test('checkSkilllevel returns the skill level when valid', () => {
+  expect(clientValidation.checkSkilllevel('4')).toBe('4');
+});
+
+test('checkSkilllevel throws an error when no skill level is provided', () => {
+  expect(() => clientValidation.checkSkilllevel()).toThrow('No skill level provided');
+});
+
+test('checkSkilllevel throws an error when skill level is not a string', () => {
+  expect(() => clientValidation.checkSkilllevel(12345)).toThrow('Skill level must be a string');
+});

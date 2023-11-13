@@ -92,7 +92,7 @@ router
 router
     .route('/profile')          
     .get(async(req,res) => {            //          /api/users/profile  get a user's own profile
-        console.log("GET /profile:",req.session)
+        // console.log("GET /profile:",req.session)
         let user, userId=req.session.user?.userId;
         try{
             userId = validation.checkId(userId)

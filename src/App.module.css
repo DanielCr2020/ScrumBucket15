@@ -177,6 +177,31 @@ input {
   font-size: 25px;
 }
 
+.contactDiv {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 60%;
+}
+
+.contactText {
+  margin: auto;
+}
+
+.skillHeader {
+  font-size: 35px;
+  color: #0d5890;
+}
+
+.newSkillButton {
+  background-color: rgb(0, 0, 0);
+  margin: 1%;
+  padding: 1%;
+  border-radius: 10px;
+  border-color: #0d5890;
+  color:white;
+}
+
 
 /* COURSEPAGE STYLES */
 

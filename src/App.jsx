@@ -9,6 +9,7 @@ import Logout from './pages/Logout';
 import Coursepage from './pages/Coursepage';
 import RouteGuard from './RouteGuard';
 import {Router, Route, Routes, A} from '@solidjs/router';
+import HeaderButton from "./HeaderButton";
 // import { AuthContext, AuthProvider } from './AuthProvider';
 
 function App() {
@@ -38,24 +39,14 @@ function App() {
     <Router>
     <div class={styles.App}>    {/* Header bar (Home, profile, login, signup, etc*/}
       <header class={styles.header}>
-        <button class={styles.header_button}>
-          <A class={styles.link} href="/">Home</A>
-        </button>
+        <HeaderButton idStr="homeButton" linkStr="/" text="Home"/>
         <Show when={loggedIn()}>
-          <button class={styles.header_button}>
-            <A class={styles.link} href="/profile">Profile</A>
-          </button>
-          <button class={styles.header_button}>
-            <A class={styles.link} href="/logout">Log Out</A>
-          </button>
+          <HeaderButton idStr="profileButton" linkStr="/profile" text="Profile"/>
+          <HeaderButton idStr="logOutButton" linkStr="/logout" text="Log Out"/>
         </Show>
         <Show when={!loggedIn()}>
-          <button class={styles.header_button}>
-            <A class={styles.link} href="/signup">Sign Up</A>
-          </button>
-          <button class={styles.header_button}>
-            <A class={styles.link} href="/login">Log In</A>
-          </button>
+          <HeaderButton idStr="signUpButton" linkStr="/signup" text="Sign Up"/>
+          <HeaderButton idStr="logInButton" linkStr="/login" text="Log In"/>
         </Show>
       </header>
       
