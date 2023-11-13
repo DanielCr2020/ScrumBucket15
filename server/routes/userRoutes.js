@@ -66,7 +66,7 @@ router
         }
         catch(e){
             console.log(e)
-            res.status(400).json({error:e})
+            res.status(e[0]).json({error:e[1]})
             return
         }
         try{
@@ -74,7 +74,7 @@ router
         }
         catch(e){       //input valid, but user does not exist
             console.log(e)
-            res.status(404).json(e)
+            res.status(404).json({error:e})
             return
         }
         if(!check.authenticatedUser){
