@@ -45,6 +45,7 @@ function checkSkilllevel(skilllevel){
     if(skilllevel<1 || skilllevel>10) throw "Skill level must be a number ranging from 1-10"
     
     return skilllevel
+}
 
 function checkEmail(email) {
     if(!email) throw "No email provided"
@@ -62,4 +63,4 @@ export default {
     checkSkillname,
     checkSkilllevel,
     checkEmail
-}
+};
