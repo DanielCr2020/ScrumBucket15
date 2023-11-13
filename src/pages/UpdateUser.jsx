@@ -2,7 +2,7 @@ import styles from "../App.module.css";
 import { createSignal, createEffect } from "solid-js";
 import clientValidation from "../clientValidation";
 
-function NewSkill(props) {
+function UpdateUser(props) {
   // updatedUser, newSkill, newProficiency, userId
   const [skillData, setSkillData] = createSignal({
     newSkill: "",
@@ -74,4 +74,4 @@ function NewSkill(props) {
   );
 }
 
-export default NewSkill;
+export default UpdateUser;
