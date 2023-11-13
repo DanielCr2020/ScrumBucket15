@@ -27,7 +27,7 @@ async function createUser(displayName,emailAddress, username,password){
         emailAddress: emailAddress,
         displayName:displayName,
         description: "Default description here.",
-        skills: {}
+        skills: []
     }
 
     const insertUser = await userCollection.insertOne(newUser)
@@ -59,14 +59,26 @@ async function getUserById(id) {
     return user;
 }
 
-async function updateSkillLevel(id, skill, proficiency) {
-    let user = await getUserById(id);
+async function updateSkillLevel(id, skill, proficiency) {       //skills are an array of objects
+    // let user = await getUserById(id);
     skill = validation.checkSkill(skill);
     proficiency = validation.checkProficiency(proficiency);
     const userCollection = await users();
-    user.skills[skill] = proficiency;
-    let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
-    if (updatedUser.lastErrorObject?.n === 0) { throw [500, 'Could not update user skill level successfully']; }
+    let changeExistingSkill = await userCollection.updateOne(       //if the skill is already present, modify it
+        {_id: new ObjectId(id)},
+        {$set:{"skills.$[skill]": {skillName:skill,proficiency:proficiency}}},
+        {arrayFilters:[{"skill.skillName":skill}]}
+    )
+    let updatedUser=true
+    if(changeExistingSkill.modifiedCount===0){
+        updatedUser = await userCollection.findOneAndUpdate(
+            {_id:new ObjectId(id)},
+            {$addToSet:{"skills":{skillName:skill,proficiency:proficiency}}},
+            {returnDocument:'after'}
+        )
+    }
+    // let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
+    if (!updatedUser || !changeExistingSkill) { throw [500, 'Could not update user skill level successfully']; }
     return updatedUser;
 }
 
