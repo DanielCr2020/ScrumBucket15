@@ -40,7 +40,7 @@ function checkSkillname(skillname){
 
 function checkSkilllevel(skilllevel){
     if(!skilllevel) throw "No skill level provided"
-    if(typeof skilllevel!=='string') throw "Skill level form input must be a string"
+    if(typeof skilllevel!=='string') throw "Skill level must be a string"
     skilllevel=xss(skilllevel.trim())
     skilllevel=Number.parseInt(skilllevel)
     if(skilllevel<1 || skilllevel>10) throw "Skill level must be a number ranging from 1-10"

@@ -3,7 +3,7 @@ const router = express.Router()
 import events from '../data/events.js'
 
 import validation from '../validation.js'
-
+//deprecated
 router
     .route('/')
     .get(async(req,res) => {     //  /api/events

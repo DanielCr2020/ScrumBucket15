@@ -1,4 +1,4 @@
-import clientValidation from "./clientValidation";
+import clientValidation from "../src/clientValidation";
 
 test('checkUsername returns the username when valid', () => {
   expect(clientValidation.checkUsername('JohnDoe')).toBe('JohnDoe');
@@ -66,7 +66,7 @@ test('checkSkillname throws an error when skill name is too short', () => {
 });
 
 test('checkSkilllevel returns the skill level when valid', () => {
-  expect(clientValidation.checkSkilllevel('4')).toBe('4');
+  expect(clientValidation.checkSkilllevel('4')).toBe(4);
 });
 
 test('checkSkilllevel throws an error when no skill level is provided', () => {
