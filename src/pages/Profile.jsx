@@ -12,7 +12,6 @@ function Profile(props){
         return await info.json()
     }
     const [profileInfo, setProfileInfo] = createSignal()
-    const [skills, setSkills] = createSignal()
 
     onMount(() => {
         // console.log("profile")
@@ -51,7 +50,7 @@ function Profile(props){
                                 </Show>
                                 <br></br>
                                 <Show when={!newSkill()}>
-                                    <button class={styles.newSkillButton} onClick={[handleClick]}>Click to add or update a skill!</button>
+                                    <button class={styles.newSkillButton} onClick={[handleClick]}>Click to add, update, or delete a skill!</button>
                                 </Show>
                                 <Show when={newSkill()}>
                                     <NewSkill 

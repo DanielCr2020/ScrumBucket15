@@ -5,7 +5,7 @@ import xss from "xss"
 function checkUsername(username){
     if(!username) throw [400, "No username provided"]
     if(typeof username!=='string') throw [400, "Username must be a string"]
-    username=xss(username.trim())
+    username=xss(username.trim()).replace(/(\s+)/g," ")
     if(username.length<3) throw [400, "Username must be at least 3 characters long"]
 
     return username
@@ -14,7 +14,7 @@ function checkUsername(username){
 function checkPassword(password){
     if(!password) throw [400, "No password provided"]
     if(typeof password!=='string') throw [400, "Password must be a string"]
-    password=xss(password.trim())
+    password=xss(password.trim()).replace(/(\s+)/g," ")
     if(password.length<3) throw [400, "Password must be at least 3 characters long"]
 
     return password
@@ -144,10 +144,10 @@ function checkStartEndTime(startTime, endTime) {
 }
 
 function checkDescription(description) {
-    if(!description) throw "No description provided"
-    if(typeof description !== 'string')  throw "Description must be a string"
+    if(!description) throw [400,"No description provided"]
+    if(typeof description !== 'string')  throw [400,"Description must be a string"]
     description = xss(description.trim())
-    if(description.length < 20 || description.length > 2000) throw "The description length must be between 20 and 2000 characters long."
+    if(description.length < 20 || description.length > 2000) throw [400,"The description length must be between 20 and 2000 characters long."]
 
     return description;
 }
@@ -170,7 +170,7 @@ function checkSkill(skill) {
     if (!skill) { throw [400,'No skill provided.']; }
     if (typeof skill !== 'string') { throw [400,'Skill is not a string']; }
 
-    skill = xss(skill.trim());
+    skill = xss(skill.trim()).replace(/(\s+)/g," ")     //removes multiple successive spaces
 
     if (skill.length < 3 || skill.length > 30) { throw [400,'Skill must be between 3 and 30 characters inclusive.'] }
 
@@ -180,13 +180,13 @@ function checkSkill(skill) {
 }
 
 function checkProficiency(proficiency) {
-    if (!proficiency) { throw [400,'No proficiency provided.']; }
+    if (proficiency!==0 && !proficiency) { throw [400,'No proficiency provided']; }
     // if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
 
     // proficiency = xss(proficiency.trim());
     proficiency = Number.parseInt(proficiency)
     
-    if(proficiency<1 || proficiency>10) throw [400,"Proficiency must be a number between 1 and 10"]
+    if(proficiency<0 || proficiency>10) throw [400,"Proficiency must be a number between 0 and 10"]
     return proficiency;
 }
 
