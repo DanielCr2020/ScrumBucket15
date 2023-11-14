@@ -64,21 +64,34 @@ async function updateSkillLevel(id, skill, proficiency) {       //skills are an 
     skill = validation.checkSkill(skill);
     proficiency = validation.checkProficiency(proficiency);
     const userCollection = await users();
-    let changeExistingSkill = await userCollection.updateOne(       //if the skill is already present, modify it
-        {_id: new ObjectId(id)},
-        {$set:{"skills.$[skill]": {skillName:skill,proficiency:proficiency}}},
-        {arrayFilters:[{"skill.skillName":skill}]}
-    )
-    let updatedUser=true
-    if(changeExistingSkill.modifiedCount===0){
-        updatedUser = await userCollection.findOneAndUpdate(
+    const skillRegex = new RegExp(skill,'i')        //used to match any case for skill
+    if(proficiency===0){
+        let removedSkill = await userCollection.updateOne(
             {_id:new ObjectId(id)},
-            {$addToSet:{"skills":{skillName:skill,proficiency:proficiency}}},
-            {returnDocument:'after'}
+            {$pull: {"skills":{skillName:skillRegex}}}
         )
+        if(!removedSkill.acknowledged || !removedSkill.matchedCount){
+            throw [500, "Unable to remove skill"]
+        }
     }
-    // let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
-    if (!updatedUser || !changeExistingSkill) { throw [500, 'Could not update user skill level successfully']; }
+    let updatedUser=true;
+    if(proficiency!==0){
+        let changeExistingSkill = await userCollection.updateOne(       //if the skill is already present, modify it
+            {_id: new ObjectId(id)},
+            {$set:{"skills.$[skill]": {skillName:skill,proficiency:proficiency}}},
+            {arrayFilters:[{"skill.skillName":skillRegex}]}
+        )
+        let updatedUser=true
+        if(changeExistingSkill.modifiedCount===0){
+            updatedUser = await userCollection.findOneAndUpdate(            //used for returnDocument
+                {_id:new ObjectId(id)},
+                {$addToSet:{"skills":{skillName:skill,proficiency:proficiency}}},
+                {returnDocument:'after'}
+            )
+        }
+        // let updatedUser = await userCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: user}, {returnDocument: 'after'});
+        if (!updatedUser || !changeExistingSkill) { throw [500, 'Could not update user skill level successfully']; }
+    }
     return updatedUser;
 }
 

@@ -54,11 +54,11 @@ function NewSkill(props){
             </Show>
             <form onSubmit={submitForm} id="new-skill-form">
                 <label for="newSkill">Skill name: </label>
-                <input id="newSkill" onChange={handleChange}>Skill Name</input> <br />
-                <label for="newProficiency">Skill level (1-10): </label>
-                <input id="newProficiency" onChange={handleChange}>Skill Level</input> <br />
+                <input id="newSkill" placeholder="New or existing skill" onChange={handleChange}>Skill Name</input> <br />
+                <label for="newProficiency">Skill level (0-10): </label>
+                <input id="newProficiency" placeholder="Enter 0 to delete a skill" onChange={handleChange}>Skill Level</input> <br />
                 <Show when={creatingSkill()==false || error()!=null}>
-                    <button class={styles.button} type="submit">Add Skill</button>
+                    <button class={styles.button} type="submit">Set Skill</button>
                 </Show>
             </form>
         </div>
