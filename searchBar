@@ -1,0 +1,21 @@
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <script>
+      function doSearch() {
+        var searchQuery = document.getElementById("searchQuery").value;
+        alert("You searched for: " + searchQuery);
+      }
+    </script>
+  </head>
+  <body>
+    <label for="searchQuery">Enter skill to search:</label>
+    <input type="text" id="searchQuery" placeholder="Search...">
+    <button onclick="doSearch()>Search</button>
+  </body>
+</html>
+```
