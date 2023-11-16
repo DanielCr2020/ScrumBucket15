@@ -2,6 +2,7 @@ import styles from "../App.module.css";
 import { createSignal, createEffect, onMount } from "solid-js";
 import { useNavigate, A } from "@solidjs/router";
 import NewSkill from "./NewSkill";
+import ProfileSkills from "./profile_skills/ProfileSkills";
 
 function Profile(props) {
   const navigate = useNavigate();
@@ -55,12 +56,12 @@ function Profile(props) {
               description.
             </p>
             <Show when={!editProfile()}>
-              <button
+              {/* <button
                 class={styles.editUserInfoButton}
                 onClick={handleEditProfileClick}
               >
                 Edit User Info
-              </button>
+              </button> */}
             </Show>
             <Show when={editProfile()}>
               <p>Dummy space</p>
@@ -75,14 +76,17 @@ function Profile(props) {
             <div class={styles.profileListDiv}>
               <list class={styles.profileList}>
                 {/* patch request to api/users/profile/updateSkills */}
-                <For each={profileInfo()["skills"]}>
-                  {(item) => <li>{JSON.stringify(item)}</li>}
-                </For>
-
-                {/* Frontend isn't working for skill display just yet */}
-
-                <li>{JSON.stringify(profileInfo()["skills"])}</li>
-                <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
+                <Show when={JSON.stringify(profileInfo()["skills"]) != "[]"}>
+                  <For each={profileInfo()["skills"]}>
+                    {(item) => (
+                      <li>
+                        {JSON.stringify(item["skillName"]).replaceAll("\"", "")} - proficiency:{" "}
+                        {JSON.stringify(item["proficiency"])}
+                      </li>
+                    )}
+                  </For>
+                </Show>
+                <Show when={JSON.stringify(profileInfo()["skills"]) == "[]"}>
                   <li>No skills, add one!</li>
                 </Show>
                 <br></br>
@@ -105,18 +109,16 @@ function Profile(props) {
               </list>
             </div>
           </div>
-          <Show when={profileInfo()["isMentor"] == true}>
-            <div class={styles.skillTeachDiv}>
-              <h3 class={styles.skillHeader}>My Skill Interests:</h3>
-              <div class={styles.profileListDiv}>
-                <list class={styles.profileList}>
-                  <li>Pre calculus</li>
-                  <li>Watercolor</li>
-                  <li>Poetry</li>
-                </list>
-              </div>
+          <div class={styles.skillTeachDiv}>
+            <h3 class={styles.skillHeader}>My Skill Interests:</h3>
+            <div class={styles.profileListDiv}>
+              <list class={styles.profileList}>
+                <li>Pre calculus</li>
+                <li>Watercolor</li>
+                <li>Poetry</li>
+              </list>
             </div>
-          </Show>
+          </div>
         </div>
       </Show>
     </div>
