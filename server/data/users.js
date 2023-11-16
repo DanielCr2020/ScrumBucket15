@@ -27,7 +27,8 @@ async function createUser(displayName,emailAddress, username,password){
         emailAddress: emailAddress,
         displayName:displayName,
         description: "Default description here.",
-        skills: []
+        skills: [],
+        wantedSkills: []
     }
 
     const insertUser = await userCollection.insertOne(newUser)
@@ -57,6 +58,35 @@ async function getUserById(id) {
     if (user == null) { throw [404, "User not found in database!"]; }
 
     return user;
+}
+
+
+async function updateWantedSkill(id, skill, remove) {
+    id = validation.checkId(id);
+    skill = validation.checkSkill(skill);
+    if (typeof remove !== "boolean") { throw "Error: Remove must be a boolean!"; }
+    const userCollection = await users();
+    let updatedUser = true; // temp placeholder
+    /* Add a skill */
+    if (remove === false) { 
+        let updatedUser = await userCollection.findOneAndUpdate(    
+            {_id:new ObjectId(id)},
+            {$push:{wantedSkills: skill}},
+        )
+        if (!updatedUser) { throw [500, 'Could not add wanted skill successfully']; }
+    } 
+    /* Remove is set to true, so remove a skill */
+    else {
+        let removedWantedSkill = await userCollection.updateOne(
+            {_id:new ObjectId(id)},
+            {$pull: {wantedSkills: skill}}
+        );
+        if(!removedWantedSkill.acknowledged || !removedWantedSkill.matchedCount){
+            throw [500, "Unable to remove wanted skill"]
+        }
+    }
+
+    return updatedUser;
 }
 
 async function updateSkillLevel(id, skill, proficiency) {       //skills are an array of objects
@@ -110,5 +140,6 @@ export default {
     checkUser,
     getUserById,
     updateSkillLevel,
-    deleteAccount
+    deleteAccount,
+    updateWantedSkill
 }
