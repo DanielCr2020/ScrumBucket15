@@ -76,7 +76,7 @@ function Profile(props) {
             <div class={styles.profileListDiv}>
               <list class={styles.profileList}>
                 {/* patch request to api/users/profile/updateSkills */}
-                <Show when={JSON.stringify(profileInfo()["skills"]) != "[]"}>
+                <Show when={JSON.stringify(profileInfo()["skills"]) !== "[]"}>
                   <For each={profileInfo()["skills"]}>
                     {(item) => (
                       <li>
