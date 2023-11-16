@@ -74,5 +74,5 @@ test('checkSkilllevel throws an error when no skill level is provided', () => {
 });
 
 test('checkSkilllevel throws an error when skill level is not a string', () => {
-  expect(() => clientValidation.checkSkilllevel(12345)).toThrow('Skill level must be a string');
+  expect(() => clientValidation.checkSkilllevel(12345)).toThrow('Skill level must be a number ranging from 0-10');
 });

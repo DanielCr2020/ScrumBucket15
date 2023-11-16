@@ -6,11 +6,10 @@ const saltRounds=12;
 
 const users = mongoCollections.users;
 
-async function createUser(displayName,emailAddress, username,password){
+async function createUser(displayName, username,password){
     username=validation.checkUsername(username);
     displayName=validation.checkDisplayName(displayName);
     password=validation.checkPassword(password);
-    emailAddress = validation.checkEmail(emailAddress);
 
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
@@ -24,7 +23,7 @@ async function createUser(displayName,emailAddress, username,password){
         _id: new ObjectId(),
         username:username.toLowerCase(),
         password:hashed_pw,
-        emailAddress: emailAddress,
+        contactInfo: '',
         displayName:displayName,
         description: "Default description here.",
         skills: [],
@@ -125,6 +124,23 @@ async function updateSkillLevel(id, skill, proficiency) {       //skills are an 
     return updatedUser;
 }
 
+async function searchSkills(skillArray,mustHaveAll) {
+    //mustHaveAll: true if all the skills in the skills array must be found in a user
+    // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
+    const userCollection = await users()
+    let usersWithSkills;
+    if(JSON.stringify(skillArray)=='[]'){       //no filters, so just get all the users
+        usersWithSkills = await userCollection.find({}).toArray()
+    }
+
+    usersWithSkills = await userCollection.find(
+        {"skills.skillName": {[mustHaveAll ? '$all' : '$in']: skillArray}}
+    ).toArray()
+
+    if(!usersWithSkills) throw [500, "Unable to search users"]
+    return usersWithSkills
+}
+
 async function deleteAccount(id){       //probably only used for unit testing
     id=validation.checkId(id)
     const userCollection = await users();
@@ -141,5 +157,6 @@ export default {
     getUserById,
     updateSkillLevel,
     deleteAccount,
-    updateWantedSkill
+    updateWantedSkill,
+    searchSkills
 }

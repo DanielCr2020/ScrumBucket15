@@ -29,17 +29,17 @@ function checkDisplayName(displayName){
     return displayName
 }
 
-function checkEmail(emailAddress){
-    if(!emailAddress) throw [400,'No emailAddress provided']
-    if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
-    emailAddress=xss(emailAddress.trim())
-    const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
-    let emailmatch = emailAddress.match(emailCheck)
-    if (emailmatch == null)
-        throw [400,"invalid email"]
-    // console.log(emailAddress)
-    return emailAddress;
-}
+// function checkEmail(emailAddress){
+//     if(!emailAddress) throw [400,'No emailAddress provided']
+//     if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
+//     emailAddress=xss(emailAddress.trim())
+//     const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
+//     let emailmatch = emailAddress.match(emailCheck)
+//     if (emailmatch == null)
+//         throw [400,"invalid email"]
+//     // console.log(emailAddress)
+//     return emailAddress;
+// }
 
 
 /* We incorporated checkSkill such that it is a JS object
@@ -190,6 +190,21 @@ function checkProficiency(proficiency) {
     return proficiency;
 }
 
+function checkSkills(skills){
+    //skills will be a string with each skill separated by a comma. Returns an array of skills to search
+    if(!skills || skills==='') return []
+    if(typeof skills!=='string') throw [400,"Search skills must be a string"]
+    skills=xss(skills.trim())
+        //Filter out spicy characters
+        .replace(/\s\s+|\\/g,"")      //multiple successive spaces and backslashes -> space
+        .replace(/,\s+/g,",")         //comma + space -> comma
+        .replace(/(,+)/g,",")      //multiple successive commas or space+comma -> comma
+    skills=skills.split(',')
+    skills=skills.map((skill) => new RegExp(skill,'i'))     //puts each skill in a regex that ignores case.
+    console.log(skills)
+    return skills
+}
+
 
 export default {
     checkUsername,
@@ -207,5 +222,6 @@ export default {
     checkEndTime,
     checkSkill,
     checkProficiency,
-    checkEmail
+    // checkEmail,
+    checkSkills
 }
