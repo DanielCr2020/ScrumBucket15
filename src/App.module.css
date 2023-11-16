@@ -168,7 +168,7 @@ input {
 .profileListDiv {
   /* align-self: center; */
   margin: auto;
-  width: 40%;
+  width: 60%;
 }
 
 .profileList {
@@ -181,7 +181,7 @@ input {
   display: flex;
   flex-direction: row;
   margin: auto;
-  width: 60%;
+  width: 90%;
 }
 
 .contactText {
@@ -202,18 +202,21 @@ input {
   color:white;
 }
 
-
-/* COURSEPAGE STYLES */
-
-.courseTitle {
-  color: #0d5890;
-}
-
-.courseRegistrationButton {
-  padding: 10px;
-}
-
-.courseRegistrationButton:hover {
-  background-color:rgb(58, 58, 58);
+.newSkillButton:hover {
+  background-color:#2e343f;
   transition: 0.25s;
+}
+
+.userProfileHeaderDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.userProfileContactDiv {
+  width: 100%;
+}
+
+.userProfileDescriptionDiv {
+  width: 100%;
+  margin-top: 5%;
 }
