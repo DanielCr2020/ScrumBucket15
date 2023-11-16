@@ -46,14 +46,12 @@ function Profile(props) {
             {/* <h1 class={styles.username}>{JSON.stringify(profileInfo())}</h1> */}
             <h2>Contact Information:</h2>
             <div class={styles.contactDiv}>
-              <h3 class={styles.contactText}>(999)-999-9999</h3>
-              <h3 class={styles.contactText}>demo_email@somesite.com</h3>
+              <h3 class={styles.contactText}>{profileInfo()["emailAddress"]}</h3>
             </div>
           </div>
           <div class={styles.userProfileDescriptionDiv}>
             <p>
-              This is a demo paragraph meant to represent a user's general
-              description.
+              {profileInfo()["description"]}
             </p>
             <Show when={!editProfile()}>
               {/* <button

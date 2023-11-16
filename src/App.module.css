@@ -202,6 +202,11 @@ input {
   color:white;
 }
 
+.newSkillButton:hover {
+  background-color:#2e343f;
+  transition: 0.25s;
+}
+
 .userProfileHeaderDiv {
   display: flex;
   flex-direction: row;
@@ -214,20 +219,4 @@ input {
 .userProfileDescriptionDiv {
   width: 100%;
   margin-top: 5%;
-}
-
-
-/* COURSEPAGE STYLES */
-
-.courseTitle {
-  color: #0d5890;
-}
-
-.courseRegistrationButton {
-  padding: 10px;
-}
-
-.courseRegistrationButton:hover {
-  background-color:rgb(58, 58, 58);
-  transition: 0.25s;
 }
