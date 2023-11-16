@@ -168,7 +168,7 @@ input {
 .profileListDiv {
   /* align-self: center; */
   margin: auto;
-  width: 40%;
+  width: 60%;
 }
 
 .profileList {
@@ -181,7 +181,7 @@ input {
   display: flex;
   flex-direction: row;
   margin: auto;
-  width: 60%;
+  width: 90%;
 }
 
 .contactText {
@@ -200,6 +200,20 @@ input {
   border-radius: 10px;
   border-color: #0d5890;
   color:white;
+}
+
+.userProfileHeaderDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.userProfileContactDiv {
+  width: 100%;
+}
+
+.userProfileDescriptionDiv {
+  width: 100%;
+  margin-top: 5%;
 }
 
 

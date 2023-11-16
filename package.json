@@ -10,7 +10,8 @@
     "serve": "vite preview",
     "start-client": "vite",
     "start-server": "node server/app.js",
-    "test": "jest"
+    "test": "jest",
+    "test-frontend": "jest tests/clientValidation.test.js"
   },
   "license": "MIT",
   "devDependencies": {
