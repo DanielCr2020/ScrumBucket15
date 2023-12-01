@@ -28,6 +28,12 @@ function Profile(props) {
     setNewSkill(true);
   }
 
+  const [newSkillInterest, setNewSkillInterest] = createSignal(false);
+
+  async function handleAddSkillInterestClick(e) {
+    setNewSkillInterest(true);
+  }
+
   const [editProfile, setEditProfile] = createSignal(false);
 
   async function handleEditProfileClick(e) {
@@ -111,9 +117,37 @@ function Profile(props) {
             <h3 class={styles.skillHeader}>My Skill Interests:</h3>
             <div class={styles.profileListDiv}>
               <list class={styles.profileList}>
-                <li>Pre calculus</li>
-                <li>Watercolor</li>
-                <li>Poetry</li>
+                {/* patch request to api/users/profile/updateSkills */}
+                <Show when={JSON.stringify(profileInfo()["skills"]) !== "[]"}>
+                  <For each={profileInfo()["skills"]}>
+                    {(item) => (
+                      <li>
+                        {JSON.stringify(item["skillName"]).replaceAll("\"", "")} - proficiency:{" "}
+                        {JSON.stringify(item["proficiency"])}
+                      </li>
+                    )}
+                  </For>
+                </Show>
+                <Show when={JSON.stringify(profileInfo()["skills"]) == "[]"}>
+                  <li>No skills, add one!</li>
+                </Show>
+                <br></br>
+                <Show when={!newSkill()}>
+                  <button
+                    class={styles.newSkillButton}
+                    onClick={[handleAddSkillClick]}
+                  >
+                    Click to add a skill!
+                  </button>
+                </Show>
+                <Show when={newSkill()}>
+                  <NewSkill
+                    url={props.url}
+                    element={props.element}
+                    setNewSkill={setNewSkill}
+                    updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                  />
+                </Show>
               </list>
             </div>
           </div>
