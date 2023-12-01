@@ -41,7 +41,14 @@ function checkEmail(emailAddress){
     return emailAddress;
 }
 
-
+function checkPhoneNumber(phoneNumber) {
+    if (!phoneNumber) throw [400, 'No phone number provided'];
+    const phoneRegex = /^\(\d{3}\)-\d{3}-\d{4}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+        throw [400, 'Phone number must be in the format (XXX)-XXX-XXXX'];
+    }
+    return phoneNumber;
+}
 /* We incorporated checkSkill such that it is a JS object
 and not a string for efficiency purposes! */
 
@@ -207,5 +214,6 @@ export default {
     checkEndTime,
     checkSkill,
     checkProficiency,
-    checkEmail
+    checkEmail,
+    checkPhoneNumber
 }

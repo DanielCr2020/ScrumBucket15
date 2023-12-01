@@ -33,8 +33,8 @@ function Profile(props){
                 {/* <h1 class={styles.username}>{JSON.stringify(profileInfo())}</h1> */}
                 <h2>Contact Information:</h2>
                 <div class={styles.contactDiv}>
-                    <h3 class={styles.contactText}>(999)-999-9999</h3>
-                    <h3 class={styles.contactText}>demo_email@somesite.com</h3>
+                    <h3 class={styles.contactText}>Phone Number: {profileInfo()["phoneNumber"]}</h3>
+                    <h3 class={styles.contactText}>Email: {profileInfo()["emailAddress"]}</h3>
                 </div>
                 <div class={styles.userProfileInfoDiv}>
                     <div class={styles.skillInterestDiv}>
@@ -51,7 +51,7 @@ function Profile(props){
                                         )}
                                     </For>
                                 </ul>
-                                <Show when={JSON.stringify(profileInfo()["skills"]) == "{}"}>
+                                <Show when={profileInfo()["skills"].length === 0}>
                                     <li>No skills to share, add one!</li>
                                 </Show>
                                 <br></br>
@@ -68,12 +68,12 @@ function Profile(props){
                             </list>
                         </div>
                     </div>
-                    {/* Add new section for "Looking For:" skills */}
-                    <div class={styles.skillInterestDiv}>
-                        <h3 class={styles.skillHeader}>Looking For:</h3>
+                </div>
+                {/* Add new section for "Looking For:" skills 
+                <div class={styles.skillInterestDiv}> 
+                        <h3 class={styles.skillHeader}>Looking To Learn:</h3>
                         <div class={styles.profileListDiv}>
                             <list class={styles.profileList}>
-                                {/* patch request to api/users/profile/updateLookingForSkills (needs to be created)*/}
                                 <ul>
                                     <For each={profileInfo()["lookingForSkills"]}>
                                             {(item) => (
@@ -83,21 +83,13 @@ function Profile(props){
                                             )}
                                     </For>
                                 </ul>
-                                <Show when={JSON.stringify(profileInfo()["lookingForSkills"]) == "{}"}>
+                                <Show when={profileInfo()["lookingForSkills"].length === 0}>
                                     <li>No skills to learn, add one!</li>
                                 </Show>
-                                {/* button to add/delete skills user wants to learn */}
-{/*                                 <Show when={newSkill()}>
-                                    <NewSkill 
-                                        url={props.url}
-                                        element={props.element} 
-                                        setNewSkill={setNewSkill} 
-                                        updatedUser={JSON.stringify(profileInfo()["displayName"])}/>
-                                </Show> */}
+                                button to add/delete skills user wants to learn
                             </list>
                         </div>
-                    </div>
-                </div>
+                    </div> */}
             </Show>
         </div>
     )

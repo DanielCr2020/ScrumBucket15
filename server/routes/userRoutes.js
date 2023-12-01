@@ -30,7 +30,8 @@ router
             let password=validation.checkPassword(req.body.password)
             let email=validation.checkEmail(req.body.email)
             let displayName=validation.checkDisplayName(req.body.displayName)
-            let newUser = await users.createUser(displayName,email,username,password)
+            let phoneNumber = validation.checkPhoneNumber(req.body.phoneNumber)
+            let newUser = await users.createUser(displayName,email,username,password,phoneNumber)
             res.status(200).json(newUser)
             return
         }
@@ -175,6 +176,19 @@ router
         res.status(200).json(updatedUser)
         return
     })
+
+router.patch('/profile/updateLookingForSkills', async (req, res) => {
+        // Extract data from request body
+        const { userId, newSkill, newProficiency } = req.body;
+        try {
+            const updatedUser = await users.updateLookingForSkills(userId, newSkill, newProficiency);
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            console.error('Error updating lookingForSkills:', error);
+            res.status(500).json({ error: 'Failed to update lookingForSkills' });
+        }
+    });
+    
 
 router
     .route('/logout')

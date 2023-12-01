@@ -57,11 +57,21 @@ function checkEmail(email) {
     return email
 }
 
+function checkPhoneNumber(phoneNumber) {
+    if (!phoneNumber) throw [400, 'No phone number provided'];
+    const phoneRegex = /^\(\d{3}\)-\d{3}-\d{4}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+        throw ['Phone number must be in the format (XXX)-XXX-XXXX'];
+    }
+    return phoneNumber;
+}
+
 export default {
     checkUsername,
     checkPassword,
     checkDisplayName,
     checkSkillname,
     checkSkilllevel,
-    checkEmail
+    checkEmail,
+    checkPhoneNumber
 }

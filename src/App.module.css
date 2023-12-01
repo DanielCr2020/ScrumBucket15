@@ -41,7 +41,7 @@
 }
 
 .basepage_link {
-  color: #cb48ff;
+  color: #000cb5;
   font-size: 25px;
 }
 
@@ -111,21 +111,13 @@ button:active {
   margin: 1%;
   padding: 1%;
   border-radius: 10px;
-  border-color: aqua;
-  color:white;
+  border-color: rgb(0, 18, 45);
+  color:rgb(255, 255, 255);
 }
 
 .header_button:hover {
   background-color:#2e343f;
   transition: 0.25s;
-}
-
-/* BIO BORDER */
-.bioBorder {
-  display: inline-block;
-  border: 2px solid rgb(0, 2, 101);
-  padding: 10px;
-  margin: 10px 0;
 }
 
 /* INPUTS */
@@ -200,6 +192,28 @@ input {
   border-radius: 10px;
   border-color: #0d5890;
   color:white;
+}
+
+
+
+/* SIGN UP PAGE ALIGNMENT */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.formGroup label {
+  margin-bottom: 5px;
+}
+
+.formGroup input {
+  padding: 11px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 18px;
 }
 
 

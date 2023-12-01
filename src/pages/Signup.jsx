@@ -5,7 +5,7 @@ import { useNavigate } from '@solidjs/router';
 
 function Signup(props){
 
-    const [signupData, setSignupData] = createSignal({username:"", email:"",password:"",displayName:""})
+    const [signupData, setSignupData] = createSignal({username:"", email:"", password:"",displayName:"", phoneNumber:""})
     const [creatingUser, setCreatingUser] = createSignal(false)     //used for hiding the signup button until the user is successfully created
     const [error, setError] = createSignal(null)
 
@@ -16,6 +16,7 @@ function Signup(props){
         try{    //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
             clientValidation.checkUsername(signupData().username)
             clientValidation.checkEmail(signupData().email)
+            clientValidation.checkPhoneNumber(signupData().phoneNumber)
             clientValidation.checkPassword(signupData().password)
             clientValidation.checkDisplayName(signupData().displayName)
         }
@@ -68,18 +69,29 @@ function Signup(props){
             <h2>Sign Up</h2>
             <Show when={error()!=null}>
                 <p class={styles.error}>{error()}</p>
-            </Show>
-            <form onSubmit={submitForm} id="signup-form">
-                <label for="username">Username: </label>
-                <input id="username" onChange={handleChange}>Username</input> <br />
-                <label for="email">Email: </label>
-                <input id="email" onChange={handleChange}>Email</input> <br />
-                <label for="password">Password: </label>
-                <input id="password" onChange={handleChange} type="password">Password</input> <br />
-                <label for="displayName">Display Name: </label>
-                <input id="displayName" onChange={handleChange}>Display Name</input>
-                <br />
-                <Show when={creatingUser()==false}>
+                </Show>
+            <form onSubmit={submitForm} id="signup-form" class={styles.formGroup}>
+                <div class={styles.formGroup}>
+                    <label for="username">Username:</label>
+                    <input id="username" onChange={handleChange} placeholder="Username" />
+                </div>
+                <div class={styles.formGroup}>
+                    <label for="email">Email:</label>
+                    <input id="email" onChange={handleChange} placeholder="Email" />
+                </div>
+                <div class={styles.formGroup}>
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input id="phoneNumber" onChange={handleChange} placeholder="(xxx)-xxx-xxxx" />
+                </div>
+                <div class={styles.formGroup}>
+                    <label for="password">Password:</label>
+                    <input id="password" onChange={handleChange} type="password" placeholder="Password" />
+                </div>
+                <div class={styles.formGroup}>
+                    <label for="displayName">Display Name:</label>
+                    <input id="displayName" onChange={handleChange} placeholder="Display Name" />
+                </div>
+                <Show when={creatingUser() == false}>
                     <button class={styles.button} type="submit">Sign Up</button>
                 </Show>
             </form>

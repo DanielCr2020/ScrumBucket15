@@ -6,11 +6,12 @@ const saltRounds=12;
 
 const users = mongoCollections.users;
 
-async function createUser(displayName,emailAddress, username,password){
+async function createUser(displayName, emailAddress, username, password, phoneNumber){
     username=validation.checkUsername(username);
     displayName=validation.checkDisplayName(displayName);
     password=validation.checkPassword(password);
     emailAddress = validation.checkEmail(emailAddress);
+    phoneNumber = validation.checkPhoneNumber(phoneNumber);
 
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
@@ -27,7 +28,8 @@ async function createUser(displayName,emailAddress, username,password){
         emailAddress: emailAddress,
         displayName:displayName,
         description: "Default description here.",
-        skills: []
+        skills: [],
+        phoneNumber: phoneNumber
     }
 
     const insertUser = await userCollection.insertOne(newUser)
