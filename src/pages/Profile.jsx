@@ -1,8 +1,8 @@
 import styles from "../App.module.css";
-import { createSignal, createEffect, onMount } from "solid-js";
+import { createSignal, createEffect, onMount, createResource } from "solid-js";
 import { useNavigate, A } from "@solidjs/router";
 import NewSkill from "./NewSkill";
-import ProfileSkills from "./profile_skills/ProfileSkills";
+import UpdateUser from "./UpdateUser";
 
 function Profile(props) {
   const navigate = useNavigate();
@@ -40,6 +40,16 @@ function Profile(props) {
     setEditProfile(true);
   }
 
+  // Create reactive state to track changes
+  const [refreshKey, setRefreshKey] = createSignal(0);
+  const updateUserInfo = () => {
+    onMount();
+    setNewSkill(false);
+    setNewSkillInterest(false);
+    setEditProfile(false);
+    setRefreshKey((prevKey) => prevKey + 1);
+  }
+
   // Currently using placeholder user info until backend info is added.
   return (
     <div>
@@ -56,19 +66,24 @@ function Profile(props) {
             </div>
           </div>
           <div class={styles.userProfileDescriptionDiv}>
+            <Show when={!editProfile()}>
             <p>
               {profileInfo()["description"]}
             </p>
-            <Show when={!editProfile()}>
-              {/* <button
+              <button
                 class={styles.editUserInfoButton}
                 onClick={handleEditProfileClick}
               >
                 Edit User Info
-              </button> */}
+              </button>
             </Show>
             <Show when={editProfile()}>
-              <p>Dummy space</p>
+              <UpdateUser 
+                url={props.url}
+                element={props.element}
+                setEditProfile={setEditProfile}
+                updatedUser={JSON.stringify(profileInfo()["displayName"])}
+              />
             </Show>
           </div>
         </div>
@@ -108,6 +123,7 @@ function Profile(props) {
                     element={props.element}
                     setNewSkill={setNewSkill}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                    updateUserInfo={updateUserInfo}
                   />
                 </Show>
               </list>
@@ -132,19 +148,19 @@ function Profile(props) {
                   <li>No skills, add one!</li>
                 </Show>
                 <br></br>
-                <Show when={!newSkill()}>
+                <Show when={!newSkillInterest()}>
                   <button
                     class={styles.newSkillButton}
-                    onClick={[handleAddSkillClick]}
+                    onClick={[handleAddSkillInterestClick]}
                   >
                     Click to add a skill!
                   </button>
                 </Show>
-                <Show when={newSkill()}>
+                <Show when={newSkillInterest()}>
                   <NewSkill
                     url={props.url}
                     element={props.element}
-                    setNewSkill={setNewSkill}
+                    setNewSkill={setNewSkillInterest}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
                   />
                 </Show>

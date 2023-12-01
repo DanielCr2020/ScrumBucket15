@@ -42,6 +42,8 @@ function NewSkill(props) {
       document.getElementById("new-skill-form").reset();
     }
     setCreatingSkill(false);
+
+    props.updateUserInfo();
   }
 
   function handleChange(e) {
