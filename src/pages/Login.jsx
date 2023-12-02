@@ -34,8 +34,9 @@ function Login(props){
         }
         else{       //clears out setError so that it does not persist on future attempts
             setError(null)
-            navigate('/home')
             document.getElementById('login-form').reset()
+            // alert("Successfully logged in! You will now be redirected")
+            window.location.href=('/home')
         }
         setLoggingIn(false)
     }

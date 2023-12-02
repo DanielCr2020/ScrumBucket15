@@ -1,3 +1,5 @@
+/* APP STYLING */
+
 :root {
   background-color: #ffffff;
 }
@@ -34,7 +36,7 @@
 
 /* LINKS */
 .link {
-  color: #b318f0;
+  color: rgb(110,150,190);
   font-size: 25px;
 }
 
@@ -138,4 +140,83 @@ input {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+/* PROFILE STYLING */
+
+.username {
+  color: #0d5890;
+}
+
+.userProfileInfoDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.skillInterestDiv {
+  /* align-self: left; */
+  width: 45%;
+}
+
+.skillTeachDiv {
+  /* align-self: right; */
+  width: 45%;
+}
+
+.profileListDiv {
+  /* align-self: center; */
+  margin: auto;
+  width: 60%;
+}
+
+.profileList {
+  color: #000000;
+  text-align: left;
+  font-size: 25px;
+}
+
+.contactDiv {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 90%;
+}
+
+.contactText {
+  margin: auto;
+}
+
+.skillHeader {
+  font-size: 35px;
+  color: #0d5890;
+}
+
+.newSkillButton {
+  background-color: rgb(0, 0, 0);
+  margin: 1%;
+  padding: 1%;
+  border-radius: 10px;
+  border-color: #0d5890;
+  color:white;
+}
+
+.newSkillButton:hover {
+  background-color:#2e343f;
+  transition: 0.25s;
+}
+
+.userProfileHeaderDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.userProfileContactDiv {
+  width: 100%;
+}
+
+.userProfileDescriptionDiv {
+  width: 100%;
+  margin-top: 5%;
 }

@@ -3,50 +3,66 @@ import {fileTypeFromFile} from 'file-type';
 import xss from "xss"
 
 function checkUsername(username){
-    if(!username) throw "No username provided"
-    if(typeof username!=='string') throw "Username must be a string"
-    username=xss(username.trim())
-    if(username.length<3) throw "Username must be at least 3 characters long"
+    if(!username) throw [400, "No username provided"]
+    if(typeof username!=='string') throw [400, "Username must be a string"]
+    username=xss(username.trim()).replace(/(\s+)/g," ")
+    if(username.length<3) throw [400, "Username must be at least 3 characters long"]
 
     return username
 }
 
 function checkPassword(password){
-    if(!password) throw "No password provided"
-    if(typeof password!=='string') throw "Password must be a string"
-    password=xss(password.trim())
-    if(password.length<3) throw "Password must be at least 3 characters long"
+    if(!password) throw [400, "No password provided"]
+    if(typeof password!=='string') throw [400, "Password must be a string"]
+    password=xss(password.trim()).replace(/(\s+)/g," ")
+    if(password.length<3) throw [400, "Password must be at least 3 characters long"]
 
     return password
 }
 
 function checkDisplayName(displayName){
-    if(!displayName) throw "No displayName provided"
-    if(typeof displayName!=='string') throw "displayName must be a string"
+    if(!displayName) throw [400, "No displayName provided"]
+    if(typeof displayName!=='string') throw [400, "displayName must be a string"]
     displayName=xss(displayName.trim())
-    if(displayName.length<3) throw "displayName must be at least 3 characters long"
+    if(displayName.length<3) throw [400, "displayName must be at least 3 characters long"]
 
     return displayName
 }
 
-function checkSkill(skill){
-    if(!skill){throw 'No skill provided'}
-    if(typeof skill !== 'string'){throw 'skill must be a string'}
-    skill = xss(skill.trim());
-    if(skill.length < 5){throw 'skill must be at least 5 characters long'}
+function checkEmail(emailAddress){
+    if(!emailAddress) throw [400,'No emailAddress provided']
+    if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
+    emailAddress=xss(emailAddress.trim())
+    const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
+    let emailmatch = emailAddress.match(emailCheck)
+    if (emailmatch == null)
+        throw [400,"invalid email"]
+    // console.log(emailAddress)
+    return emailAddress;
 }
-function checkSkillArray(skillArray){
-    if(!skillArray){throw 'No skillArray provided'}
-    if(!Array.isArray(skillArray)){throw 'skillArray must be an array'}
-    skillArray.forEach((skill)=>{
-        checkSkill(skill);
-    })
-}
+
+
+/* We incorporated checkSkill such that it is a JS object
+and not a string for efficiency purposes! */
+
+// function checkSkill(skill){
+//     if(!skill){throw 'No skill provided'}
+//     if(typeof skill !== 'string'){throw 'skill must be a string'}
+//     skill = xss(skill.trim());
+//     if(skill.length < 5){throw 'skill must be at least 5 characters long'}
+// }
+// function checkSkillArray(skillArray){
+//     if(!skillArray){throw 'No skillArray provided'}
+//     if(!Array.isArray(skillArray)){throw 'skillArray must be an array'}
+//     skillArray.forEach((skill)=>{
+//         checkSkill(skill);
+//     })
+// }
 
 
 function checkId(id){
-    if(!id) throw "No ObjectId given"
-    if(!ObjectId.isValid(id)) throw `${id} is not a valid ObjectId`
+    if(!id) throw [400,"No ObjectId given"]
+    if(!ObjectId.isValid(id)) throw [400, `${id} is not a valid ObjectId`]
     return id
 }
 
@@ -67,7 +83,7 @@ function checkEventDate(eventDate) {
     if (typeof eventDate != 'string') throw "eventDate must be a string"
     
     eventDate = xss(eventDate.trim())
-    isValidDate = Date.parse(eventDate)
+    let isValidDate = Date.parse(eventDate)
 
     if (isNaN(isValidDate))
         throw "invalid eventDate"
@@ -128,16 +144,17 @@ function checkStartEndTime(startTime, endTime) {
 }
 
 function checkDescription(description) {
-    if(!description) throw "No description provided"
-    if(typeof description !== 'string')  throw "Description must be a string"
+    if(!description) throw [400,"No description provided"]
+    if(typeof description !== 'string')  throw [400,"Description must be a string"]
     description = xss(description.trim())
-    if(description.length < 20 || description.length > 2000) throw "The description length must be between 20 and 2000 characters long."
+    if(description.length < 20 || description.length > 2000) throw [400,"The description length must be between 20 and 2000 characters long."]
 
-    return displayName
+    return description;
 }
 
 async function checkPicture(picture) {
     if (!picture) throw "No picture provided"
+    return picture;
     try {
         const fileType = await fileTypeFromFile.fromBuffer(picture);
 
@@ -149,12 +166,36 @@ async function checkPicture(picture) {
     }
 }
 
+function checkSkill(skill) {
+    if (!skill) { throw [400,'No skill provided.']; }
+    if (typeof skill !== 'string') { throw [400,'Skill is not a string']; }
+
+    skill = xss(skill.trim()).replace(/(\s+)/g," ")     //removes multiple successive spaces
+
+    if (skill.length < 3 || skill.length > 30) { throw [400,'Skill must be between 3 and 30 characters inclusive.'] }
+
+    if (!/[A-Za-z]+/.test(skill)) { throw [400,'Skill must have at least one alphabetic character'] }
+
+    return skill;
+}
+
+function checkProficiency(proficiency) {
+    if (proficiency!==0 && !proficiency) { throw [400,'No proficiency provided']; }
+    // if (typeof proficiency !== 'string') { throw 'Proficiency is not a string'; }
+
+    // proficiency = xss(proficiency.trim());
+    proficiency = Number.parseInt(proficiency)
+    
+    if(proficiency<0 || proficiency>10) throw [400,"Proficiency must be a number between 0 and 10"]
+    return proficiency;
+}
+
 
 export default {
     checkUsername,
     checkPassword,
-    checkSkill,
-    checkSkillArray,
+    // checkSkill,
+    // checkSkillArray,
     checkDisplayName,
     checkId,
     checkEventName,
@@ -163,5 +204,8 @@ export default {
     checkDescription,
     checkPicture,
     checkStartTime,
-    checkEndTime
+    checkEndTime,
+    checkSkill,
+    checkProficiency,
+    checkEmail
 }

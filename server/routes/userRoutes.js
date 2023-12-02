@@ -15,28 +15,30 @@ router
     .get((req,res) => {
         res.status(200).json("get /api/users/signup")
     })
+
     .post(async(req,res) => {       //      /api/users/signup
-        let username,password,displayName;
+    /*
+        request body:
+        {
+            username:"username",
+            password:"password" (will be hashed),
+            displayName:"Display Name"
+        }
+    */
         try{
-            username=validation.checkUsername(req.body.username)
-            password=validation.checkPassword(req.body.password)
-            displayName=validation.checkDisplayName(req.body.displayName)
+            let username=validation.checkUsername(req.body.username)
+            let password=validation.checkPassword(req.body.password)
+            let email=validation.checkEmail(req.body.email)
+            let displayName=validation.checkDisplayName(req.body.displayName)
+            let newUser = await users.createUser(displayName,email,username,password)
+            res.status(200).json(newUser)
+            return
         }
         catch(e){
             console.log(e)
-            res.status(400).json({error:e})
+            res.status(e[0]).json({error:e[1]}) //e[0] is the status code, e[1] is the error message
             return
         }
-        let newUser;
-        try{
-            newUser = await users.createUser(displayName,username,password)
-        }
-        catch(e){
-            console.log(e)
-            res.status(e[0]).json({error:e[1]})     //[0] is the status code, [1] is the message
-            return
-        }
-        res.status(200).json(newUser)
     })
 
 router
@@ -48,19 +50,31 @@ router
         else{
             res.status(200).json({loggedIn:false})
         }
-        // res.status(200).json("get /api/users/login")
     })
-    .post(async(req,res) => {       //      /api/users/login
+    .post(async(req,res) => {       //      /api/users/login        submit form to log in
         let username,password,check;
-        console.log(req.originalUrl,"req body:",req.body)
-        try{
+        /*
+            request body:
+            {
+                username:"username",
+                password:"password"
+            }
+        */
+        try{        //validate input, throw bad request if invalid
             username=validation.checkUsername(req.body.username)
             password=validation.checkPassword(req.body.password)
-            check=await users.checkUser(username,password)
         }
         catch(e){
             console.log(e)
-            res.status(400).json({error:e})
+            res.status(e[0]).json({error:e[1]})
+            return
+        }
+        try{
+            check=await users.checkUser(username,password)
+        }
+        catch(e){       //input valid, but user does not exist
+            console.log(e)
+            res.status(404).json({error:e})
             return
         }
         if(!check.authenticatedUser){
@@ -71,29 +85,94 @@ router
         if(check.authenticatedUser){
             req.session.user={username:username, userId:check.userId.toString()}
         }
-        // console.log("route:",req.session)
-        // res.redirect('/api/users/profile')
         res.status(200).json(req.session)
         return
     })
 
 router
     .route('/profile')          
-    .get(async(req,res) => {            //          /api/users/profile 
-        console.log("GET /profile:",req.session)
-        let user, userId=req.session.user.userId;
-        if(!userId){
-            res.status(400).json("No userId provided")
-            return
-        }
+    .get(async(req,res) => {            //          /api/users/profile  get a user's own profile
+        // console.log("GET /profile:",req.session)
+        let user, userId=req.session.user?.userId;
         try{
+            userId = validation.checkId(userId)
             user = await users.getUserById(userId) 
         }
         catch(e){
             console.log(e)
+            res.status(e[0]).json({error:e[1]})
+            return
         }
         delete user.password        //we don't send the password back for obvious reasons
         res.status(200).json(user)
+        return
+    })
+    .delete(async(req,res) => {     //      /api/users/profile delete method
+        /*
+            Deletes a user by id
+            request body:
+            {id: userId}
+        */
+       let id = req?.body?.id;
+       try{
+           id=validation.checkId(id)
+       }
+       catch(e){
+           console.log(e)
+           return res.status(e[0]).json(e[1])
+       }
+       let deletedUser;
+       try{
+           deletedUser = await users.deleteAccount(id)
+           return res.status(200).json(deletedUser)
+       }
+       catch(e){
+           console.log(e)
+           return res.status(e[0]).json(e[1])
+       }
+    })
+
+router
+    .route('/profile/:id')
+    .get(async(req,res) => {            //      /api/users/profile/:id      get any profile by id
+        let user, userId=req.params.id
+        try{
+            userId = validation.checkId(userId)
+            user = await users.getUserById(userId) 
+        }
+        catch(e){
+            console.log(e)
+            res.status(e[0]).json({error:e[1]})
+            return
+        }
+        delete user.password        //we don't send the password back for obvious reasons
+        res.status(200).json(user)
+        return
+    })
+
+router
+    .route('/profile/updateSkills')
+    .patch(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
+        let updatedUser, newSkill, newProficiency, userId;
+        //newSkill may be an existing skill they are updating the proficiency of, or a new one
+        try{
+            userId = validation.checkId(req.session?.user?.userId)
+            newSkill = validation.checkSkill(req.body.newSkill)
+            newProficiency = validation.checkProficiency(req.body.newProficiency)
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json({error:e})
+            return
+        }
+        try{
+            updatedUser = await users.updateSkillLevel(userId,newSkill,newProficiency)
+        }
+        catch(e){
+            console.log(e)      //404 is for user not found, 500 is for internal server error
+            res.status(e[0]).json({error:e[1]})
+        }
+        res.status(200).json(updatedUser)
         return
     })
 

@@ -1,7 +1,7 @@
 {
   "name": "skill-sharing-website",
   "version": "0.0.0",
-  "description": "",
+  "description": "Frontend for skill sharing website",
   "type": "module",
   "scripts": {
     "start": "concurrently \"vite\" \"node server/app.js\"",
@@ -10,13 +10,15 @@
     "serve": "vite preview",
     "start-client": "vite",
     "start-server": "node server/app.js",
-    "test": "jest"
+    "test": "jest",
+    "test-frontend": "jest tests/clientValidation.test.js"
   },
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "babel-jest": "^29.7.0",
+    "cypress": "^13.4.0",
     "solid-devtools": "^0.27.3",
     "vite": "^4.3.9",
     "vite-plugin-solid": "^2.7.0"

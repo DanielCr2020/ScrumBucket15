@@ -8,7 +8,8 @@ function Homepage(){
         <div class={styles.backgroundImage}>
             <h1>You're logged in!</h1>
             <A class={styles.link} href="/profile">Go to your profile</A> <br /> <br />
-            <A class={styles.link} href="/logout">Click here to log out</A>
+            <A class={styles.link} href="/logout">Click here to log out</A> <br /> <br />
+            <A class={styles.link} href="/course">Click here to view a course!</A>
         </div>
     )
 }

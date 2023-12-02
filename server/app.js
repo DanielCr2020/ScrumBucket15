@@ -35,8 +35,9 @@ app.use(            //authentication middleware
 //All backend routes start with /api
 
 app.use('/api/users/profile',async(req,res,next) => {
-    console.log("middleware:",req.originalUrl, req.session)
+    // console.log("middleware:",req.originalUrl, req.session)
     if(!req.session.user){
+        next()          //todo: fix
         return
     }
     else{
@@ -45,7 +46,7 @@ app.use('/api/users/profile',async(req,res,next) => {
 })
 
 app.use('/api/users/login',async(req,res,next) => {
-    console.log("login middleware:",req.originalUrl, req.session)
+    // console.log("login middleware:",req.originalUrl, req.session)
     next()
 })
 
