@@ -1,8 +1,8 @@
 import styles from "../App.module.css";
-import { createSignal, createEffect, onMount } from "solid-js";
+import { createSignal, createEffect, onMount, createResource } from "solid-js";
 import { useNavigate, A } from "@solidjs/router";
 import NewSkill from "./NewSkill";
-import ProfileSkills from "./profile_skills/ProfileSkills";
+import UpdateUser from "./UpdateUser";
 
 function Profile(props) {
   const navigate = useNavigate();
@@ -28,10 +28,26 @@ function Profile(props) {
     setNewSkill(true);
   }
 
+  const [newSkillInterest, setNewSkillInterest] = createSignal(false);
+
+  async function handleAddSkillInterestClick(e) {
+    setNewSkillInterest(true);
+  }
+
   const [editProfile, setEditProfile] = createSignal(false);
 
   async function handleEditProfileClick(e) {
     setEditProfile(true);
+  }
+
+  // Create reactive state to track changes
+  const [refreshKey, setRefreshKey] = createSignal(0);
+  const updateUserInfo = () => {
+    onMount();
+    setNewSkill(false);
+    setNewSkillInterest(false);
+    setEditProfile(false);
+    setRefreshKey((prevKey) => prevKey + 1);
   }
 
   // Currently using placeholder user info until backend info is added.
@@ -50,19 +66,24 @@ function Profile(props) {
             </div>
           </div>
           <div class={styles.userProfileDescriptionDiv}>
+            <Show when={!editProfile()}>
             <p>
               {profileInfo()["description"]}
             </p>
-            <Show when={!editProfile()}>
-              {/* <button
+              <button
                 class={styles.editUserInfoButton}
                 onClick={handleEditProfileClick}
               >
                 Edit User Info
-              </button> */}
+              </button>
             </Show>
             <Show when={editProfile()}>
-              <p>Dummy space</p>
+              <UpdateUser 
+                url={props.url}
+                element={props.element}
+                setEditProfile={setEditProfile}
+                updatedUser={JSON.stringify(profileInfo()["displayName"])}
+              />
             </Show>
           </div>
         </div>
@@ -102,6 +123,7 @@ function Profile(props) {
                     element={props.element}
                     setNewSkill={setNewSkill}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                    updateUserInfo={updateUserInfo}
                   />
                 </Show>
               </list>
@@ -111,9 +133,37 @@ function Profile(props) {
             <h3 class={styles.skillHeader}>My Skill Interests:</h3>
             <div class={styles.profileListDiv}>
               <list class={styles.profileList}>
-                <li>Pre calculus</li>
-                <li>Watercolor</li>
-                <li>Poetry</li>
+                {/* patch request to api/users/profile/updateSkills */}
+                <Show when={JSON.stringify(profileInfo()["skills"]) !== "[]"}>
+                  <For each={profileInfo()["skills"]}>
+                    {(item) => (
+                      <li>
+                        {JSON.stringify(item["skillName"]).replaceAll("\"", "")} - proficiency:{" "}
+                        {JSON.stringify(item["proficiency"])}
+                      </li>
+                    )}
+                  </For>
+                </Show>
+                <Show when={JSON.stringify(profileInfo()["skills"]) == "[]"}>
+                  <li>No skills, add one!</li>
+                </Show>
+                <br></br>
+                <Show when={!newSkillInterest()}>
+                  <button
+                    class={styles.newSkillButton}
+                    onClick={[handleAddSkillInterestClick]}
+                  >
+                    Click to add a skill!
+                  </button>
+                </Show>
+                <Show when={newSkillInterest()}>
+                  <NewSkill
+                    url={props.url}
+                    element={props.element}
+                    setNewSkill={setNewSkillInterest}
+                    updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                  />
+                </Show>
               </list>
             </div>
           </div>
