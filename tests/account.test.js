@@ -21,7 +21,7 @@ test('createUser returns a new user object (valid input)', async() => {
     expect(res1).toEqual({
         username:"unittestuser",
         displayName:"Unit Test",
-        contactInfo:"",
+        contactInfo:"N/A",
         description:"Default description here.",
         skills:[],
         wantedSkills:[]
@@ -56,7 +56,7 @@ test("Getting a user by id", async() => {
         "username":"unittestuser",
         "displayName":"Unit Test",
         "description":"Default description here.",
-        "contactInfo":"",
+        "contactInfo":"N/A",
         "skills":[],
         "wantedSkills":[]
     })
