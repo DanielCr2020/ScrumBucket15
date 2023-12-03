@@ -200,6 +200,23 @@ async function searchSkills(skillArray,mustHaveAll) {
     return usersWithSkills
 }
 
+async function searchSkillInterests(skillArray,mustHaveAll) {
+    //mustHaveAll: true if all the skills in the skills array must be found in a user
+    // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
+    const userCollection = await users()
+    let usersWithSkills;
+    if(JSON.stringify(skillArray)=='[]'){       //no filters, so just get all the users
+        usersWithSkills = await userCollection.find({}).toArray()
+    }
+
+    usersWithSkills = await userCollection.find(
+        {wantedSkills: {[mustHaveAll ? '$all' : '$in']: skillArray}}
+    ).toArray()
+
+    if(!usersWithSkills) throw [500, "Unable to search users"]
+    return usersWithSkills
+}
+
 async function deleteAccount(id){       //probably only used for unit testing
     id=validation.checkId(id)
     const userCollection = await users();
@@ -218,6 +235,7 @@ export default {
     deleteAccount,
     updateWantedSkill,
     searchSkills,
+    searchSkillInterests,
     updateContactInfo,
     updateUserDescription,
     updateDisplayName,
