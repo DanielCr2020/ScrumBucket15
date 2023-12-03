@@ -103,17 +103,17 @@ async function getAllUsers() {
 }
 
 // Obtains a list of all users by skillInterest
-async function searchBySkillInterest(skillInterest) {
-    
+async function searchUserBySkillInterest(skillInterest) {
+    skillInterest = skillInterest.toLowerCase().trim();
     let usernames = [];
     // First, obtain the list of all users.
     const userList = await getAllUsers();
 
     for (let i = 0; i < userList.length; i++) {
         for (let j = 0; j < userList[i].wantedSkills.length; j++) {
-            if (userList[i].wantedSkills[j] === skillInterest) {
+            if (userList[i].wantedSkills[j].toLowerCase() === skillInterest) {
                 // Found user with the skill; move on to the next user.
-                usernames.push(userList[i].username);
+                usernames.push(userList[i]);
                 break;
             }
         }
@@ -174,7 +174,7 @@ export default {
     checkUser,
     getAllUsers,
     getUserById,
-    searchBySkillInterest,
+    searchUserBySkillInterest,
     updateSkillLevel,
     deleteAccount,
     updateWantedSkill
