@@ -23,7 +23,7 @@ async function createUser(displayName, username,password){
         _id: new ObjectId(),
         username:username.toLowerCase(),
         password:hashed_pw,
-        contactInfo: '',
+        contactInfo: 'N/A',
         displayName:displayName,
         description: "Default description here.",
         skills: [],
@@ -140,6 +140,19 @@ async function updateContactInfo(id,newContactInfo){
     return updatedUser
 }
 
+async function updateUserDescription(id,newDescription){
+    id=validation.checkId(id)
+    newDescription=validation.checkDescription(newDescription)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set: {description:newDescription}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update user description"]
+    return updatedUser
+}
+
 async function searchSkills(skillArray,mustHaveAll) {
     //mustHaveAll: true if all the skills in the skills array must be found in a user
     // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
@@ -175,5 +188,6 @@ export default {
     deleteAccount,
     updateWantedSkill,
     searchSkills,
-    updateContactInfo
+    updateContactInfo,
+    updateUserDescription
 }

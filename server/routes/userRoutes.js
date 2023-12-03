@@ -246,6 +246,35 @@ router
     })
 
 router
+    .route('/profile/editDescription')
+    .put(async(req,res) => {
+        /*
+            request body:
+            {
+                newDescription: description
+            }
+        */
+        let updatedUser, newDescription, userId;
+        try{
+            userId = validation.checkId(req?.session?.user?.userId)
+            newDescription = validation.checkDescription(req.body?.newDescription)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(400).json({error:e})
+        }
+        try{
+            updatedUser = await users.updateUserDescription(userId,newDescription)
+            return res.status(200).json(updatedUser)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(e[0]).json({error:e[1]})
+        }
+
+    })
+
+router
     .route('/logout')
     .get(async(req,res) => {
         if(!req.session.user){

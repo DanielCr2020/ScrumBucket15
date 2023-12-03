@@ -147,7 +147,7 @@ function checkDescription(description) {
     if(!description) throw [400,"No description provided"]
     if(typeof description !== 'string')  throw [400,"Description must be a string"]
     description = xss(description.trim())
-    if(description.length < 20 || description.length > 2000) throw [400,"The description length must be between 20 and 2000 characters long."]
+    if(description.length < 10 || description.length > 2000) throw [400,"The description length must be between 10 and 2000 characters long."]
 
     return description;
 }
@@ -206,8 +206,9 @@ function checkSkills(skills){
 }
 
 function checkContactInfo(info){
-    if(!info) return ""
+    if(!info) return "N/A"
     info=xss(info.trim())
+    if(info.length>200) throw [400, "Contact information cannot be longer than 200 characters"]
     return info
 }
 
