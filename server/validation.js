@@ -5,7 +5,8 @@ import xss from "xss"
 function checkUsername(username){
     if(!username) throw [400, "No username provided"]
     if(typeof username!=='string') throw [400, "Username must be a string"]
-    username=xss(username.trim()).replace(/(\s+)/g," ")
+    if((/\s/).test(username)) throw [400, "Username cannot contain spaces"]
+    username=xss(username.trim())
     if(username.length<3) throw [400, "Username must be at least 3 characters long"]
 
     return username
@@ -14,7 +15,8 @@ function checkUsername(username){
 function checkPassword(password){
     if(!password) throw [400, "No password provided"]
     if(typeof password!=='string') throw [400, "Password must be a string"]
-    password=xss(password.trim()).replace(/(\s+)/g," ")
+    if((/\s/).test(password)) throw [400, "Password cannot contain spaces"]
+    password=xss(password.trim())
     if(password.length<3) throw [400, "Password must be at least 3 characters long"]
 
     return password
@@ -29,17 +31,17 @@ function checkDisplayName(displayName){
     return displayName
 }
 
-function checkEmail(emailAddress){
-    if(!emailAddress) throw [400,'No emailAddress provided']
-    if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
-    emailAddress=xss(emailAddress.trim())
-    const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
-    let emailmatch = emailAddress.match(emailCheck)
-    if (emailmatch == null)
-        throw [400,"invalid email"]
-    // console.log(emailAddress)
-    return emailAddress;
-}
+// function checkEmail(emailAddress){
+//     if(!emailAddress) throw [400,'No emailAddress provided']
+//     if(typeof emailAddress !== 'string') throw [400,'emailAddress must be a string']
+//     emailAddress=xss(emailAddress.trim())
+//     const emailCheck = /[\w-_.]+[\w]+\@[\w+-]+\.[\w]+[\w]+/g
+//     let emailmatch = emailAddress.match(emailCheck)
+//     if (emailmatch == null)
+//         throw [400,"invalid email"]
+//     // console.log(emailAddress)
+//     return emailAddress;
+// }
 
 
 /* We incorporated checkSkill such that it is a JS object
@@ -147,7 +149,7 @@ function checkDescription(description) {
     if(!description) throw [400,"No description provided"]
     if(typeof description !== 'string')  throw [400,"Description must be a string"]
     description = xss(description.trim())
-    if(description.length < 20 || description.length > 2000) throw [400,"The description length must be between 20 and 2000 characters long."]
+    if(description.length < 10 || description.length > 2000) throw [400,"The description length must be between 10 and 2000 characters long."]
 
     return description;
 }
@@ -190,6 +192,28 @@ function checkProficiency(proficiency) {
     return proficiency;
 }
 
+function checkSkills(skills){
+    //skills will be a string with each skill separated by a comma. Returns an array of skills to search
+    if(!skills || skills==='') return []
+    if(typeof skills!=='string') throw [400,"Search skills must be a string"]
+    skills=xss(skills.trim())
+        //Filter out spicy characters
+        .replace(/\s\s+|\\/g,"")      //multiple successive spaces and backslashes -> space
+        .replace(/,\s+/g,",")         //comma + space -> comma
+        .replace(/(,+)/g,",")      //multiple successive commas or space+comma -> comma
+    skills=skills.split(',')
+    skills=skills.map((skill) => new RegExp(skill,'i'))     //puts each skill in a regex that ignores case.
+    console.log(skills)
+    return skills
+}
+
+function checkContactInfo(info){
+    if(!info) return "N/A"
+    info=xss(info.trim())
+    if(info.length>200) throw [400, "Contact information cannot be longer than 200 characters"]
+    return info
+}
+
 
 export default {
     checkUsername,
@@ -207,5 +231,7 @@ export default {
     checkEndTime,
     checkSkill,
     checkProficiency,
-    checkEmail
+    // checkEmail,
+    checkSkills,
+    checkContactInfo
 }
