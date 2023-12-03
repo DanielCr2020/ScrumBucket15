@@ -126,6 +126,20 @@ async function updateSkillLevel(id, skill, proficiency) {       //skills are an 
     return updatedUser;
 }
 
+async function updateContactInfo(id,newContactInfo){
+    id=validation.checkId(id)
+    newContactInfo=validation.checkContactInfo(newContactInfo)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set: {contactInfo:newContactInfo}},
+        {returnDocument:'after'}
+    )
+    // console.log(newContactInfo,updatedUser)
+    if(!updatedUser) throw [500, "Could not update contact information"]
+    return updatedUser
+}
+
 async function searchSkills(skillArray,mustHaveAll) {
     //mustHaveAll: true if all the skills in the skills array must be found in a user
     // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
@@ -160,5 +174,6 @@ export default {
     updateSkillLevel,
     deleteAccount,
     updateWantedSkill,
-    searchSkills
+    searchSkills,
+    updateContactInfo
 }

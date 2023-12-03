@@ -205,6 +205,12 @@ function checkSkills(skills){
     return skills
 }
 
+function checkContactInfo(info){
+    if(!info) return ""
+    info=xss(info.trim())
+    return info
+}
+
 
 export default {
     checkUsername,
@@ -223,5 +229,6 @@ export default {
     checkSkill,
     checkProficiency,
     // checkEmail,
-    checkSkills
+    checkSkills,
+    checkContactInfo
 }

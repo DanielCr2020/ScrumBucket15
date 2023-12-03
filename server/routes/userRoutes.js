@@ -217,6 +217,35 @@ router
     })
 
 router
+    .route('/profile/editContactInfo')
+    .put(async(req,res) => {
+        /*
+            request body:
+            {
+                newContactInfo: contactInfo
+            }
+        */
+        let updatedUser, newContactInfo, userId;
+        try{
+            userId = validation.checkId(req?.session?.user?.userId)
+            newContactInfo = validation.checkContactInfo(req.body?.newContactInfo)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(400).json({error:e})
+        }
+        try{
+            updatedUser = await users.updateContactInfo(userId,newContactInfo)
+            return res.status(200).json(updatedUser)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(e[0]).json({error:e[1]})
+        }
+
+    })
+
+router
     .route('/logout')
     .get(async(req,res) => {
         if(!req.session.user){
