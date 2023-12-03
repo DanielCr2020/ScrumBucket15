@@ -57,11 +57,21 @@ function checkEmail(email) {
     return email
 }
 
+function checkDesc(description) {
+    if(!description) throw "No description provided"
+    if (typeof description !== 'string') throw "description must be a string"
+    description = xss(description.trim())
+    if (description.length > 50) throw "description must be less than 50 characters long"
+
+    return description
+}
+
 export default {
     checkUsername,
     checkPassword,
     checkDisplayName,
     checkSkillname,
     checkSkilllevel,
-    checkEmail
+    checkEmail,
+    checkDesc
 };
