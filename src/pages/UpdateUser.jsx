@@ -45,6 +45,8 @@ function UpdateUser(props) {
       document.getElementById("user-update-form").reset();
     }
     setCreatingUser(false);
+
+    props.setUpdateCount((prevCount) => prevCount + 1);
   }
 
   function handleChange(e) {

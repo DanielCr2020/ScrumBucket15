@@ -43,7 +43,7 @@ function NewSkill(props) {
     }
     setCreatingSkill(false);
 
-    props.updateUserInfo();
+    props.setUpdateCount((prevCount) => prevCount + 1);
   }
 
   function handleChange(e) {

@@ -234,3 +234,7 @@ input {
   background-color:#2e343f;
   transition: 0.25s;
 }
+
+.userSearchBar{
+  width: 80%;
+}

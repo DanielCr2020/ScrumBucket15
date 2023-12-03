@@ -15,13 +15,6 @@ function Profile(props) {
   const [profileInfo, setProfileInfo] = createSignal();
   const [skills, setSkills] = createSignal();
 
-  onMount(() => {
-    // console.log("profile")
-    getProfileInfo().then((info) => {
-      setProfileInfo(info);
-    });
-  });
-
   const [newSkill, setNewSkill] = createSignal(false);
 
   async function handleAddSkillClick(e) {
@@ -40,15 +33,14 @@ function Profile(props) {
     setEditProfile(true);
   }
 
-  // Create reactive state to track changes
-  const [refreshKey, setRefreshKey] = createSignal(0);
-  const updateUserInfo = () => {
-    onMount();
-    setNewSkill(false);
-    setNewSkillInterest(false);
-    setEditProfile(false);
-    setRefreshKey((prevKey) => prevKey + 1);
-  }
+  const [updateCount, setUpdateCount] = createSignal(0);
+
+  onMount(() => {
+    // console.log("profile")
+    getProfileInfo().then((info) => {
+      setProfileInfo(info);
+    });
+  }, [updateCount()]);
 
   // Currently using placeholder user info until backend info is added.
   return (
@@ -83,6 +75,7 @@ function Profile(props) {
                 element={props.element}
                 setEditProfile={setEditProfile}
                 updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                setUpdateCount={setUpdateCount}
               />
             </Show>
           </div>
@@ -123,7 +116,7 @@ function Profile(props) {
                     element={props.element}
                     setNewSkill={setNewSkill}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
-                    updateUserInfo={updateUserInfo}
+                    setUpdateCount={setUpdateCount}
                   />
                 </Show>
               </list>
@@ -162,6 +155,7 @@ function Profile(props) {
                     element={props.element}
                     setNewSkill={setNewSkillInterest}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
+                    setUpdateCount={setUpdateCount}
                   />
                 </Show>
               </list>
