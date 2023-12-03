@@ -152,6 +152,13 @@ router
 router
     .route('/profile/updateSkills')
     .patch(async(req,res) => {          //          /api/users/profile/updateSkills     (frontend form will patch to this route)
+        /*
+            request body:
+            {
+                newSkill: newSkill,         (the key is called newSkill here, the newSkill value is from the input id on the frontend)
+                newProficiency: newProficiency
+            }
+        */
         let updatedUser, newSkill, newProficiency, userId;
         //newSkill may be an existing skill they are updating the proficiency of, or a new one
         try{
@@ -170,6 +177,40 @@ router
         catch(e){
             console.log(e)      //404 is for user not found, 500 is for internal server error
             res.status(e[0]).json({error:e[1]})
+            return
+        }
+        res.status(200).json(updatedUser)
+        return
+    })
+
+router  
+    .route('/profile/updateWantedSkills')
+    .patch(async(req,res) => {
+        /*
+            request body:
+            {
+                newWantedSkill: newWantedSkill,         (the key is called newSkill here, the newSkill value is from the input id on the frontend)
+                remove: remove                      (remove key: backend. remove value: from frontend)
+            }
+        */
+        let updatedUser, newSkill, userId;
+        //newSkill may be an existing skill they are updating the proficiency of, or a new one
+        try{
+            userId = validation.checkId(req.session?.user?.userId)
+            newSkill = validation.checkSkill(req.body.newWantedSkill)
+        }
+        catch(e){
+            console.log(e)
+            res.status(400).json({error:e})
+            return
+        }
+        try{
+            updatedUser = await users.updateWantedSkill(userId,newSkill,!!req.body.remove)      // !! will return the truthy value
+        }
+        catch(e){
+            console.log(e)      //404 is for user not found, 500 is for internal server error
+            res.status(e[0]).json({error:e[1]})
+            return
         }
         res.status(200).json(updatedUser)
         return

@@ -63,14 +63,15 @@ async function getUserById(id) {
 async function updateWantedSkill(id, skill, remove) {
     id = validation.checkId(id);
     skill = validation.checkSkill(skill);
-    if (typeof remove !== "boolean") { throw "Error: Remove must be a boolean!"; }
+    if (typeof remove !== "boolean") { throw [400,"Error: Remove must be a boolean!"]; }
     const userCollection = await users();
     let updatedUser = true; // temp placeholder
+    const skillRegex = new RegExp(skill,'i')    //used to match for any case
     /* Add a skill */
     if (remove === false) { 
         let updatedUser = await userCollection.findOneAndUpdate(    
             {_id:new ObjectId(id)},
-            {$push:{wantedSkills: skill}},
+            {$addToSet:{wantedSkills: skillRegex}},
         )
         if (!updatedUser) { throw [500, 'Could not add wanted skill successfully']; }
     } 
@@ -78,7 +79,7 @@ async function updateWantedSkill(id, skill, remove) {
     else {
         let removedWantedSkill = await userCollection.updateOne(
             {_id:new ObjectId(id)},
-            {$pull: {wantedSkills: skill}}
+            {$pull: {wantedSkills: skillRegex}}
         );
         if(!removedWantedSkill.acknowledged || !removedWantedSkill.matchedCount){
             throw [500, "Unable to remove wanted skill"]
@@ -90,6 +91,7 @@ async function updateWantedSkill(id, skill, remove) {
 
 async function updateSkillLevel(id, skill, proficiency) {       //skills are an array of objects
     // let user = await getUserById(id);
+    id=validation.checkId(id);
     skill = validation.checkSkill(skill);
     proficiency = validation.checkProficiency(proficiency);
     const userCollection = await users();
