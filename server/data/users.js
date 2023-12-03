@@ -89,6 +89,40 @@ async function updateWantedSkill(id, skill, remove) {
     return updatedUser;
 }
 
+// Obtains a list of all users.
+async function getAllUsers() {
+    const userCollection = await users();
+    let userList = await userCollection.find({}).toArray();
+    if (!userList) { throw "Error: Unable to find all bands!"; }
+
+    userList = userList.map((item) => {
+    item._id = item._id.toString();
+    return item; });
+
+    return userList;
+}
+
+// Obtains a list of all users by skillInterest
+async function searchUserBySkillInterest(skillInterest) {
+    skillInterest = skillInterest.toLowerCase().trim();
+    let usernames = [];
+    // First, obtain the list of all users.
+    const userList = await getAllUsers();
+
+    for (let i = 0; i < userList.length; i++) {
+        for (let j = 0; j < userList[i].wantedSkills.length; j++) {
+            if (userList[i].wantedSkills[j].toLowerCase() === skillInterest) {
+                // Found user with the skill; move on to the next user.
+                usernames.push(userList[i]);
+                break;
+            }
+        }
+    }
+    // Lastly, return the usernames.
+    return usernames;
+}
+
+
 async function updateSkillLevel(id, skill, proficiency) {       //skills are an array of objects
     // let user = await getUserById(id);
     skill = validation.checkSkill(skill);
@@ -138,7 +172,9 @@ async function deleteAccount(id){       //probably only used for unit testing
 export default {
     createUser,
     checkUser,
+    getAllUsers,
     getUserById,
+    searchUserBySkillInterest,
     updateSkillLevel,
     deleteAccount,
     updateWantedSkill

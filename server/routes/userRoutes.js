@@ -172,9 +172,32 @@ router
             console.log(e)      //404 is for user not found, 500 is for internal server error
             res.status(e[0]).json({error:e[1]})
         }
-        res.status(200).json(updatedUser)
+        res.status(200).json(updatedUser) 
         return
-    })
+    });
+
+router
+    .route('/profile/searchUserBySkillInterest')
+    .patch(async (req, res) => {
+        let skillInterest, usernames;
+        // Check skill first
+        try {
+            skillInterest = validation.checkSkill(req.body.skillInterest);
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({error: e});
+            return;
+        }
+        // Obtain users next
+        try {
+            usernames = await users.searchUserBySkillInterest(skillInterest);
+        } catch (e) {
+            console.log(e);
+            res.status(e[0]).json({error: e[1]});
+        }
+        res.status(200).json({usernames});
+        return;
+    });
 
 router
     .route('/logout')
