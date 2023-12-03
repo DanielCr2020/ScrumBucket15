@@ -6,7 +6,7 @@ const saltRounds=12;
 
 const users = mongoCollections.users;
 
-async function createUser(displayName, username,password){
+async function createUser(displayName,username,password){
     username=validation.checkUsername(username);
     displayName=validation.checkDisplayName(displayName);
     password=validation.checkPassword(password);
@@ -14,9 +14,9 @@ async function createUser(displayName, username,password){
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
     if(userExists) throw [400,`A user named ${username} already exists`]
-    const displayNameRegex = new RegExp(displayName,'i')
-    userExists = await userCollection.findOne({displayName:displayNameRegex})        //display name
-    if(userExists) throw [400,`A user with display name ${displayName} already exists`]
+    // const displayNameRegex = new RegExp(displayName,'i')
+    // userExists = await userCollection.findOne({displayName:displayNameRegex})        //display name
+    // if(userExists) throw [400,`A user with display name ${displayName} already exists`]
 
     const hashed_pw = await bcrypt.hash(password,saltRounds)
     let newUser = {
@@ -153,6 +153,36 @@ async function updateUserDescription(id,newDescription){
     return updatedUser
 }
 
+async function updateDisplayName(id,newDisplayName){
+    id=validation.checkId(id)
+    newDisplayName=validation.checkDisplayName(newDisplayName)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set:{displayName:newDisplayName}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update display name"]
+    return updatedUser
+}
+
+async function updateUsername(id,newUsername){
+    id=validation.checkId(id)
+    newUsername=validation.checkUsername(newUsername)
+    const userCollection=await users();
+    const doesUserExist = await userCollection.findOne(
+        {username:newUsername.toLowerCase()}
+    )
+    if(doesUserExist) throw [403, 'That username is taken']
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set:{username:newUsername.toLowerCase()}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update username"]
+    return updatedUser
+}
+
 async function searchSkills(skillArray,mustHaveAll) {
     //mustHaveAll: true if all the skills in the skills array must be found in a user
     // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
@@ -189,5 +219,7 @@ export default {
     updateWantedSkill,
     searchSkills,
     updateContactInfo,
-    updateUserDescription
+    updateUserDescription,
+    updateDisplayName,
+    updateUsername
 }

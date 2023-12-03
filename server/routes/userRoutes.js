@@ -217,7 +217,7 @@ router
     })
 
 router
-    .route('/profile/editContactInfo')
+    .route('/profile/updateContactInfo')
     .put(async(req,res) => {
         /*
             request body:
@@ -246,7 +246,7 @@ router
     })
 
 router
-    .route('/profile/editDescription')
+    .route('/profile/updateDescription')
     .put(async(req,res) => {
         /*
             request body:
@@ -265,6 +265,64 @@ router
         }
         try{
             updatedUser = await users.updateUserDescription(userId,newDescription)
+            return res.status(200).json(updatedUser)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(e[0]).json({error:e[1]})
+        }
+
+    })
+
+router
+    .route('/profile/updateUsername')
+    .put(async(req,res) => {
+        /*
+            request body:
+            {
+                newUsername: username
+            }
+        */
+        let updatedUser, newUsername, userId;
+        try{
+            userId = validation.checkId(req?.session?.user?.userId)
+            newUsername = validation.checkUsername(req.body?.newUsername)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(400).json({error:e})
+        }
+        try{
+            updatedUser = await users.updateUsername(userId,newUsername)
+            return res.status(200).json(updatedUser)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(e[0]).json({error:e[1]})
+        }
+
+    })
+
+router
+    .route('/profile/updateDisplayName')
+    .put(async(req,res) => {
+        /*
+            request body:
+            {
+                newDisplayName: displayName
+            }
+        */
+        let updatedUser, newDisplayName, userId;
+        try{
+            userId = validation.checkId(req?.session?.user?.userId)
+            newDisplayName = validation.checkDisplayName(req.body?.newDisplayName)
+        }
+        catch(e){
+            console.log(e)
+            return res.status(400).json({error:e})
+        }
+        try{
+            updatedUser = await users.updateDisplayName(userId,newDisplayName)
             return res.status(200).json(updatedUser)
         }
         catch(e){

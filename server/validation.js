@@ -5,7 +5,8 @@ import xss from "xss"
 function checkUsername(username){
     if(!username) throw [400, "No username provided"]
     if(typeof username!=='string') throw [400, "Username must be a string"]
-    username=xss(username.trim()).replace(/(\s+)/g," ")
+    if((/\s/).test(username)) throw [400, "Username cannot contain spaces"]
+    username=xss(username.trim())
     if(username.length<3) throw [400, "Username must be at least 3 characters long"]
 
     return username
@@ -14,7 +15,8 @@ function checkUsername(username){
 function checkPassword(password){
     if(!password) throw [400, "No password provided"]
     if(typeof password!=='string') throw [400, "Password must be a string"]
-    password=xss(password.trim()).replace(/(\s+)/g," ")
+    if((/\s/).test(password)) throw [400, "Password cannot contain spaces"]
+    password=xss(password.trim())
     if(password.length<3) throw [400, "Password must be at least 3 characters long"]
 
     return password
