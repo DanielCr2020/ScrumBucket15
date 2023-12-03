@@ -6,25 +6,24 @@ const saltRounds=12;
 
 const users = mongoCollections.users;
 
-async function createUser(displayName,emailAddress, username,password){
+async function createUser(displayName,username,password){
     username=validation.checkUsername(username);
     displayName=validation.checkDisplayName(displayName);
     password=validation.checkPassword(password);
-    emailAddress = validation.checkEmail(emailAddress);
 
     const userCollection = await users();
     let userExists = await userCollection.findOne({username:username.toLowerCase()})        //username
     if(userExists) throw [400,`A user named ${username} already exists`]
-    const displayNameRegex = new RegExp(displayName,'i')
-    userExists = await userCollection.findOne({displayName:displayNameRegex})        //display name
-    if(userExists) throw [400,`A user with display name ${displayName} already exists`]
+    // const displayNameRegex = new RegExp(displayName,'i')
+    // userExists = await userCollection.findOne({displayName:displayNameRegex})        //display name
+    // if(userExists) throw [400,`A user with display name ${displayName} already exists`]
 
     const hashed_pw = await bcrypt.hash(password,saltRounds)
     let newUser = {
         _id: new ObjectId(),
         username:username.toLowerCase(),
         password:hashed_pw,
-        emailAddress: emailAddress,
+        contactInfo: 'N/A',
         displayName:displayName,
         description: "Default description here.",
         skills: [],
@@ -64,14 +63,15 @@ async function getUserById(id) {
 async function updateWantedSkill(id, skill, remove) {
     id = validation.checkId(id);
     skill = validation.checkSkill(skill);
-    if (typeof remove !== "boolean") { throw "Error: Remove must be a boolean!"; }
+    if (typeof remove !== "boolean") { throw [400,"Error: Remove must be a boolean!"]; }
     const userCollection = await users();
     let updatedUser = true; // temp placeholder
+    const skillRegex = new RegExp(skill,'i')    //used to match for any case
     /* Add a skill */
     if (remove === false) { 
         let updatedUser = await userCollection.findOneAndUpdate(    
             {_id:new ObjectId(id)},
-            {$push:{wantedSkills: skill}},
+            {$addToSet:{wantedSkills: skillRegex}},
         )
         if (!updatedUser) { throw [500, 'Could not add wanted skill successfully']; }
     } 
@@ -79,7 +79,7 @@ async function updateWantedSkill(id, skill, remove) {
     else {
         let removedWantedSkill = await userCollection.updateOne(
             {_id:new ObjectId(id)},
-            {$pull: {wantedSkills: skill}}
+            {$pull: {wantedSkills: skillRegex}}
         );
         if(!removedWantedSkill.acknowledged || !removedWantedSkill.matchedCount){
             throw [500, "Unable to remove wanted skill"]
@@ -125,6 +125,7 @@ async function searchUserBySkillInterest(skillInterest) {
 
 async function updateSkillLevel(id, skill, proficiency) {       //skills are an array of objects
     // let user = await getUserById(id);
+    id=validation.checkId(id);
     skill = validation.checkSkill(skill);
     proficiency = validation.checkProficiency(proficiency);
     const userCollection = await users();
@@ -159,6 +160,80 @@ async function updateSkillLevel(id, skill, proficiency) {       //skills are an 
     return updatedUser;
 }
 
+async function updateContactInfo(id,newContactInfo){
+    id=validation.checkId(id)
+    newContactInfo=validation.checkContactInfo(newContactInfo)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set: {contactInfo:newContactInfo}},
+        {returnDocument:'after'}
+    )
+    // console.log(newContactInfo,updatedUser)
+    if(!updatedUser) throw [500, "Could not update contact information"]
+    return updatedUser
+}
+
+async function updateUserDescription(id,newDescription){
+    id=validation.checkId(id)
+    newDescription=validation.checkDescription(newDescription)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set: {description:newDescription}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update user description"]
+    return updatedUser
+}
+
+async function updateDisplayName(id,newDisplayName){
+    id=validation.checkId(id)
+    newDisplayName=validation.checkDisplayName(newDisplayName)
+    const userCollection=await users();
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set:{displayName:newDisplayName}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update display name"]
+    return updatedUser
+}
+
+async function updateUsername(id,newUsername){
+    id=validation.checkId(id)
+    newUsername=validation.checkUsername(newUsername)
+    const userCollection=await users();
+    const doesUserExist = await userCollection.findOne(
+        {username:newUsername.toLowerCase()}
+    )
+    if(doesUserExist) throw [403, 'That username is taken']
+    const updatedUser=await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        {$set:{username:newUsername.toLowerCase()}},
+        {returnDocument:'after'}
+    )
+    if(!updatedUser) throw [500, "Could not update username"]
+    return updatedUser
+}
+
+async function searchSkills(skillArray,mustHaveAll) {
+    //mustHaveAll: true if all the skills in the skills array must be found in a user
+    // skillArray=validation.checkSkills(skillArray)       dont check skills here, since checkSkills modifies the result
+    const userCollection = await users()
+    let usersWithSkills;
+    if(JSON.stringify(skillArray)=='[]'){       //no filters, so just get all the users
+        usersWithSkills = await userCollection.find({}).toArray()
+    }
+
+    usersWithSkills = await userCollection.find(
+        {"skills.skillName": {[mustHaveAll ? '$all' : '$in']: skillArray}}
+    ).toArray()
+
+    if(!usersWithSkills) throw [500, "Unable to search users"]
+    return usersWithSkills
+}
+
 async function deleteAccount(id){       //probably only used for unit testing
     id=validation.checkId(id)
     const userCollection = await users();
@@ -177,5 +252,10 @@ export default {
     searchUserBySkillInterest,
     updateSkillLevel,
     deleteAccount,
-    updateWantedSkill
+    updateWantedSkill,
+    searchSkills,
+    updateContactInfo,
+    updateUserDescription,
+    updateDisplayName,
+    updateUsername
 }

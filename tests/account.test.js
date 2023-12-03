@@ -8,7 +8,6 @@ test('createUser returns a new user object (valid input)', async() => {
         body:JSON.stringify({
             username:"unitTestUser",
             password:"1234",
-            email:"test@test.com",
             displayName:"Unit Test"
         }),
         headers: {"Content-Type": "application/json"}
@@ -22,9 +21,10 @@ test('createUser returns a new user object (valid input)', async() => {
     expect(res1).toEqual({
         username:"unittestuser",
         displayName:"Unit Test",
-        emailAddress:"test@test.com",
+        contactInfo:"",
         description:"Default description here.",
-        skills:[]
+        skills:[],
+        wantedSkills:[]
     })
   })
 
@@ -36,7 +36,6 @@ test('createUser throws on invalid input', async() => {
         body:JSON.stringify({
             username:"no",
             password:"1",
-            email:"no",
             displayName:"bad input"
         }),
         headers: {"Content-Type": "application/json"}
@@ -57,8 +56,9 @@ test("Getting a user by id", async() => {
         "username":"unittestuser",
         "displayName":"Unit Test",
         "description":"Default description here.",
-        "emailAddress":"test@test.com",
+        "contactInfo":"",
         "skills":[],
+        "wantedSkills":[]
     })
 })
 test('Deleting a user', async() => {
