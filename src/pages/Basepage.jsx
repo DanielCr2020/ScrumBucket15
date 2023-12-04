@@ -6,9 +6,9 @@ function Basepage(){
 
     return (
         <div class={styles.backgroundImage}>
-            <h1>Welcome to the Skill Sharing Site!</h1>
+            <h1>Welcome to the Skill Swap Site!</h1>
             <h2>Connect with your local community by learning skills taught by those around you.</h2>
-            <A class={styles.basepage_link} href="/home">Go to your Homepage</A> <br /> <br />
+            <A class={styles.link} href="/home">Go to your Homepage</A> <br /> <br />
         </div>
     )
 }

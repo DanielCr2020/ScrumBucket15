@@ -35,13 +35,13 @@
 }
 
 /* LINKS */
-.link {
+.headerlink {
   color: rgb(110,150,190);
   font-size: 25px;
 }
 
-.basepage_link {
-  color: #cb48ff;
+.link {
+  color: #0005a0;
   font-size: 25px;
 }
 
@@ -111,7 +111,7 @@ button:active {
   margin: 1%;
   padding: 1%;
   border-radius: 10px;
-  border-color: aqua;
+  border-color: rgb(110,150,190);
   color:white;
 }
 
@@ -237,4 +237,24 @@ input {
 
 .userSearchBar{
   width: 80%;
+}
+
+/* SIGN UP PAGE ALIGNMENT */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.formGroup label {
+  margin-bottom: 5px;
+}
+
+.formGroup input {
+  padding: 11px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 18px;
 }

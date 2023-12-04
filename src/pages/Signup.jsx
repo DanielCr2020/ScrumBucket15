@@ -70,15 +70,22 @@ function Signup(props){
                 <p class={styles.error}>{error()}</p>
             </Show>
             <form onSubmit={submitForm} id="signup-form">
-                <label for="username">Username: </label>
-                <input id="username" onChange={handleChange}>Username</input> <br />
-                {/* <label for="email">Email: </label>
-                <input id="email" onChange={handleChange}>Email</input> <br /> */}
-                <label for="password">Password: </label>
-                <input id="password" onChange={handleChange} type="password">Password</input> <br />
-                <label for="displayName">Display Name: </label>
-                <input id="displayName" onChange={handleChange}>Display Name</input>
-                <br />
+                <div class={styles.formGroup}>
+                    <label for="username">Username:</label>
+                    <input id="username" onChange={handleChange} placeholder="Username" />
+                </div>
+               {/*  <div class={styles.formGroup}>
+                    <label for="emailAddress">Email:</label>
+                    <input id="emailAddress" onChange={handleChange} placeholder="Email" />
+                </div> */}
+                <div class={styles.formGroup}>
+                    <label for="password">Password:</label>
+                    <input id="password" onChange={handleChange} type="password" placeholder="Password" />
+                </div>
+                <div class={styles.formGroup}>
+                    <label for="displayName">Display Name:</label>
+                    <input id="displayName" onChange={handleChange} placeholder="Display Name" />
+                </div>
                 <Show when={creatingUser()==false}>
                     <button class={styles.button} type="submit">Sign Up</button>
                 </Show>

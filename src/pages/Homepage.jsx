@@ -4,7 +4,7 @@ import { Router, Route, Routes, A } from "@solidjs/router";
 
 function Homepage(props) {
 
-  const [searchSkillsHaveAll,setSearchSkillsHaveAll] = createSignal(false)
+  {/* const [searchSkillsHaveAll,setSearchSkillsHaveAll] = createSignal(false)
   const [searchSkillInterestsHaveAll,setSearchSkillInterestsHaveAll] = createSignal(false)
   const [searchResults,setSearchResults] = createSignal()
   async function searchSkills(e){
@@ -35,6 +35,8 @@ function Homepage(props) {
     setSearchResults(res1)
   }
 
+*/}
+
   return (
     <div class={styles.backgroundImage}>
       <h1>You're logged in!</h1>
@@ -46,6 +48,8 @@ function Homepage(props) {
         Click here to log out
       </A>{" "}
       <br /> <br />
+
+      {/* 
       <form onSubmit={searchSkillInterests}>
         <p>Search for users who are looking for all or any of these skills:</p>
          {" "}
@@ -108,6 +112,7 @@ function Homepage(props) {
       <For each={searchResults()}>
         {(item) => <div>{JSON.stringify(item)}</div>}
       </For>
+        */}
     </div>
   );
 }

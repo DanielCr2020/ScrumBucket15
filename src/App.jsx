@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Homepage from './pages/Homepage';
 import Profile from './pages/Profile'
 import Logout from './pages/Logout';
+import Search from './pages/Search'; 
 import Coursepage from './pages/Coursepage';
 import RouteGuard from './RouteGuard';
 import {Router, Route, Routes, A} from '@solidjs/router';
@@ -41,6 +42,7 @@ function App() {
       <header class={styles.header}>
         <HeaderButton idStr="homeButton" linkStr="/" text="Home"/>
         <Show when={loggedIn()}>
+          <HeaderButton idStr="searchButton" linkStr="/search" text="Search"/>
           <HeaderButton idStr="profileButton" linkStr="/profile" text="Profile"/>
           <HeaderButton idStr="logOutButton" linkStr="/logout" text="Log Out"/>
         </Show>
@@ -59,6 +61,7 @@ function App() {
           <Route path="/profile" element={<Profile url={dynamicURL}/>} />
           <Route path="/logout" element={<Logout url={dynamicURL}/>}/>
           <Route path="/course" element={<Coursepage url={dynamicURL}/>}/>
+          <Route path="/search" element={<Search url={dynamicURL}/>}/>
         </Route>
         <Route path="*" element={() => <div>Page not found</div>} />
       </Routes>

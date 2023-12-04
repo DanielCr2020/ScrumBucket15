@@ -50,14 +50,17 @@ function Login(props){
             <h2>Log In</h2>
             <Show when={error()!=null}>
                 <p class={styles.error}>{error()}</p>
-            </Show>
-            <form onSubmit={submitForm} id="login-form">
-                <label for="username">Username: </label>
-                <input id="username" onChange={handleChange}>Username</input> <br />
-                <label for="password">Password: </label>
-                <input id="password" onChange={handleChange} type="password">Password</input> <br />
-                <br />
-                <Show when={loggingIn()==false}>
+                </Show>
+                <form onSubmit={submitForm} id="login-form">
+                    <div class={styles.formGroup}>
+                        <label for="username">Username:</label>
+                        <input id="username" onChange={handleChange} placeholder="Username" />
+                    </div>   
+                    <div class={styles.formGroup}>
+                        <label for="password">Password:</label>
+                        <input id="password" onChange={handleChange} type="password" placeholder="Password" />
+                    </div>
+                <Show when={loggingIn() == false}>
                     <button class={styles.button} type="submit">Log In</button>
                 </Show>
             </form>
