@@ -273,3 +273,17 @@ input {
   font-size: 20px;
 
 }
+
+.skillDisplayFlexbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.skillNameTextDisplay{
+  padding-left: 5%;
+  width: 25%;
+}
+
+.skillProficiencyTextDisplay{
+  width: 30%;
+}
