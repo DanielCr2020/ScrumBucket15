@@ -3,16 +3,20 @@ import { createSignal } from "solid-js";
 
 function Search(props) {
   const [searchSkillsHaveAll, setSearchSkillsHaveAll] = createSignal(false);
-  const [searchSkillInterestsHaveAll, setSearchSkillInterestsHaveAll] = createSignal(false);
+  const [searchSkillInterestsHaveAll, setSearchSkillInterestsHaveAll] =
+    createSignal(false);
   const [searchResults, setSearchResults] = createSignal();
 
   async function searchSkills(e) {
     e.preventDefault();
     let res1 = await fetch(`${props.url}/api/skills/searchBySkills`, {
       method: "POST",
-      credentials: 'include',
-      body: JSON.stringify({ skills: e.target[2].value, mustHaveAll: searchSkillsHaveAll() }),
-      headers: { "Content-Type": "application/json" }
+      credentials: "include",
+      body: JSON.stringify({
+        skills: e.target[2].value,
+        mustHaveAll: searchSkillsHaveAll(),
+      }),
+      headers: { "Content-Type": "application/json" },
     });
     res1 = await res1.json();
     setSearchResults(res1);
@@ -22,9 +26,12 @@ function Search(props) {
     e.preventDefault();
     let res1 = await fetch(`${props.url}/api/skills/searchBySkillInterests`, {
       method: "POST",
-      credentials: 'include',
-      body: JSON.stringify({ skills: e.target[2].value, mustHaveAll: searchSkillInterestsHaveAll() }),
-      headers: { "Content-Type": "application/json" }
+      credentials: "include",
+      body: JSON.stringify({
+        skills: e.target[2].value,
+        mustHaveAll: searchSkillInterestsHaveAll(),
+      }),
+      headers: { "Content-Type": "application/json" },
     });
     res1 = await res1.json();
     setSearchResults(res1);
@@ -33,7 +40,10 @@ function Search(props) {
   return (
     <div>
       <form onSubmit={searchSkillInterests}>
-        <h3>Search for users who are <u> looking for</u> all or any of these skills:</h3>
+        <h3>
+          Search for users who are <u> looking for</u> all or any of these
+          skills:
+        </h3>
         <input
           type="radio"
           id="allInterests"
@@ -61,7 +71,9 @@ function Search(props) {
       <br />
       <br />
       <form onSubmit={searchSkills}>
-        <h3>Search for users who <u> know</u> all or any of these skills:</h3>
+        <h3>
+          Search for users who <u> know</u> all or any of these skills:
+        </h3>
         <input
           type="radio"
           id="allSkills"
@@ -92,9 +104,7 @@ function Search(props) {
           <For each={item["skills"]}>
             {(skill) => <p>Skill: {skill["skillName"]}  Proficiency: {skill["proficiency"]} </p>}
           </For>
-
           </div> }
-
       </For>
     </div>
   );
