@@ -84,10 +84,17 @@ function Search(props) {
           type="text"
           placeholder="Search for a user by known skills... (separate multiple skills with a comma)"
         />
-        <button type="submit">Search</button>
+        <button type="submit">Submit</button>
       </form>
       <For each={searchResults()}>
-        {(item) => <div>{JSON.stringify(item)}</div>}
+        {(item) => <div class={styles.displayProfiles}> 
+          <p ><b>{item["displayName"]} </b></p> 
+          <For each={item["skills"]}>
+            {(skill) => <p>Skill: {skill["skillName"]}  Proficiency: {skill["proficiency"]} </p>}
+          </For>
+
+          </div> }
+
       </For>
     </div>
   );
