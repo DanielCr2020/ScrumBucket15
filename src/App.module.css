@@ -258,3 +258,8 @@ input {
   border: 1px solid #ccc;
   font-size: 18px;
 }
+
+.searchResText{
+  padding: 5px;
+  font-size: 20px;
+}
