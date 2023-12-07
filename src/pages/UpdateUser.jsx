@@ -3,13 +3,12 @@ import { createSignal, createEffect } from "solid-js";
 import clientValidation from "../clientValidation";
 
 function UpdateUser(props) {
-  // updatedUser, newSkill, newProficiency, userId
   const [userData, setUserData] = createSignal({
     newContact: "",
     newDescription: "",
     newDisplayname: "",
   });
-  const [creatingUser, setCreatingUser] = createSignal(false); //used for hiding the signup button until the user is successfully created
+  const [updatingUser, setUpdatingUser] = createSignal(false); //used for hiding the signup button until the user is successfully created
   const [error, setError] = createSignal(null);
 
   async function submitForm(e) {
@@ -17,16 +16,15 @@ function UpdateUser(props) {
     console.log("skill data:", userData());
     try {
       //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
-      clientValidation.checkContact(userData().newContact);
-      clientValidation.checkDesc(userData().newDescription);
-      clientValidation.checkDisplayName(userData().newDisplayname);
+      // clientValidation.checkContact(userData().newContact);
+      // clientValidation.checkDesc(userData().newDescription);
+      // clientValidation.checkDisplayName(userData().newDisplayname);
     } catch (e) {
-      setError(e);
-      console.log("Client error:", e);
-      return;
+      // setError(e);
+      // console.log("Client error:", e);
+      // return;
     }
-    setCreatingUser(true);
-    console.log("props:", props);
+    // setUpdatingUser(true);
     // Whatever the API call is for this
     let res = await fetch(`${props.url}/api/users/profile/updateUser`, {
       method: "PATCH",
@@ -44,13 +42,14 @@ function UpdateUser(props) {
       alert("Skill created successfully!");
       document.getElementById("user-update-form").reset();
     }
-    setCreatingUser(false);
+    setUpdatingUser(false);
 
-    props.setUpdateCount((prevCount) => prevCount + 1);
+    // props.setUpdateCount((prevCount) => prevCount + 1);
   }
 
   function handleChange(e) {
     setUserData({ ...userData(), [e.target.id]: e.target.value });
+    console.log(userData())
   }
 
   return (
@@ -74,7 +73,7 @@ function UpdateUser(props) {
           Description
         </input>{" "}
         <br />
-        <Show when={creatingUser() == false || error() != null}>
+        <Show when={updatingUser() == false || error() != null}>
           <button class={styles.button} type="submit">
             Update User
           </button>

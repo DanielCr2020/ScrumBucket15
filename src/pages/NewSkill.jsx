@@ -11,13 +11,13 @@ function NewSkill(props) {
   const [creatingSkill, setCreatingSkill] = createSignal(false); //used for hiding the signup button until the user is successfully created
   const [error, setError] = createSignal(null);
 
-  async function submitForm(e) {
+  async function submitAddSkillForm(e) {
     e.preventDefault();
     console.log("skill data:", skillData());
     try {
       //validate input on frontend. (If the data is bad, we can catch it before it goes to the server)
       clientValidation.checkSkillname(skillData().newSkill);
-      clientValidation.checkSkilllevel(skillData().newProficiency);
+      if(!props.isSkillInterest) clientValidation.checkSkilllevel(skillData().newProficiency)
     } catch (e) {
       setError(e);
       console.log("Client error:", e);
@@ -25,7 +25,7 @@ function NewSkill(props) {
     }
     setCreatingSkill(true);
     console.log("props:", props);
-    let res = await fetch(`${props.url}/api/users/profile/updateSkills`, {
+    let res = await fetch(`${props.url}/api/users/profile/update${props.isSkillInterest ? 'Wanted' : ''}Skills`, {
       method: "PATCH",
       credentials: "include",
       body: JSON.stringify(skillData()),
@@ -47,7 +47,7 @@ function NewSkill(props) {
   }
 
   function handleChange(e) {
-    setSkillData({ ...skillData(), [e.target.id]: e.target.value });
+    setSkillData({ ...skillData(), [e.target.id]: e.target.value, isSkillInterest:props.isSkillInterest });
   }
 
   return (
@@ -55,7 +55,7 @@ function NewSkill(props) {
       <Show when={error() != null}>
         <p class={styles.error}>{error()}</p>
       </Show>
-      <form onSubmit={submitForm} id="new-skill-form">
+      <form onSubmit={submitAddSkillForm} id="new-skill-form">
         <label for="newSkill">Skill name: </label>
         <input
           id="newSkill"
@@ -65,6 +65,7 @@ function NewSkill(props) {
           Skill Name
         </input>{" "}
         <br />
+        <Show when={props.isSkillInterest==false}>
         <label for="newProficiency">Skill level (1-10): </label>
         <input
           id="newProficiency"
@@ -74,10 +75,16 @@ function NewSkill(props) {
           Skill Level
         </input>{" "}
         <br />
+        </Show>
         <Show when={creatingSkill() == false || error() != null}>
           <button class={styles.button} type="submit">
-            Add Skill
+            Update Skill
           </button>
+          <Show when={props.isSkillInterest}>
+            <br/>
+            <input type="checkbox" id="remove" onChange={handleChange}>Remove this skill interest</input>
+            <label for="remove">Remove this skill interest</label>
+          </Show>
         </Show>
       </form>
     </div>
