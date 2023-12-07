@@ -10,8 +10,9 @@
     "serve": "vite preview",
     "start-client": "vite",
     "start-server": "node server/app.js",
-    "test": "jest",
-    "test-frontend": "jest tests/clientValidation.test.js"
+    "test": "echo 'Make sure to start the server in a different terminal from this one before running the test' && jest",
+    "test-frontend": "jest tests/clientValidation.test.js",
+    "seed": "node seed.js"
   },
   "license": "MIT",
   "devDependencies": {

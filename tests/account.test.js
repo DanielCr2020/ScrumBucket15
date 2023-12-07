@@ -1,6 +1,7 @@
 let testUserId;     //used for testing get user by id.
 
 test('createUser returns a new user object (valid input)', async() => {
+    console.log("Did you start the server? If you haven't already, run npm start in another terminal")
     let res = await fetch(`http://localhost:4000/api/users/signup`,
     {
         method:"POST",
