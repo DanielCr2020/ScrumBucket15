@@ -220,7 +220,7 @@ router
         //newSkill may be an existing skill they are updating the proficiency of, or a new one
         try{
             userId = validation.checkId(req.session?.user?.userId)
-            newSkill = validation.checkSkill(req.body.newWantedSkill)
+            newSkill = validation.checkSkill(req.body.newSkill)
         }
         catch(e){
             console.log(e)
@@ -266,6 +266,42 @@ router
             return res.status(e[0]).json({error:e[1]})
         }
 
+    })
+
+router
+    .route('/profile/updateUser')
+    .patch(async(req,res) => {
+        if(req.body?.newContact){
+            try{
+                req.body.newContact=validation.checkContactInfo(req.body.newContact)
+                await users.updateContactInfo(req?.session?.user?.userId,req.body.newContact)
+            }
+            catch(e){
+                console.log(e)
+                return res.status(e[0]).json({error: e[1]})
+            }
+        }
+        if(req.body?.newDescription){
+            try{
+                req.body.newDescription=validation.checkDescription(req.body.newDescription)
+                await users.updateUserDescription(req?.session?.user?.userId,req.body.newDescription)
+            }
+            catch(e){
+                console.log(e)
+                return res.status(e[0]).json({error: e[1]})
+            }
+        }
+        if(req.body?.newDisplayname){
+            try{
+                req.body.newDisplayname=validation.checkDisplayName(req.body.newDisplayname)
+                await users.updateDisplayName(req?.session?.user?.userId,req.body.newDisplayname)
+            }
+            catch(e){
+                console.log(e)
+                return res.status(e[0]).json({error: e[1]})
+            }
+        }
+        return res.status(200)
     })
 
 router

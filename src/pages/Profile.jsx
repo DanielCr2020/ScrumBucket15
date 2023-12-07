@@ -54,14 +54,14 @@ function Profile(props) {
             {/* <h1 class={styles.username}>{JSON.stringify(profileInfo())}</h1> */}
             <h2>Contact Information:</h2>
             <div class={styles.contactDiv}>
-              <h3 class={styles.contactText}>{profileInfo()["emailAddress"]}</h3>
+              <h3 class={styles.contactText}>{profileInfo()["contactInfo"]}</h3>
             </div>
           </div>
           <div class={styles.userProfileDescriptionDiv}>
-            <Show when={!editProfile()}>
             <p>
               {profileInfo()["description"]}
             </p>
+            <Show when={!editProfile()}>
               <button
                 class={styles.editUserInfoButton}
                 onClick={handleEditProfileClick}
@@ -107,7 +107,7 @@ function Profile(props) {
                     class={styles.newSkillButton}
                     onClick={[handleAddSkillClick]}
                   >
-                    Click to add a skill!
+                    Click to modify your skills!
                   </button>
                 </Show>
                 <Show when={newSkill()}>
@@ -117,6 +117,7 @@ function Profile(props) {
                     setNewSkill={setNewSkill}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
                     setUpdateCount={setUpdateCount}
+                    isSkillInterest={false}
                   />
                 </Show>
               </list>
@@ -127,12 +128,11 @@ function Profile(props) {
             <div class={styles.profileListDiv}>
               <list class={styles.profileList}>
                 {/* patch request to api/users/profile/updateSkills */}
-                <Show when={JSON.stringify(profileInfo()["skills"]) !== "[]"}>
-                  <For each={profileInfo()["skills"]}>
+                <Show when={JSON.stringify(profileInfo()["wantedSkills"]) !== "[]"}>
+                  <For each={profileInfo()["wantedSkills"]}>
                     {(item) => (
                       <li>
-                        {JSON.stringify(item["skillName"]).replaceAll("\"", "")} - proficiency:{" "}
-                        {JSON.stringify(item["proficiency"])}
+                        {JSON.stringify(item).replaceAll("\"", "")}
                       </li>
                     )}
                   </For>
@@ -146,7 +146,7 @@ function Profile(props) {
                     class={styles.newSkillButton}
                     onClick={[handleAddSkillInterestClick]}
                   >
-                    Click to add a skill!
+                    Click to modify your skill interests!
                   </button>
                 </Show>
                 <Show when={newSkillInterest()}>
@@ -156,6 +156,7 @@ function Profile(props) {
                     setNewSkill={setNewSkillInterest}
                     updatedUser={JSON.stringify(profileInfo()["displayName"])}
                     setUpdateCount={setUpdateCount}
+                    isSkillInterest={true}
                   />
                 </Show>
               </list>

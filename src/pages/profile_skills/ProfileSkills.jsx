@@ -26,7 +26,7 @@ function ProfileSkills(props) {
       <br></br>
       <Show when={!newSkill()}>
         <button class={styles.newSkillButton} onClick={[handleAddSkillClick]}>
-          Click to add a skill!
+          Click to modify your skill interests!
         </button>
       </Show>
       <Show when={newSkill()}>

@@ -69,7 +69,8 @@ function Search(props) {
       </form>
       <For each={searchResults()}>
         {(item) => <div class={styles.displayProfiles}> 
-          <p ><b>{item["displayName"]} </b></p> 
+          <p ><b>{item["displayName"]} </b></p>
+          <p >Contact Info: {item["contactInfo"]}</p> 
           <For each={item["skills"]}>
             {(skill) => <div class={styles.skillDisplayFlexbox}><div class={styles.skillNameTextDisplay}>Skill: {skill["skillName"]}</div> <div class={styles.skillProficiencyTextDisplay}>Proficiency: {skill["proficiency"]} </div></div>}
           </For>
