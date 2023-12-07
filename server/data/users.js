@@ -71,7 +71,7 @@ async function updateWantedSkill(id, skill, remove) {
     if (remove === false) { 
         let updatedUser = await userCollection.findOneAndUpdate(    
             {_id:new ObjectId(id)},
-            {$addToSet:{wantedSkills: skillRegex}},
+            {$addToSet:{wantedSkills: skill}},
         )
         if (!updatedUser) { throw [500, 'Could not add wanted skill successfully']; }
     } 
@@ -261,6 +261,11 @@ async function deleteAccount(id){       //probably only used for unit testing
     return deletedUser
 }
 
+async function deleteAllUsers() {       //just use to clear out the database for seeding
+    const userCollection = await users();
+    await userCollection.deleteMany()
+}
+
 export default {
     createUser,
     checkUser,
@@ -275,5 +280,6 @@ export default {
     updateContactInfo,
     updateUserDescription,
     updateDisplayName,
-    updateUsername
+    updateUsername,
+    deleteAllUsers
 }
