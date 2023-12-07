@@ -13,16 +13,19 @@ const settings = {
 let _connection = undefined;
 let _db = undefined;
 
-export default {
-  dbConnection: async () => {
+
+const dbConnection = async () => {
     if (!_connection) {
       _connection = await MongoClient.connect(settings.mongoConfig.serverUrl);
       _db = await _connection.db(settings.mongoConfig.database);
     }
 
     return _db;
-  },
-  closeConnection: () => {
+  }
+
+const closeConnection = () => {
     _connection.close();
-  },
-};
+}
+
+
+export default {dbConnection, closeConnection}

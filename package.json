@@ -7,6 +7,7 @@
     "start": "concurrently \"vite\" \"node server/app.js\"",
     "dev": "vite",
     "build": "vite build",
+    "seed": "node seed.js",
     "serve": "vite preview",
     "start-client": "vite",
     "start-server": "node server/app.js",
@@ -26,6 +27,7 @@
   "dependencies": {
     "@solidjs/router": "^0.8.3",
     "babel-preset-env": "^1.7.0",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
