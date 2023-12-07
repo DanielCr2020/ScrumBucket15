@@ -39,40 +39,9 @@ function Search(props) {
 
   return (
     <div>
-      <form onSubmit={searchSkillInterests}>
-        <h3>
-          Search for users who are <u> looking for</u> all or any of these
-          skills:
-        </h3>
-        <input
-          type="radio"
-          id="allInterests"
-          name="allOrAnyInterest"
-          value="true"
-          onChange={(e) => setSearchSkillInterestsHaveAll(e.target.value)}
-        />
-        <label htmlFor="allInterests">All</label>
-        <input
-          type="radio"
-          id="anyInterests"
-          name="allOrAnyInterest"
-          value="false"
-          onChange={(e) => setSearchSkillInterestsHaveAll(e.target.value)}
-        />
-        <label htmlFor="anyInterests">Any</label>
-        <br />
-        <input
-          class={styles.userSearchBar}
-          type="text"
-          placeholder="Search for a user by skill interests... (separate multiple skills with a comma)"
-        />
-        <button type="submit">Search</button>
-      </form>
-      <br />
-      <br />
       <form onSubmit={searchSkills}>
         <h3>
-          Search for users who <u> know</u> all or any of these skills:
+          What do you want to learn today? (search by all or any skills listed)
         </h3>
         <input
           type="radio"
@@ -96,15 +65,15 @@ function Search(props) {
           type="text"
           placeholder="Search for a user by known skills... (separate multiple skills with a comma)"
         />
-        <button type="submit">Search</button>
+        <button type="submit">Submit</button>
       </form>
       <For each={searchResults()}>
-        {(item) => (
-          <div class={styles.searchResText}>
-            {JSON.stringify(item["displayName"]).replaceAll('"', "")} (username:{" "}
-            {JSON.stringify(item["username"]).replaceAll('"', "")})
-          </div>
-        )}
+        {(item) => <div class={styles.displayProfiles}> 
+          <p ><b>{item["displayName"]} </b></p> 
+          <For each={item["skills"]}>
+            {(skill) => <div class={styles.skillDisplayFlexbox}><div class={styles.skillNameTextDisplay}>Skill: {skill["skillName"]}</div> <div class={styles.skillProficiencyTextDisplay}>Proficiency: {skill["proficiency"]} </div></div>}
+          </For>
+          </div> }
       </For>
     </div>
   );

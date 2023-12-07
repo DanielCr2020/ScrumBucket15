@@ -259,7 +259,31 @@ input {
   font-size: 18px;
 }
 
+.displayProfiles { 
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background-color: #b1ddff;
+  border: 3px solid #000000;
+  text-align: left
+}
+
 .searchResText{
   padding: 5px;
   font-size: 20px;
+
+}
+
+.skillDisplayFlexbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.skillNameTextDisplay{
+  padding-left: 5%;
+  width: 25%;
+}
+
+.skillProficiencyTextDisplay{
+  width: 30%;
 }
