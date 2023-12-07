@@ -203,7 +203,7 @@ function checkSkills(skills){
         .replace(/(,+)/g,",")      //multiple successive commas or space+comma -> comma
     skills=skills.split(',')
     skills=skills.map((skill) => new RegExp(skill,'i'))     //puts each skill in a regex that ignores case.
-    console.log(skills)
+    // console.log(skills)
     return skills
 }
 
