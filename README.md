@@ -67,3 +67,7 @@ We hope to integrate a more robust authentication system that will work on deplo
 The server uses a MongoDB connection that depends on a `.env` file. This file, since it contains sensitive credentials, is not committed to the repo.
 
 Node version 18.17.1 was used. The client uses the `fetch` api instead of axios, so a recent version of node should be used.
+
+#### Testing
+
+In the top level directory, run `npm run test` to run the test file. Make sure you have the express server running in another terminal before you run the test. The test file makes requests to `localhost:4000` (the port for the express server)
